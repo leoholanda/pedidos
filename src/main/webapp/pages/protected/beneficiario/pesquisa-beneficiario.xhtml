@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">
+        <i class="fa fa-user MarRight10"/>
+        <h:outputText value="Associado" />
+    </ui:define>
+    
+    <ui:define name="topmenu">
+    	<ui:include src="options.xhtml" />
+    </ui:define>
+
+    <ui:define name="content">
+    	
+        <f:metadata>
+            <f:viewAction action="#{beneficiarioMB.checaFaixaEtariaDosBeneficiarios}" />
+        </f:metadata>
+
+        <div class="ui-g">
+            <div class="ui-g-12">
+                
+                <h:form id="form">
+                    <p:messages id="msg" autoUpdate="true" />
+                    <p:focus for="beneficiario-table:searchValue"/>
+                    <!--<p:tooltip id="tooltip-search" for="beneficiario-table:searchValue" showEvent="focus" hideEvent="blur" position="left" />-->
+
+                    <p:dataTable id="beneficiario-table" styleClass="MarTop10"
+                                 value="#{beneficiarioMB.listaBeneficiarios}" var="beneficiario"
+                                 reflow="true" paginator="true" rows="15"
+                                 paginatorPosition="bottom"
+                                 emptyMessage="Nenhum registro encontrado">
+
+                        <f:facet name="header">
+                            <p:outputPanel id="outpanel" style="text-align: right;">
+                                <p:inputText id="searchValue"
+                                             placeholder="Nome"
+                                             value="#{beneficiarioMB.searchValue}" styleClass="input-size" />
+
+                                <p:commandButton icon="fa fa-search" ignoreAutoUpdate="false"
+                                                 action="#{beneficiarioMB.pesquisar}"
+                                                 update="beneficiario-table" process="beneficiario-table" />
+                            </p:outputPanel>
+                        </f:facet>
+                        
+                        <p:column headerText="Nome" width="350">
+                            <i class="fa fa-male Blue"
+                               jsf:rendered="#{beneficiario.masculino}" />
+                            <i class="fa fa-female Pink"
+                               jsf:rendered="#{beneficiario.feminino}" />
+                            <p:spacer width="10" />
+                            <h:outputText value="#{beneficiario.nomeComIniciaisMaiuscula}" />
+                            <i class="fa fa-heartbeat LeadenGreen Fright Fs15" title="Tem Plano de Saúde"
+                               jsf:rendered="#{beneficiario.temPlanoDeSaude and !beneficiario.desativado}" />
+                            <i class="fa fa-ban Red Fright Fs15" title="Desativado"
+                               jsf:rendered="#{beneficiario.desativado}" />
+                        </p:column>
+
+                        <p:column headerText="Matrícula" width="150">
+                            <h:outputText value="#{beneficiario.servidor}"/>
+                        </p:column>
+
+                        <p:column headerText="CPF" width="100">
+                            <h:outputText value="#{beneficiario.cpf}" />
+                        </p:column>
+                        
+                        <p:column headerText="Nascimento" width="100">
+                            <h:outputText value="#{beneficiario.dataNascimento}">
+                            	<f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Idade" width="50">
+                            <h:outputText value="#{beneficiario.idade}" />
+                        </p:column>
+
+                        <p:column width="30">
+                            <p:button id="detail" onclick="PF('statusDialog').show()" outcome="index-beneficiario" icon="fa fa-info-circle" title="Detalhar #{beneficiario.nomeComIniciaisMaiuscula}">                            
+                                <f:param name="id" value="#{beneficiario.id}"/>
+                            </p:button>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:form>
+            </div>
+        </div>
+
+		<ui:include src="/pages/protected/util/loading.xhtml" />
+    </ui:define>
+
+</ui:composition>

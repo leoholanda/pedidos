@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<title>Login</title>
+	
+	<h:outputScript name="analytics.js" library="js" />
+</h:head>
+
+<h:body styleClass="login-body">
+
+	<f:metadata>
+		<f:viewParam name="dummy" />
+		<f:event listener="#{autenticacaoMB.preRender()}" type="preRenderView" />
+	</f:metadata>
+
+	<div id="login-wrapper">
+        <p:graphicImage name="logo-aee-sem-nome.png" library="images" width="300"/>
+		<div id="login-container">
+			<h:form prependId="false" id="login">
+				<span class="title">Login</span>
+
+				<div class="ui-g ui-fluid">
+					<div class="ui-g-12">
+						<p:inputText id="j_username" placeholder="Matrícula"
+							value="#{autenticacaoMB.matricula}" />
+					</div>
+					<div class="ui-g-12">
+						<p:password id="j_password" placeholder="Senha" feedback="false" />
+					</div>
+
+					<div class="ui-g-6">
+						<p:commandButton value="Login" action="#{autenticacaoMB.login}"
+							icon="fa fa-check" ajax="false"/>
+					</div>
+					<div class="ui-g-6">
+						<p:button value="Cancelar" outcome="index.xhtml"
+							icon="fa fa-remove" styleClass="red-button" />
+					</div>
+					<div class="ui-g-6">
+						<p:commandLink process="@this" update="frm:solicitacao" 
+							oncomplete="PF('dlg-solicitacao-de-acesso').show()">Não tem cadastro?
+                        	<p:resetInput target="frm:solicitacao" />
+						</p:commandLink>
+					</div>
+					<div class="ui-g-6">
+						<p:commandLink process="@this" update="frm:solicitacao" 
+							oncomplete="PF('dlg-esqueceu-senha').show()">Esqueceu a senha?
+                        	<p:resetInput target="form-senha:lembrete" />
+						</p:commandLink>
+					</div>
+				</div>
+				<p:focus for="j_username" />
+			</h:form>
+		</div>
+
+
+		<div class="login-footer" id="footer">Associação dos Empregados da Embrapa
+			Roraima</div>
+			
+		<!-- chama tela para solicitação-de-acesso -->
+		<p:dialog header="Solicitação de Acesso"
+			widgetVar="dlg-solicitacao-de-acesso" modal="true" resizable="false"
+			draggable="false" responsive="true" showEffect="fade"
+			hideEffect="clip">
+			<ui:include src="solicitacao-de-acesso.xhtml" />
+		</p:dialog>
+
+		<!-- chama tela para esqueceu a senha -->
+		<p:dialog header="Esqueceu sua senha?"
+			widgetVar="dlg-esqueceu-senha" modal="true" resizable="false"
+			draggable="false" responsive="true" showEffect="fade"
+			hideEffect="clip">
+			<ui:include src="esqueceu-senha.xhtml" />
+		</p:dialog>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" header="Por favor, aguarde"
+                  position="center" closable="false" resizable="false" showHeader="false" hideEffect="clip">
+            	<p:graphicImage name="images/light_blue_loading.gif" library="omega-layout" width="80" styleClass="Fleft"/>
+            	<strong class="Fright MarTopQuarter MarRight20">Carregando...</strong>
+        </p:dialog>
+	</div>
+
+	<h:outputStylesheet name="css/layout.css" library="omega-layout" />
+</h:body>
+
+</html>

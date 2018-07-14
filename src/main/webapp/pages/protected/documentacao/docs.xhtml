@@ -1,0 +1,180 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">Histórico de Versão</ui:define>
+
+	<ui:define name="head">
+		<style type="text/css">
+.docs h1 {
+	margin-top: 30px;
+}
+
+.docs h1:first-child {
+	margin-top: 0;
+}
+
+.docs pre {
+	background-color: #edf0f5;
+	padding: 1em;
+	font-family: monospace;;
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="ui-g">
+			<div class="ui-g-12">
+				<div class="card docs">
+					<h1>Versão 1.7.3</h1>
+					<STRONG class="Fs18 Gray"> Opção para exibir convênio ou serviço no site</STRONG>
+					<p class="Fs16">
+						Nova opção para exibir ou não para os associados o Convênio/Serviço cadastrado  
+					</p>
+					
+					<STRONG class="Fs18 Gray"> Editar opção acomodação para associado</STRONG>
+					<p class="Fs16">
+						Ao editar opção de acomodação para o titular o dependente receberá a mesma informação
+					</p>
+					
+					<STRONG class="Fs18 Gray"> Fatura gerada</STRONG>
+					<p class="Fs16">
+						Fatura gerada para associado com serviços, mas sem plano de saúde e com mensalidade consignada estava com valor zerado (Correção Feita);
+					</p>
+					
+					<STRONG class="Fs18 Gray"> Melhoria no fluxo de caixa</STRONG>
+					<p class="Fs16">
+						 Melhoria no fluxo de caixa para não contabilizar duplicidade.
+						 O que acontecia caso houvesse mais de um clique ao confirmar pagamento da fatura
+					</p>	 
+					
+					<STRONG class="Fs18 Gray"> Resíduo da fatura anterior</STRONG>
+					<p class="Fs16">
+						Correção na informação de crédito ou débito da fatura anterior
+					</p>
+					
+					<h1>Versão 1.7.0</h1>
+					<STRONG class="Fs18 Gray">Associado imprime declaração para IRPF</STRONG>
+					<p class="Fs16">
+						Na áerea do associado ao consultar suas faturas o próprio associado pode imprimir declaração para irpf.
+					</p>
+					<STRONG class="Fs18 Gray">Adição de serviços no cadastro do Associado</STRONG>
+					<p class="Fs16">
+						Novos serviços são adicionados ao associado para registro de valores.
+					</p>
+					<STRONG class="Fs18 Gray">Permite remover fatura</STRONG>
+					<p class="Fs16">
+						Em caso de erro nos valores da fatura gerada é permitido sua remoção com o código de segurança.
+					</p>
+					<STRONG class="Fs18 Gray">Maior segurança</STRONG>
+					<p class="Fs16">
+						Usuário com acesso ao modulo 'GERENCIAR USUARIO', pode atribuir ou limitar aos outros usuários o acesso de cada módulo.
+					</p>
+					<h1>Versão 1.6.1</h1>
+					<STRONG class="Fs18 Gray">Exibe valor do pagamento</STRONG>
+					<p class="Fs16">
+						Ajuste na funcionalidade para efetuar pagamento. É calculado o valor de imediato, conforme informação do dia no calendário em exibição.
+					</p>
+					<STRONG class="Fs18 Gray">Mudança na área de convênios</STRONG>
+					<p class="Fs16">
+						Na página inicial os convênios são exibidos agora em card, isso melhora a visualização nos aparelhos móveis
+					</p>
+					<h1>Versão 1.6.0</h1>
+					<STRONG class="Fs18 Gray">Mudança formulário beneficiário</STRONG>
+					<p class="Fs16">
+						Para atender a necessidade dos beneficiários que não tem plano
+						de saúde.
+						<strong>As mudanças realizadas foram:</strong> 
+					</p>
+						
+					<ul type="square">
+						<li>Remoção da lista de planos, onde o usuário adicionava cada item referente aos convênios</li>
+						<li>Novo campo <strong>'Tem plano de saúde ?'</strong></li>
+						<li>Se o beneficiário tiver o plano de saúde habilita a opção <strong>'Acomodação'</strong></li>
+					</ul>
+					<br />
+					<STRONG class="Fs18 Gray">Nova opção no menu</STRONG>
+					<p class="Fs16">
+						Nova opção de <strong>Email</strong> adicionada no menu.<br /> 
+						Serve para enviar email para todos os beneficiário. 
+					</p>	
+					<p class="Fs16" />	
+					<h1>Versão 1.5.0</h1>
+					<STRONG class="Fs18 Gray">Gera fatura individual.</STRONG>
+					<p class="Fs16">
+						O sistema alerta o usuário em caso de fatura não gerada
+						para o beneficiário selecionado, com isso abre a opção para gerar
+						a fatura do mês atual.
+					</p>
+					<h1>Versão 1.4.2</h1>
+					<STRONG class="Fs18 Gray">Informa o valor pago.</STRONG>
+					<p class="Fs16">
+						Usuário informa o valor pago da fatura
+						Dessa forma se o valor pago for menor que o valor cobrado este resíduo
+						será informado na próxima fatura.
+					</p>
+					<h1>Versão 1.4.1</h1>
+					<STRONG class="Fs18 Gray">Informa a data ao efetuar pagamento.</STRONG>
+					<p class="Fs16">
+						Usuário informa a data de pagamento da fatura,
+						com isso o sistema consegue recalcular os valores mesmo se esta atividade
+						ocorrer depois do dia do vencimento.						
+					</p>
+					<STRONG class="Fs18 Gray">Envia email de confirmação do pagamento.</STRONG>
+					<p class="Fs16">
+						Beneficiário recebe no seu email a confirmação do pagamento da fatura.				
+					</p>
+					<h1>Versão 1.4.0</h1>
+					<STRONG class="Fs18 Gray">Envia fatura apenas para o titular.</STRONG>
+					<p class="Fs16">
+						Envia fatura por email apenas para o beneficiário selecionado						
+					</p>
+					<h1>Versão 1.3.0</h1>
+					<STRONG class="Fs18 Gray">Novo campo consignado para beneficiário</STRONG>
+					<p class="Fs16">
+						Informa os beneficiários que pagam em folha						
+					</p>
+					<h1>Versão 1.2.0</h1>
+					<STRONG class="Fs18 Gray">Envio de email</STRONG>
+					<p class="Fs16">
+						Mensagem enviada pelo usuário para os beneficiários cadastrados.						
+					</p>
+					<STRONG class="Fs18 Gray">Nova funcionalidade de relatório</STRONG>
+					<p class="Fs16">
+						Gerar relatório anual das faturas do beneficiário.						
+					</p>
+					<h1>Versão 1.1.1</h1>
+					<STRONG class="Fs18 Gray">Remover dependente habilitado</STRONG>
+					<p class="Fs16">
+						Funcionalidade habilitada para remover dependente pelo cadastro
+						do <STRONG>Titular</STRONG>.
+					</p>
+					<STRONG class="Fs18 Gray">Novos campos para cadastro do Benficiário</STRONG>
+					<p class="Fs16">
+						Novos campos incluídos, <STRONG>CEP</STRONG> e <STRONG>Estado</STRONG>.</p>
+						
+					<h1>Versão 1.1.0</h1>
+					<STRONG class="Fs18 Gray">Feedback na atualização do
+						Sistema</STRONG>
+					<p class="Fs16">
+						Aviso com antecedência de novas atualizações do sistema. Esta nova
+						funcionalidade serve para feedback, exibir o que será modificado
+						ou atribuído ao sistema. Novo botão em <strong>Dashboard</strong>
+						com versão atual do sistema, clique para exibir o histórico das
+						atualizações.
+					</p>
+
+					<STRONG class="Fs18 Gray">Manual do Usuário</STRONG>
+					<p class="Fs16">Nova opção no menu para 'Manual do Usuário'.
+						Também disponível para download.</p>
+
+				</div>
+			</div>
+		</div>
+	</ui:define>
+
+
+</ui:composition>

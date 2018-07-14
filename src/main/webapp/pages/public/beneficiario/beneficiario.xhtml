@@ -1,0 +1,248 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/templates/template-index.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{beneficiarioMB.beneficiario.cpf}" />
+
+		<f:viewAction action="#{beneficiarioMB.buscaCpf}"
+			if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="title">
+		<h:outputText value="AEE Roraima" />
+	</ui:define>
+	<ui:define name="content">
+		<div class="ui-g-12 dashboard">
+			<h:form id="form">
+
+				<div class="ui-g-12 ui-sm-12 ui-lg-6">
+
+					<div class="card">
+						<h1 class="SoftBlue"
+							jsf:rendered="#{beneficiarioMB.beneficiario.masculino}">
+							<span class="fa fa-male" />
+							<p:spacer width="10" />
+							<span>#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}</span>
+							
+							<p:commandButton
+								action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaPDF()}"
+								icon="fa fa-print" styleClass="Fright" style="width: auto;"
+								title="Declaração IPRF" ajax="false"
+								rendered="false" />
+						</h1>
+
+						<h1 class="Pink"
+							jsf:rendered="#{beneficiarioMB.beneficiario.feminino}">
+							<span class="fa fa-female" />
+							<p:spacer width="10" />
+							<span jsf:rendered="#{!beneficiarioMB.beneficiario.desativado}">#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}</span>
+							
+							<p:commandButton
+								action="#{beneficiarioMB.emitirDeclaracaoImpostoDeRendaPDF()}"
+								icon="fa fa-print" styleClass="Fright" style="width: auto;"
+								title="Declaração IPRF" ajax="false"
+								rendered="false" />
+						</h1>
+
+						<p:panel>
+							<p:panelGrid columns="4" layout="grid" id="registro"
+								styleClass="ui-panelgrid-blank"
+								columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+								<p:outputLabel value="Data de Registro" styleClass="Blue" />
+								<p:outputLabel
+									value="#{beneficiarioMB.beneficiario.dataRegistro.time}"
+									styleClass="Gray">
+									<f:convertDateTime />
+								</p:outputLabel>
+
+								<p:outputLabel
+									value="#{beneficiarioMB.beneficiario.associadoServidor}" />
+								<p:outputLabel value="" />
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="4" layout="grid" id="beneficiario"
+								styleClass="ui-panelgrid-blank"
+								columnClasses="ui-grid-col-2,ui-grid-col-4, ui-grid-col-2,ui-grid-col-4">
+
+								<p:outputLabel value="Nome" styleClass="Blue"
+									rendered="#{beneficiarioMB.beneficiario.desativado}" />
+								<p:outputLabel
+									value="#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}"
+									rendered="#{beneficiarioMB.beneficiario.desativado}" />
+
+								<p:outputLabel value="CPF" styleClass="Blue" />
+								<p:outputLabel value="#{beneficiarioMB.beneficiario.cpf}" />
+
+								<p:outputLabel value="SUS" styleClass="Blue"
+									rendered="#{beneficiarioMB.beneficiario.temPlanoDeSaude}" />
+								<p:outputLabel value="#{beneficiarioMB.beneficiario.sus}"
+									rendered="#{beneficiarioMB.beneficiario.temPlanoDeSaude}" />
+
+								<p:outputLabel value="Nascimento" styleClass="Blue" />
+								<h:panelGroup>
+									<p:outputLabel
+										value="#{beneficiarioMB.beneficiario.dataNascimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:outputLabel>
+									<p:spacer width="10" />
+									<p:outputLabel
+										value="Idade: #{beneficiarioMB.beneficiario.idade}"
+										styleClass="Green" />
+								</h:panelGroup>
+
+								<p:outputLabel value="Faixa Etária" styleClass="Blue" />
+								<p:outputLabel
+									value="#{beneficiarioMB.beneficiario.faixaEtaria.periodo}" />
+
+								<p:outputLabel value="Telefone" styleClass="Blue" />
+								<p:outputLabel value="#{beneficiarioMB.beneficiario.telefone}" />
+
+								<p:outputLabel value="E-mail" styleClass="Blue" />
+								<p:outputLabel value="#{beneficiarioMB.beneficiario.email}" />
+
+								<p:outputLabel value="Plano de Saúde" styleClass="Blue" />
+								<p:outputLabel
+									value="#{beneficiarioMB.beneficiario.temPlanoDeSaude ? 'Sim' : 'Não'}" />
+
+								<p:outputLabel value="Acomodação" styleClass="Blue" />
+								<p:outputLabel value="#{beneficiarioMB.beneficiario.acomodacao}" />
+
+								<p:outputLabel value="Consignado" styleClass="Blue" />
+								<p:outputLabel
+									value="#{beneficiarioMB.beneficiario.pagamentoConsignado}" />
+
+							</p:panelGrid>
+
+							<p:panelGrid columns="2" layout="grid" id="fiador"
+								rendered="#{beneficiarioMB.beneficiario.temFiador}"
+								styleClass="ui-panelgrid-blank"
+								columnClasses="ui-grid-col-2,ui-grid-col-10">
+								<p:outputLabel value="Fiador" styleClass="Blue" />
+								<p:outputLabel
+									value="#{beneficiarioMB.beneficiario.fiador.nomeComIniciaisMaiuscula}" />
+							</p:panelGrid>
+
+						</p:panel>
+
+						<!-- Titular-->
+						<div jsf:rendered="#{beneficiarioMB.beneficiario.temPlanoDeSaude}">
+							<ul class="task-list">
+								<li><span class="task-name">#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}</span>
+									<p:outputLabel title="Valor do Plano de Saúde"
+										value="#{beneficiarioMB.beneficiario.converterValor}"
+										styleClass="Fright Blue" /></li>
+							</ul>
+
+							<!-- Detalha o(s) dependente(s)-->
+							<ui:repeat value="#{beneficiarioMB.beneficiario.dependentes}"
+								var="dependente">
+								<ul class="task-list">
+									<li><span class="task-name">#{dependente.nomeComIniciaisMaiuscula}</span>
+										<p:outputLabel value="#{dependente.converterValor}"
+											styleClass="Fright Blue" title="Valor do Plano de Saúde" /></li>
+								</ul>
+							</ui:repeat>
+						</div>
+
+						<!-- Mensalidade-->
+						<ul class="task-list">
+							<li><span class="task-name">Mensalidade</span> <p:outputLabel
+									value="#{beneficiarioMB.beneficiario.mensalidade}"
+									styleClass="Fright Blue" /></li>
+						</ul>
+
+						<p:dataTable value="#{beneficiarioMB.listaServicos}" id="servicos"
+							var="plano" emptyMessage="Nenhum servico adicionado!"
+							styleClass="MarTop10"
+							rendered="#{not beneficiarioMB.servicos}" reflow="true">
+							<p:column headerText="Convênios e Serviços Adicionados">
+								<p:outputLabel value="#{plano.convenio.nome}" />
+							</p:column>
+						</p:dataTable>
+					</div>
+
+					<!-- Dependente -->
+					<div class="card"
+						jsf:rendered="#{not empty beneficiarioMB.beneficiario.dependentes}">
+						<h1 class="LeadenGreen"
+							jsf:rendered="#{!beneficiarioMB.listaDependentesVazia}">
+							Dependente <span class="fa fa-child" />
+						</h1>
+						<h1 class="Orange"
+							jsf:rendered="#{beneficiarioMB.listaDependentesVazia}">
+							Não há dependentes <span class="fa fa-child" />
+						</h1>
+
+						<ui:repeat value="#{beneficiarioMB.beneficiario.dependentes}"
+							var="dependente">
+
+							<p:panel>
+
+								<span class="fa fa-male Blue"
+									jsf:rendered="#{dependente.masculino}" style="font-size: 20px;" />
+								<span class="fa fa-female Pink"
+									jsf:rendered="#{dependente.feminino}" style="font-size: 20px;" />
+
+								<h:outputText styleClass="Blue"
+									value="#{dependente.nomeComIniciaisMaiuscula}"
+									rendered="#{dependente.masculino}"
+									style="font-size: 20px; margin-left: 10px;" />
+								<h:outputText styleClass="Pink"
+									value="#{dependente.nomeComIniciaisMaiuscula}"
+									rendered="#{dependente.feminino}"
+									style="font-size: 20px; margin-left: 10px;" />
+								<br />
+
+								<h:outputText value="#{dependente.tipoDependencia.descricao}"
+									style="font-size: 15px; margin-left: 24px;" styleClass="Gray" />
+
+								<p:panelGrid columns="2" layout="grid" id="dependente"
+									styleClass="ui-panelgrid-blank MarTop20"
+									columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+									<p:outputLabel value="CPF" styleClass="Blue" />
+									<p:outputLabel value="#{dependente.cpf}" />
+
+									<p:outputLabel value="SUS" styleClass="Blue" />
+									<p:outputLabel value="#{dependente.sus}" />
+
+									<p:outputLabel value="Sexo" styleClass="Blue" />
+									<p:outputLabel value="#{dependente.sexo}" />
+
+									<p:outputLabel value="Nascimento" styleClass="Blue" />
+									<h:panelGroup>
+										<p:outputLabel value="#{dependente.dataNascimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" />
+										</p:outputLabel>
+										<p:spacer width="10" />
+										<p:outputLabel value="Idade: #{dependente.idade}"
+											styleClass="Green" />
+									</h:panelGroup>
+
+									<p:outputLabel value="Faixa" styleClass="Blue" />
+									<p:outputLabel value="#{dependente.faixaEtaria.periodo}" />
+
+								</p:panelGrid>
+
+							</p:panel>
+							<br />
+
+						</ui:repeat>
+					</div>
+
+				</div>
+
+				<!-- Faturas -->
+
+				<ui:include src="faturas-beneficiario.xhtml" />
+			</h:form>
+		</div>
+	</ui:define>
+
+</ui:composition>

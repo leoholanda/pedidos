@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/WEB-INF/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{faixaEtariaMB.faixaEtaria.id}" />
+
+        <f:viewAction action="#{faixaEtariaMB.buscar}" if="#{param.id ne null}" />
+    </f:metadata>
+
+    <ui:define name="title"> <i class="fa fa-sort-numeric-asc" />
+        Faixa Etária</ui:define>
+
+	<ui:define name="topmenu">
+		<ui:include src="options.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+        <div class="ui-g dashboard">
+            <div class="ui-g-12">
+                <h:form id="form">
+                
+                	<div class="MarBot10">
+                        <p:commandButton
+                            action="pesquisa-faixa?faces-redirect=true" value="Voltar"
+                            icon="fa fa-mail-reply" title="Retornar"
+                            styleClass="black-button" />
+                        <p:spacer width="10" />
+
+                        <p:commandButton id="trash" value="Excluir" icon="fa fa-trash"
+                                         styleClass="red-button"
+                                         oncomplete="PF('dialog-desativar').show()">
+                            <p:confirm header="Confirmação"
+                                       message="Deseja Excluir Faixa Etária" icon="ui-icon-alert" />
+                        </p:commandButton><p:spacer width="10" />
+                        
+                        <p:button icon="fa fa-edit" value="Editar"
+                                  outcome="nova-faixa">
+                            <f:param name="id" value="#{faixaEtariaMB.faixaEtaria.id}" />
+                        </p:button>
+                    </div>
+
+                    <div class="card">
+                        <h1>
+                            Faixa Etária
+                        </h1>
+
+                        <p:messages id="mensagem" autoUpdate="false" />
+                        <p:panelGrid columns="2" layout="grid" id="faixa"
+                                     styleClass="ui-panelgrid-blank"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+                            <p:outputLabel value="Idade Inicial" styleClass="Blue" />
+                            <p:outputLabel value="#{faixaEtariaMB.faixaEtaria.periodoInicial}" />
+
+                            <p:outputLabel value="Idade Final" styleClass="Blue" />
+                            <p:outputLabel value="#{faixaEtariaMB.faixaEtaria.periodoFinal}" />
+
+                            <p:outputLabel value="Valor Enfermaria" styleClass="Blue" />
+                            <p:outputLabel value="#{faixaEtariaMB.faixaEtaria.valorEnfermaria}">
+                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$" />
+                            </p:outputLabel>
+                            
+                            <p:outputLabel value="Valor Apartamento" styleClass="Blue" />
+                            <p:outputLabel value="#{faixaEtariaMB.faixaEtaria.valorApartamento}">
+                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$" />
+                            </p:outputLabel>
+
+                        </p:panelGrid>
+                    </div>
+
+                    
+
+
+                    <!-- Dialog confirm dialog -->
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton action="#{faixaEtariaMB.desativar}" value="Sim"
+                                         styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="@form" process="@this"/>
+                        <p:commandButton value="Não" type="button"
+                                         styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

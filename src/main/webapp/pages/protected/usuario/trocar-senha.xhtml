@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{usuarioMB.usuario.id}" />
+
+		<f:viewAction action="#{usuarioMB.buscar}" if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="title">
+		<i class="fa fa-user MarRight10" />
+		<h:outputText value="Usuário" />
+	</ui:define>
+	<ui:define name="content">
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+				<h:form id="form">
+					<ui:include src="../util/messages.xhtml" />
+					<div class="card">
+						<h1>Editar Usuário</h1>
+
+						<p:panelGrid columns="2" layout="grid" id="usuario"
+							styleClass="ui-panelgrid-blank"
+							columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+							<p:outputLabel for="nome" value="Nome" />
+							<p:inputText id="nome" value="#{usuarioMB.usuario.nome}" />
+
+							<p:outputLabel for="matricula" value="Matrícula" />
+							<p:inputText id="matricula"
+								value="#{usuarioMB.usuario.matricula}" />
+
+							<p:outputLabel for="email" value="E-mail" />
+							<p:inputText id="email" value="#{usuarioMB.usuario.email}" />
+
+							<p:outputLabel value="Acesso" />
+							<p:selectOneMenu id="tipo" value="#{usuarioMB.usuario.perfil}"
+								converter="omnifaces.SelectItemsConverter">
+								<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+								<f:selectItems value="#{usuarioMB.listaTipoUsuario}" var="p"
+									itemValue="#{p}" itemLabel="#{p.nome}" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Senha" />
+							<p:commandButton value="Trocar senha" icon="fa fa-lock"
+								oncomplete="PF('dialog-senha').show()" process="@this"
+								update="form:pnl-senha" />
+
+						</p:panelGrid>
+
+						<p:focus for="nome" />
+
+					</div>
+
+					<p:toolbar styleClass="MarTop10">
+						<p:toolbarGroup align="right">
+							<p:link outcome="index-usuario">
+								<f:param name="id" value="#{usuarioMB.usuario.id}" />
+								<p:button value="Voltar" styleClass="black-button"
+									icon="fa fa-mail-reply" style="width: 100px;" />
+							</p:link>
+
+							<p:commandButton value="Salvar" 
+								oncomplete="PF('dialog-senha-atual').show()" process="@this"
+								update="form:pnl-senha" icon="fa fa-save" styleClass="green-button"
+								style="width: 100px;" />
+						</p:toolbarGroup>
+					</p:toolbar>
+
+					<!-- Dialog trocar senha -->
+					<p:dialog widgetVar="dialog-senha" header="Trocar Senha"
+						modal="true" resizable="false" style="min-width: 350px"
+						responsive="true" showEffect="fade" hideEffect="clip">
+						<p:panelGrid columns="1" layout="grid" id="pnl-senha"
+							styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-10">
+							
+							<p:password id="senha1" value="#{usuarioMB.usuario.senha}"
+								match="senha2" feedback="false" placeholder="Nova senha"
+								validatorMessage="Senhas precisam ser iguais" />
+
+							<p:password id="senha2" value="#{usuarioMB.usuario.senha}"
+								match="senha2" placeholder="Repete senha"
+								style="margin-top: 10px;" label="Repete senha" />
+
+							<p:commandButton value="Salvar" action="#{usuarioMB.update}"
+								update="@form" icon="fa fa-save" styleClass="green-button"
+								oncomplete="if (!args.validationFailed) PF('dialog-senha').hide()" />
+						</p:panelGrid>
+					</p:dialog>
+
+				</h:form>
+
+				<!-- senha atual -->
+				<p:dialog widgetVar="dialog-senha-atual" header="Senha" modal="true"
+					resizable="false" style="min-width: 350px" responsive="true"
+					showEffect="fade" hideEffect="clip">
+					<h:form id="form-senha">
+						<h:panelGroup id="senha" layout="block">
+							<p:panelGrid columns="1" layout="grid"
+								styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-8">
+	
+								<p:password id="senha-atual" value="#{usuarioMB.senhaValue}"
+									placeholder="Informe sua senha atual" />
+	
+								<p:commandButton value="Continuar" update="@form form" process="@this" oncomplete="PF('dialog-senha-atual').hide()" 
+									action="#{usuarioMB.updateForPassword}" styleClass="green-button" />
+							</p:panelGrid>
+						</h:panelGroup>
+					</h:form>
+				</p:dialog>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>

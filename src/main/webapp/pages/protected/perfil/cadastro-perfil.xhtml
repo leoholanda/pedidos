@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{cadastroPerfilController.perfil.id}" />
+		<f:viewAction action="#{cadastroPerfilController.buscarPerfil}"
+			if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<h:form id="form-cadastro">
+			<div class="ui-g-12">
+				<ui:include src="/WEB-INF/facelets/perfil/toolbar.xhtml" />
+				<div class="ui-fluid">
+					<div class="card card-w-title">
+						<h1>#{cadastroPerfilController.editando ? 'Editar Perfil' :
+							'Novo Perfil'}</h1>
+						<p:messages id="msgs" />
+						<p:focus for="nome" />
+
+						<div class="ui-g">
+							<div class="ui-g-12">
+								<p:outputLabel value="Nome" for="nome" />
+							</div>
+
+							<div class="ui-g-12 ui-lg-6">
+								<p:inputText id="nome"
+									value="#{cadastroPerfilController.perfil.nome}" />
+							</div>
+
+							<div class="ui-g-12">
+								<p:outputLabel value="Modulos" />
+							</div>
+
+							<div class="ui-g-12 ui-lg-8">
+								<p:pickList value="#{cadastroPerfilController.listaModulos}"
+									var="grupo" itemValue="#{grupo}" itemLabel=" #{grupo.nome}"
+									showSourceFilter="true" showTargetFilter="true"
+									showCheckbox="true" responsive="true"
+									filterMatchMode="contains" converter="moduloConverter"
+									addLabel="Adicionar" addAllLabel="Adicionar Todos"
+									removeLabel="Remover" removeAllLabel="Remover Todos">
+									<f:facet name="sourceCaption">Acesso Disponíveis</f:facet>
+									<f:facet name="targetCaption">Acesso do Perfil</f:facet>
+								</p:pickList>
+							</div>
+
+							<div class="save ui-g-12">
+								<p:commandButton value="Salvar"
+									style="width: auto; margin-top: 10px;"
+									action="#{cadastroPerfilController.salvar()}"
+									update="form-cadastro" process="form-cadastro"
+									icon="fa fa-save" />
+
+								<p:button value="Cancelar" styleClass="red-button"
+									style="width: auto; margin-left: 15px;"
+									outcome="pesquisa-perfil" icon="fa fa-remove" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

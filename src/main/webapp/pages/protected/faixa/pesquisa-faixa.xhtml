@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title"> <i class="fa fa-sort-numeric-asc" />
+        Faixa Etária</ui:define>
+        
+        <ui:define name="topmenu">
+            <ui:include src="options.xhtml" />
+        </ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+
+                <h:form id="form">
+                    <ui:include src="../util/messages.xhtml" />
+
+                    <!-- datatable faixa -->
+
+                    <p:dataTable id="faixaTable"
+                                 value="#{faixaEtariaMB.listaFaixaEtaria}" var="faixa"
+                                 rows="10" paginator="true" paginatorPosition="bottom" reflow="true">
+
+                        <p:column headerText="Período">
+                            <h:outputText value="#{faixa.periodoInicial} - #{faixa.periodoFinal}" />
+                        </p:column>
+
+                        <p:column headerText="Valor Enfermaria">
+                            <h:outputText value="#{faixa.valorEnfermaria}">
+                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Valor Apartamento">
+                            <h:outputText value="#{faixa.valorApartamento}">
+                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column width="50">
+                            <p:button outcome="nova-faixa" icon="fa fa-edit" title="Editar">                            
+                                <f:param name="id" value="#{faixa.id}"/>
+                            </p:button>
+                        </p:column>
+
+                    </p:dataTable>
+                </h:form>
+
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

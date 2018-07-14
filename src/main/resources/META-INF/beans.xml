@@ -1,0 +1,5 @@
+<beans>
+    <interceptors>
+        <class>org.apache.deltaspike.jpa.impl.transaction.TransactionalInterceptor</class>
+    </interceptors>
+</beans>

@@ -1,0 +1,26 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:commandLink id="back" onclick="javascript:history.back();">
+		<span class="topbar-icon fa fa-reply Fs24"></span>
+	</p:commandLink>
+	<p:tooltip for="back" value="Voltar" position="bottom"
+		showEffect="slide" />
+
+	<p:commandLink id="novo" action="novo-convenio?faces-redirect=true">
+		<span class="topbar-icon fa fa-plus-circle Fs24"></span>
+	</p:commandLink>
+	<p:tooltip for="novo" value="Adicionar Convênio" position="bottom"
+		showEffect="slide" />
+
+	<p:commandLink id="pesquisar"
+		action="pesquisa-convenio?faces-redirect=true">
+		<span class="topbar-icon fa fa-search Fs24"></span>
+	</p:commandLink>
+	<p:tooltip for="pesquisar" value="Pesquisar Convênios"
+		position="bottom" showEffect="slide" />
+
+</ui:composition>

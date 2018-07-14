@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title"> <i class="fa fa-file" />
+        Faturas Pendentes</ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g-12">
+
+            <h:form id="form">
+                <ui:include src="../util/messages.xhtml" />
+
+                <p:dataTable id="fatura-table"
+                             value="#{faturaMB.listaFaturaPendente}" var="fatura" reflow="true"
+                             emptyMessage="Nenhum registro encontrado" rows="10"
+                             paginator="true" paginatorPosition="bottom">
+
+                    <f:facet name="header">
+                        <p:outputPanel id="outpanel" style="text-align: right;">
+                            <p:inputText id="searchValue"
+                                         placeholder="Associado"
+                                         value="#{faturaMB.searchValue}" style="width: 35%" />
+
+                            <p:commandButton icon="fa fa-search" ignoreAutoUpdate="false"
+                                             action="#{faturaMB.pesquisarFaturaPendente}"
+                                             update="fatura-table" process="fatura-table" />
+                        </p:outputPanel>
+                    </f:facet>
+
+                    <ui:include src="faturas.xhtml" />
+
+                </p:dataTable>
+               	<br />
+               	<h:outputText value="TOTAL: #{faturaMB.totalFaturasPendentes}" styleClass="Orange Fs16" /> 
+               	
+               	<ui:include src="dialog-pagamento-fatura.xhtml" />
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

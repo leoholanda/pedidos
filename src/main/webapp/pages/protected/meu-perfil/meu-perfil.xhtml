@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{usuarioMB.usuario.id}" />
+		<f:viewAction action="#{usuarioMB.buscarUsuarioLogado}" />
+	</f:metadata>
+
+	<ui:define name="title">
+		<i class="fa fa-user MarRight10" />
+		<h:outputText value="Meu Perfil" />
+	</ui:define>
+	<ui:define name="content">
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+				<p:tabView>
+					<p:tab title="Informações Pessoais">
+
+						<h:form id="form-dados-pessoais">
+							<ui:include src="../util/messages.xhtml" />
+
+							<p:panelGrid columns="1" layout="grid" id="usuario"
+								styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6">
+
+								<p:outputLabel for="nome" value="Nome" />
+								<p:inputText id="nome" value="#{usuarioMB.usuario.nome}" />
+
+								<p:outputLabel for="matricula" value="Matrícula" />
+								<p:inputText id="matricula"
+									value="#{usuarioMB.usuario.matricula}" />
+
+								<p:outputLabel for="email" value="E-mail" />
+								<p:inputText id="email" value="#{usuarioMB.usuario.email}" />
+
+							</p:panelGrid>
+
+							<p:toolbar styleClass="MarTop10">
+								<p:toolbarGroup align="right">
+									<p:commandButton style="width: 100px;"
+										onclick="javascript:window.history.go(-1)" value="Voltar"
+										icon="fa fa-mail-reply" title="Retornar"
+										styleClass="black-button" />
+									<p:spacer width="10" />
+
+									<p:commandButton value="Salvar" action="#{usuarioMB.update}"
+										update="form-dados-pessoais" process="form-dados-pessoais"
+										icon="fa fa-save" styleClass="green-button"
+										style="width: 100px;" />
+								</p:toolbarGroup>
+							</p:toolbar>
+
+						</h:form>
+
+					</p:tab>
+
+					<p:tab title="Mudar Senha">
+						<h:form id="form-mudar-senha">
+							<ui:include src="../util/messages.xhtml" />
+
+							<p:panelGrid columns="1" layout="grid" id="usuario"
+								styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6">
+								
+								<p:outputLabel value="Senha Atual" />
+								<p:password id="senha-atual" value="#{usuarioMB.senhaAtual}"
+									feedback="false"/>
+
+								<p:outputLabel value="Senha" />
+								<p:password id="senha" value="#{usuarioMB.novaSenhaMeuPerfil}"
+									match="senha2" feedback="false"
+									validatorMessage="Senhas precisam ser iguais" />
+
+								<p:password id="senha2" value="#{usuarioMB.novaSenhaMeuPerfil}"
+									match="senha2" placeholder="Repete senha"
+									style="margin-top: 10px;" label="Repete senha" />
+
+							</p:panelGrid>
+
+							<p:toolbar styleClass="MarTop10">
+								<p:toolbarGroup align="right">
+									<p:commandButton style="width: 100px;"
+										onclick="javascript:window.history.go(-1)" value="Voltar"
+										icon="fa fa-mail-reply" title="Retornar"
+										styleClass="black-button" />
+									<p:spacer width="10" />
+
+									<p:commandButton value="Salvar" action="#{usuarioMB.mudarSenha}"
+										update="form-mudar-senha" process="form-mudar-senha"
+										icon="fa fa-save" styleClass="green-button"
+										style="width: 100px;" />
+								</p:toolbarGroup>
+							</p:toolbar>
+						</h:form>
+					</p:tab>
+				</p:tabView>
+
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>

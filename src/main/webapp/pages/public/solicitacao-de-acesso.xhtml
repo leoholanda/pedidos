@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/template-dialog.xhtml">
+
+    <ui:define name="content">
+
+        <h:form id="frm">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12">
+                    <p:messages autoUpdate="true" />
+                    <div class="card">
+                        <h:panelGroup id="solicitacao" layout="block">
+
+                            <p:panelGrid columns="2" layout="grid"
+                                         styleClass="ui-panelgrid-blank"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-6">
+
+                                <p:outputLabel value="Nome" />
+                                <p:inputText id="nome" value="#{usuarioMB.usuario.nome}"
+                                             placeholder="Nome e Sobrenome" label="Nome"/>
+
+                                <p:outputLabel value="Matrícula" />
+                                <p:inputText id="matricula" label="Matrícula"
+                                             value="#{usuarioMB.usuario.matricula}" />
+
+                                <p:outputLabel value="Email" />
+                                <p:inputText id="email" label="Email"
+                                             value="#{usuarioMB.usuario.email}" />
+
+                                <p:outputLabel value="Senha" />
+                                <h:panelGroup>
+                                    <p:password id="senha" value="#{usuarioMB.usuario.senha}"
+                                                match="senha2" feedback="false"
+                                                validatorMessage="Senhas precisam ser iguais" />
+
+                                    <p:password id="senha2" value="#{usuarioMB.usuario.senha}"
+                                                match="senha2" placeholder="Repete senha"
+                                                style="margin-top: 10px;" label="Repete senha" />
+                                </h:panelGroup>
+
+                                <p:outputLabel value="" />
+                                <p:commandButton value="Enviar" icon="fa fa-send"
+                                                 action="#{usuarioMB.save}" update="@form"
+                                                 oncomplete="if (!args.validationFailed)" />
+
+                            </p:panelGrid>
+
+                        </h:panelGroup>
+
+                    </div>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

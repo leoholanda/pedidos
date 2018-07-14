@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <div class="topbar clearfix">
+        <a id="omega-menu-button" href="#"> <span class="fa fa-bars"></span>
+        </a> <span class="topbar-title"><ui:insert name="title"></ui:insert></span>
+
+        <a id="options-menu-button" href="#"> <span
+                class="fa fa-ellipsis-h"></span>
+        </a>
+
+        <div id="topbar-icons" class="animated">
+            <h:form id="form-login">
+            	<ui:insert name="topmenu"/>
+            	
+                <p:commandLink id="logout"  onclick="PF('dlg-logout').show()" 
+                	rendered="#{!beneficiarioMB.beneficiarioExiste and !convenioMB.convenioExiste 
+                	and !faixaEtariaMB.faixaExiste and !faturaMB.faturaExiste and !usuarioMB.usuarioExiste}">
+                    <p:confirm header="Confirmação" message="Deseja sair do sistema?" icon="ui-icon-alert" />
+                    <span class="topbar-icon fa fa-sign-out"></span>
+                </p:commandLink>
+                <p:tooltip id="toolTipFade" for="logout" value="Sair do Sistema" position="bottom" showEffect="slide"/>
+
+                <!-- Dialog confirm dialog -->
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade"> 
+                    <p:button href="/j_spring_security_logout" icon="ui-icon-check" value="Sim" />
+
+                    <p:commandButton value="Não" type="button"
+                                     styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </p:confirmDialog>
+            </h:form>
+        </div>
+
+    </div>
+</ui:composition>

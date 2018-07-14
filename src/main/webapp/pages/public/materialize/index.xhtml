@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<head>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+			rel="stylesheet" />
+			
+	    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+	
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	</head>
+
+	<body>
+		<div class="container">
+	
+			<h4>Pesquisa Associado</h4>
+			
+			<blockquote>
+	      		Área de consulta do associado
+	    	</blockquote>
+	    	
+	    	<h:dataTable value="#{beneficiarioMB.listaBeneficiarios}" var="associado" rows="5" styleClass="responsive-table striped">
+	    	
+	    		<h:column>
+	    			<a href="/pages/public/index.xhtml" class="secondary-content"><i class="material-icons">edit</i></a>
+	    		</h:column>
+	    	
+	    		<h:column><f:facet name="header">Nome</f:facet>
+	    			<h:outputText value="#{associado.nomeComIniciaisMaiuscula}" />
+	    		</h:column>
+	    		
+	    		<h:column><f:facet name="header">CPF</f:facet>
+	    				<h:outputText value="#{associado.cpf}" />
+	    		</h:column>
+	    		
+	    		<h:column><f:facet name="header">Data de Nascimento</f:facet> 
+	    			<h:outputText value="#{associado.dataNascimento}">
+	    				<f:convertDateTime locale="pt-BR"/>
+	    			</h:outputText>
+	    			<div class="chip">
+	    				<h:outputText value="#{associado.idade}" />
+	    			</div>
+	    		</h:column>
+	    	
+	    	</h:dataTable>
+    	
+    	<a class="btn-floating right btn-large waves-effect waves-light blue z-depth-3" style="margin-top: 20px;"><i class="material-icons">add</i></a>
+    	</div>
+    	
+    	
+	
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js" />
+	</body>
+</html>

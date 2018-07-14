@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+    <f:metadata>
+        <f:viewParam name="id" value="#{faixaEtariaMB.faixaEtaria.id}"  />
+
+        <f:viewAction action="#{faixaEtariaMB.buscar}" if="#{param.id ne null}" />
+    </f:metadata>
+
+    <ui:define name="title">
+        <i class="fa fa-sort-numeric-asc" />
+        Faixa Etária</ui:define>
+
+	<ui:define name="topmenu">
+		<ui:include src="options.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+
+                <h:form id="form-faixa">
+                	<ui:include src="../util/messages.xhtml" />
+                    <div class="card">
+                        <h1 jsf:rendered="#{!faixaEtariaMB.existeFaixa}">Cadastrar Faixa Etária</h1>
+                        <h1 jsf:rendered="#{faixaEtariaMB.existeFaixa}">Editar Faixa Etária</h1>
+
+                        <p:panelGrid id="panel" columns="2" layout="grid"
+                                     style="border:0px !important; background:none;"
+                                     styleClass="ui-panelgrid-blank"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+                            <p:outputLabel for="periodo-inicial" value="Idade Inicial" />
+                            <p:inputText id="periodo-inicial" type="number"
+                                         value="#{faixaEtariaMB.faixaEtaria.periodoInicial}" />
+
+                            <p:outputLabel for="periodo-final" value="Idade Final" />
+                            <p:inputText id="periodo-final" type="number"
+                                         value="#{faixaEtariaMB.faixaEtaria.periodoFinal}" />
+
+                            <p:outputLabel value="Valor Enfermaria" for="valorE" />
+                            <p:inputText id="valorE"
+                                         value="#{faixaEtariaMB.faixaEtaria.valorEnfermaria}">
+                                <f:convertNumber locale="pt_BR" minFractionDigits="2" />
+                            </p:inputText>
+
+                            <p:outputLabel value="Valor Apartamento" for="valorA" />
+                            <p:inputText id="valorA"
+                                         value="#{faixaEtariaMB.faixaEtaria.valorApartamento}">
+                                <f:convertNumber locale="pt_BR" minFractionDigits="2" />
+                            </p:inputText>
+
+                        </p:panelGrid>
+                    </div>
+
+                    <p:toolbar styleClass="MarTop10">
+                        <p:toolbarGroup align="right">
+                            <p:link outcome="pesquisa-faixa" rendered="#{faixaEtariaMB.existeFaixa}">
+                                <f:param name="id" value="#{faixaEtariaMB.faixaEtaria.id}"/>
+                                <p:button value="Voltar" styleClass="black-button MarRight10" icon="fa fa-mail-reply" style="width: auto;"/>
+                            </p:link>
+                            <p:commandButton value="Salvar" action="#{faixaEtariaMB.save}" rendered="#{!faixaEtariaMB.existeFaixa}"
+                                             update="@form" icon="fa fa-save" styleClass="green-button"
+                                             style="width: auto" />
+                                             
+                            <p:commandButton value="Editar" action="#{faixaEtariaMB.update}" rendered="#{faixaEtariaMB.existeFaixa}"
+                                             update="@form" icon="fa fa-save" styleClass="green-button"
+                                             style="width: auto" />                 
+                        </p:toolbarGroup>
+                    </p:toolbar>
+                </h:form>
+
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

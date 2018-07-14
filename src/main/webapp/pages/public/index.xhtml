@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<f:facet name="first">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+	</f:facet>
+	<title>AEE</title>
+	<script type="text/javascript">
+        $(function() {
+            $('#menu-button').on('click', function(e) {
+                $('#menu').toggleClass('overlay-menu');
+                e.preventDefault();
+            });
+
+            $('.mostra').hide();
+
+            $('.eventos')
+            .css("height", "600px");
+
+            $(window).scroll(function(){
+                var topo = $(window).scrollTop();
+                if(topo > 50){
+                  $('.mostra').delay('300').fadeIn('slow');
+                }else {
+				  $('.mostra').hide();	
+                }
+              });
+        });
+        </script>
+
+	<h:outputScript name="analytics.js" library="js" />
+	<ui:insert name="head" />
+</h:head>
+
+<h:body styleClass="landing-body">
+
+	<div class="landing-wrapper">
+		<div class="landing-header">
+			<div class="landing-header-content clearfix">
+				<!--<p:graphicImage name="images/logo_aee.png" library="omega-layout" style="margin-bottom: 50px" />-->
+
+				<a id="menu-button" href="#"> <span class="fa fa-bars"></span>
+				</a>
+				<ul id="menu">
+					<!--                         <li><a href="#">Home</a></li> -->
+					<li><a href="#introduction"
+						onclick="PF('dlg-beneficiario').show()">Consulte Sua Fatura</a></li>
+					<li><a href="#pricing">Convênios e Serviços</a></li>
+					<!--                         <li><a href="#video">Eventos</a></li> -->
+					<li><a href="#{request.contextPath}/pages/public/login.xhtml">Área
+							Administrativa</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="introduction">
+			<div class="introduction-content">
+				<span class="title">AEE Roraima</span>
+				<span class="subtitle">Associação dos Empregados da Embrapa Roraima</span>
+
+
+				<h:form>
+					<p:commandButton value="CONSULTAR FATURA" style="color: gray"
+						oncomplete="PF('dlg-beneficiario').show()" styleClass="gray-button" />
+				</h:form>
+			</div>
+		</div>
+
+		<div id="pricing">
+			<div class="pricing-content">
+				<span class="pricing-title">Convênios</span>
+
+				<div class="ui-g">
+					<ui:repeat value="#{convenioMB.listaConveniosIndex}" var="convenio">
+					<div class="ui-g-12 ui-md-4" onclick="location.href='#{convenio.link}'" style="cursor: pointer;" title="#{convenio.descricao}">
+						<div class="pricing-basic pricing-box">
+							<span class="pricing-name">#{convenio.nomeComIniciaisMaiuscula}</span>
+							<div class="pricing-fee">
+								<p:graphicImage styleClass="pricing-icon" name="#{convenio.nomeArquivo}" library="images" rendered="#{convenio.nomeArquivo ne null and convenio.nomeArquivo ne 'sem-imagem.png'}"
+												width="100" height="100" title="#{convenio.link}" />
+							</div>
+
+							<p:spacer height="50"/>
+							<h2 style="color: gray">#{convenio.tipo}</h2>
+							<br />
+						</div>
+					</div>
+					</ui:repeat>
+
+				</div><br />
+				
+				<span class="pricing-title Blue">Serviços</span>
+
+				<div class="ui-g">
+					<ui:repeat value="#{convenioMB.listaServicosIndex}" var="convenio">
+					<div class="ui-g-12 ui-md-4" onclick="location.href='#{convenio.link}'" style="cursor: pointer;" title="#{convenio.descricao}">
+						<div class="pricing-basic pricing-box">
+							<span class="pricing-name">#{convenio.nomeComIniciaisMaiuscula}</span>
+							<div class="pricing-fee">
+								<p:graphicImage styleClass="pricing-icon" name="#{convenio.nomeArquivo}" library="images" rendered="#{convenio.nomeArquivo ne null and convenio.nomeArquivo ne 'sem-imagem.png'}"
+												width="100" height="100" title="#{convenio.link}" />
+							</div>
+
+							<p:spacer height="50"/>
+							<h2 style="color: gray">#{convenio.tipo}</h2>
+							<br />
+						</div>
+					</div>
+					</ui:repeat>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="landing-footer">
+			<div class="landing-footer-content">
+				<div class="footer-top rodape">
+					<div class="ui-g">
+						<div class="ui-g-6">
+                            <p:graphicImage name="logo-aee-sem-nome.png" library="images" width="100"/>
+							<p>Associação dos Empregados da Embrapa Roraima</p>
+
+							<span>Endereço:
+								BR 174 Km 08 s/n Distrito Industrial<br /> Boa Vista - RR CEP:
+								69301-970<br /> Telefone: (95) 4009-7100 (PABX)<br />
+							</span>
+						</div>
+						<div class="ui-g-6">
+							<p>
+								Presidente: <strong>Liliane Barbosa dos Santos Gadelha</strong>
+							</p>
+							<p>
+								Vice-Presidente: <strong>Carlos Eduardo D'Alencar
+									Mendonça</strong>
+							</p>
+							<p>
+								Tesoureira: <strong>Francisca Luciana da Silva Lucena dos Santos</strong>
+							</p>
+							<p>
+								Secretário: <strong>Giovanni Ribeiro de Sousa</strong>
+							</p>
+							<p>
+								Diretora Administrativa: <strong>Francisca Tânia da Silva Menezes</strong>
+							</p>
+							<p>
+								Diretora Sociocultural: <strong>Aliny Maria Ribeiro de
+									Melo</strong>
+							</p>
+							<p>
+								Diretora Esportiva: <strong>Maristela Ramalho Xaud</strong>
+							</p>
+						</div>
+					</div>
+				</div>
+				E-mail:
+				diretoria@aeeroraima.com.br
+				<div class="footer-bottom">Todos os direitos reservados</div>
+			</div>
+		</div>
+	</div>
+
+	<p:dialog header="Associado" widgetVar="dlg-beneficiario"
+		modal="true" closable="true" width="300" resizable="false"
+		draggable="false" responsive="true" showEffect="clip"
+		hideEffect="clip">
+		<h:form id="frm-beneficiario">
+			<div class="ui-g ui-fluid">
+				<div class="ui-g-12 ui-md-12">
+					<p:messages autoUpdate="true" />
+					<h:panelGroup id="solicitacao" layout="block">
+
+						<p:panelGrid columns="1" layout="grid"
+							styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-10">
+
+							<p:outputLabel value="CPF" />
+							<p:inputMask id="nome" value="#{beneficiarioMB.beneficiario.cpf}"
+								mask="999.999.999-99" label="CPF" />
+
+
+							<p:commandButton value="Consultar" icon="fa fa-search"
+								action="#{beneficiarioMB.autorizarBeneficiario}">
+							</p:commandButton>
+
+						</p:panelGrid>
+
+					</h:panelGroup>
+				</div>
+			</div>
+		</h:form>
+	</p:dialog>
+	
+	<p:dialog header="Evento" widgetVar="dlg-evento" visible="false"
+		modal="true" closable="true" width="300" resizable="false"
+		draggable="false" responsive="true" showEffect="clip"
+		hideEffect="clip">
+			<div class="ui-g ui-fluid">
+				<div class="ui-g-12 ui-md-12">
+					<p:panelGrid columns="1" layout="grid"
+						styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-10">
+						
+						<p:graphicImage name="qualidade-vida.jpeg" library="images" width="250" />
+	
+						<h:panelGroup>
+							<p:link title="http://8eqv.blogspot.com.br/" href="http://8eqv.blogspot.com.br/"
+							value="Ir para o site" type="_blank" style="font-size: 24px; text-align: center; color: #000" />
+							
+							<i class="fa fa-external-link" style="margin-left: 10px; font-size: 22px;"/>
+						</h:panelGroup>
+	
+					</p:panelGrid>
+				</div>
+			</div>
+	</p:dialog>
+	
+	
+
+	<h:outputStylesheet name="css/layout.css" library="omega-layout" />
+</h:body>
+
+</html>

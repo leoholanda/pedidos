@@ -1,0 +1,73 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:jsf="http://xmlns.jcp.org/jsf"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:po="http://primefaces.org/omega">
+
+    <div class="sidebar">
+        <div class="nano">
+            <div class="nano-content sidebar-scroll-content">
+<!--                 <div class="logo"> -->
+<!--                     <p:graphicImage name="images/logo.png" library="omega-layout" width="113"/> -->
+<!--                 </div> -->
+
+                <div class="profile">
+                    <a id="profile-button" href="#">
+                    	<span class="username">Usuário</span><br />
+                        <span class="username">#{seguranca.nomeUsuario}</span>
+                    </a>
+				</div>
+
+                <div class="menu">
+                    <po:menu>
+                        <p:menuitem id="om_db_landing" value="Dashboard" icon="fa fa-desktop" outcome="/pages/protected/dashboard/dashboard"/>
+
+                        <p:menuitem id="om_beneficiario" value="Associado" icon="fa fa-user" outcome="/pages/protected/beneficiario/pesquisa-beneficiario"
+                        rendered="#{seguranca.consultarBeneficiario}"/>
+
+                        <p:menuitem id="om_convenio" value="Convênio/Serviços" icon="fa fa-suitcase" outcome="/pages/protected/convenio/pesquisa-convenio"
+                        rendered="#{seguranca.consultarBeneficiario}"/>
+
+                        <p:submenu id="om_fatura" label="Fatura" icon="fa fa-file" rendered="#{seguranca.consultarFatura}">
+                            <p:menuitem id="om_fatura_pendente" value="Fatura Pendente" outcome="/pages/protected/fatura/fatura-pendente"/>
+                            <p:menuitem id="om_fatura_atrasada" value="Fatura Atrasada" outcome="/pages/protected/fatura/fatura-atrasada"/>
+                            <p:menuitem id="om_fatura_paga" value="Fatura Paga" outcome="/pages/protected/fatura/fatura-paga"/>
+                            <p:menuitem id="om_fatura_gerada" value="Todas as Faturas" outcome="/pages/protected/fatura/pesquisa-fatura"/>
+                        </p:submenu>
+                        
+                        <p:menuitem id="om_caixa" value="Fluxo de Caixa" icon="fa fa-calculator" outcome="/pages/protected/caixa/fluxo-caixa" rendered="#{seguranca.consultarBeneficiario}"/>
+
+                        <p:menuitem id="om_faixa_etaria" value="Faixa Etária" icon="fa fa-sort-numeric-asc" outcome="/pages/protected/faixa/pesquisa-faixa" rendered="#{seguranca.consultarBeneficiario}" />
+
+						<p:submenu id="om_user" label="Usuários" icon="fa fa-users" rendered="#{seguranca.consultarFatura}">
+                        	<p:menuitem id="om_users" value="Usuário"  outcome="/pages/protected/usuario/pesquisa-usuario" />
+                        	<p:menuitem id="om_perfil" value="Perfil" outcome="/pages/protected/perfil/pesquisa-perfil" />
+                        </p:submenu>
+                        
+                        <p:menuitem id="om_meu_perfil" value="Meu Perfil" icon="fa fa-cogs" outcome="/pages/protected/meu-perfil/meu-perfil" rendered="#{seguranca.consultarBeneficiario}">
+                        	<f:param name="id" value="#{seguranca.usuarioLogado.usuario.id}" />
+                        </p:menuitem>
+
+                        <p:submenu id="om_report" label="Relatório" icon="fa fa-file-text" rendered="#{seguranca.consultarBeneficiario}">
+                            <p:menuitem id="om_fatura_relatorio" value="Relatório de Fatura do Mês" outcome="/pages/protected/fatura/fatura-mes"/>
+                            <p:menuitem id="om_fatura_irpf" value="Declaração para IRPF" outcome="/pages/protected/fatura/fatura-irpf-valor-editado"/>
+                        </p:submenu>
+
+                        <p:submenu id="om_email" label="Email" icon="fa fa-envelope" rendered="#{seguranca.consultarBeneficiario}">
+                        	<p:menuitem id="om_email_all" value="Email Para Todos" outcome="/pages/protected/email/envia-email-todos"/>
+                        	<p:menuitem id="om_email_personal"  value="Email Individual" outcome="/pages/protected/email/envia-email-individual"/>
+                        	<p:menuitem id="om_email_server"  value="Servidor de Email" url="https://server28.integrator.com.br:2096/" target="_blank"/>
+                        </p:submenu>
+
+                        <p:menuitem id="om_manual" value="Manual do Usuário" icon="fa fa-book" outcome="/pages/protected/manual/manual-usuario"/>
+
+                    </po:menu>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>
