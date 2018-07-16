@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Asynchronous;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -95,14 +94,15 @@ public class FaturaBean implements Serializable {
 		aplicaMultaPorAtraso();
 		
 		enviaCobrancaDeFaturaAtrasada();
+		
+		//TODO Verifica data de aniversario para possivel mudança de faixa-etaria
 		this.beneficiarioBean.checaFaixaEtariaDosBeneficiarios();
 		
-		if (diaDoMes() >= 6) {
-			faturaAtrasada();
-		}
+		//TODO Invoca o metodo para verificar fatura atrasada
+		this.faturaAtrasada();
 		
-		//TODO nao pode ser no mesmo dia da fatura
-		if(diaDoMes()!= 01) {
+		//TODO Aplica juros ao dia
+		if(diaDoMes() != 01) {
 			aplicaJurosAoDia();
 		}
 	}
@@ -141,15 +141,12 @@ public class FaturaBean implements Serializable {
 	/**
 	 * Checa fatura atrasada
 	 */
-	@Asynchronous
 	public void faturaAtrasada() {
-//		if (diaDoMes() == 06) {
-			System.out.println(">>>>>>> Verificando fatura atrasada");
+		if (isFaturaAtrasada()) {
 			Date hoje = new Date();
 
 			for (Fatura fatura : repository.findByFaturaPendente()) {
 				// TODO Através do Calendar, trabalhamos a data informada e adicionamos 1 dia
-				// nela
 				Calendar vencimento = Calendar.getInstance();
 				vencimento.setTime(fatura.getVencimento());
 				vencimento.add(Calendar.DATE, +1);
@@ -159,14 +156,34 @@ public class FaturaBean implements Serializable {
 					repository.save(fatura);
 				}
 			}
-//		}
+			
+			mesFatura.setEvento("Atraso");
+			mesFaturaRepository.save(mesFatura);
+		}
+	}
+	
+	/**
+	 * Checa fatura atrasada
+	 */
+	public void faturaAtrasadaIndividual(Fatura fatura) {
+		Date hoje = new Date();
+
+		// TODO Através do Calendar, trabalhamos a data informada e adicionamos 1 dia
+		Calendar vencimento = Calendar.getInstance();
+		vencimento.setTime(fatura.getVencimento());
+		vencimento.add(Calendar.DATE, +1);
+
+		if (vencimento.getTime().before(hoje)) {
+			fatura.setStatus(Status.ATRASADO);
+			repository.save(fatura);
+		}
 	}
 
 	public void geraFatura() {
 		if (isFaturaParaEsseMes()) {
 
-			// o correto é dia 01
-			if (diaDoMes() == 01) {
+			//TODO Gera fatura automatica do dia 01 ao dia 6
+			if (diaDoMes() >= 01 && diaDoMes() <= 06) {
 				System.out.println(">> Gerando fatura...");
 				this.geraValoresDaFatura();
 
@@ -232,7 +249,7 @@ public class FaturaBean implements Serializable {
 			fatura.setValorPlanoDeSaude(valorEnfermaria + valorDependente);
 
 			fatura.setValorTotalGerado((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade())
-					+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais());
+					+ fatura.getValorServicosAdicionais());
 			fatura.setValorTotal((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade())
 					+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais());
 
@@ -246,7 +263,7 @@ public class FaturaBean implements Serializable {
 			fatura.setValorPlanoDeSaude(valorApartamento + valorDependente);
 
 			fatura.setValorTotalGerado((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade())
-					+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais());
+					+ fatura.getValorServicosAdicionais());
 			fatura.setValorTotal((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade())
 					+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais());
 
@@ -260,7 +277,7 @@ public class FaturaBean implements Serializable {
 	 */
 	public void geraFaturaSemPlanoDeSaude(Plano plano) {
 		fatura.setValorPlanoDeSaude(0.00);
-		fatura.setValorTotalGerado((fatura.getValorMensalidade()) + fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais());
+		fatura.setValorTotalGerado((fatura.getValorMensalidade()) + fatura.getValorServicosAdicionais());
 		fatura.setValorTotal((fatura.getValorMensalidade()) + fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais());
 	}
 
@@ -354,12 +371,13 @@ public class FaturaBean implements Serializable {
 
 				repository.save(fatura);
 
-				fatura = new Fatura();
 				JsfUtil.info("Fatura gerada com sucesso!");
 				
-				this.faturaAtrasada();
+				this.faturaAtrasadaIndividual(fatura);
+				fatura = new Fatura();
 			}
 		} catch (Exception e) {
+			JsfUtil.error("Algo aconteceu. Não foi possível gerar fatura para o associado!");
 			throw new RuntimeException(e.getMessage());
 		}
 	}
@@ -477,7 +495,6 @@ public class FaturaBean implements Serializable {
 	/**
 	 * Calculo da multa por atraso
 	 */
-	@Asynchronous
 	public void aplicaMultaPorAtraso() {
 		Double multa = 0.00;
 		for (Fatura f : repository.findByCalculoDaMulta()) {
@@ -495,7 +512,6 @@ public class FaturaBean implements Serializable {
 	/**
 	 * Calculo dos juros ao dia
 	 */
-	@Asynchronous
 	public void aplicaJurosAoDia() {
 		if (isJurosParaEsseDia()) {
 			Double juros = 0.00;
@@ -1119,10 +1135,13 @@ public class FaturaBean implements Serializable {
 		return mesFaturaRepository.findByDataJuros(hoje).isEmpty();
 	}
 
-	public boolean checaSeFaturaEstaAtrasada(Fatura fatura) {
-		Date hoje = new Date();
-		boolean verifica = hoje.after(fatura.getVencimento());
-		return verifica;
+	/**
+	 * Checa se o metodo ja foi invocado no dia
+	 * @return
+	 */
+	public boolean isFaturaAtrasada() {
+		Calendar hoje = Calendar.getInstance();
+		return mesFaturaRepository.findByFaturaAtrasada(hoje).isEmpty();
 	}
 
 	public boolean isFaturaExiste() {

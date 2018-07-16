@@ -14,7 +14,7 @@
 			<p:tabView value="#{faturaMB.faturasDoBeneficiario}" var="fatura"
 				dynamic="true" cache="true" scrollable="true">
 				<p:tab title="#{fatura.mesAnoDaFatura}">
-
+				
 					<div class="MarBot20" style="text-align: center;">
 						<p:outputLabel value="#{fatura.mesAnoDaFatura}" styleClass="BoldGray" />
 					</div>
@@ -40,7 +40,7 @@
 								style="cursor: text; border-color: #E53935;  background-color: #E53935; width: auto;"
 								update="@this" process="@this" rendered="#{fatura.atrasado}" />
 								
-							<p:outputLabel styleClass="MarLeft10" value="#{fatura.id}" title="Código da Fatura" />	
+							<p:link outcome="/pages/protected/fatura/index-fatura.xhtml?id=#{fatura.id}"><p:outputLabel styleClass="MarLeft10 Fs18" value="#{fatura.id}" title="Código da Fatura" style="cursor: pointer;" /></p:link>	
 								
 							<p:outputLabel value="#{fatura.dataPagamento.time}"
 								styleClass="Gray Fs14" style="margin-left: 10px;"
@@ -148,19 +148,21 @@
 									update="@this" process="@this" /></li>
 
 							<li
-								jsf:rendered="#{fatura.temResiduoDescontado or fatura.naoTemResiduoDescontado}">
+								jsf:rendered="#{fatura.temResiduoDaFaturaAnterior}">
 
-								<span jsf:rendered="#{fatura.debitoDeResiduoDescontado}"
+								<span jsf:rendered="#{fatura.debitoFaturaAnterior}"
 								class="task-name FontBold Red">DÉBITO (FATURA ANTERIOR)</span> <span
-								jsf:rendered="#{fatura.debitoDeResiduoDescontado eq false}"
+								jsf:rendered="#{!fatura.debitoFaturaAnterior}"
 								class="task-name FontBold Blue">CRÉDITO (FATURA ANTERIOR)</span>
 
 								<p:commandButton value="#{fatura.converterResiduoDescontado}"
-									rendered="#{fatura.debitoDeResiduoDescontado}"
+									rendered="#{fatura.debitoFaturaAnterior}"
 									style="cursor: text; border-color: #E53935; background-color: #E53935; width: 100px;"
-									update="@this" process="@this" /> <p:commandButton
+									update="@this" process="@this" /> 
+									
+								<p:commandButton
 									value="#{fatura.converterResiduoDescontado}"
-									rendered="#{fatura.debitoDeResiduoDescontado eq false}"
+									rendered="#{!fatura.debitoFaturaAnterior}"
 									style="cursor: text; border-color: #03A9F4; background-color: #03A9F4; width: 100px;"
 									update="@this" process="@this" />
 							</li>
@@ -196,12 +198,11 @@
 					</ul>
 					<br />
 
-					<ul class="task-list"
-						jsf:rendered="#{fatura.temResiduo or fatura.naoTemResiduo}">
+					<ul class="task-list" jsf:rendered="#{fatura.residuoParaProximaFatura}">
 						<li><span class="task-name FontBold Red Fs16"
 							jsf:rendered="#{fatura.debitoDeResiduo}">DÉBITO (PRÓXIMA
 								FATURA)</span> <span class="task-name FontBold Blue Fs16"
-							jsf:rendered="#{fatura.debitoDeResiduo eq false}">CRÉDITO
+							jsf:rendered="#{!fatura.debitoDeResiduo}">CRÉDITO
 								(PRÓXIMA FATURA)</span> <p:commandButton
 								value="#{fatura.converterValorDoResiduo}"
 								rendered="#{fatura.debitoDeResiduo}"
@@ -217,5 +218,8 @@
 			</p:tabView>
 		</div>
 	</div>
+	
+	<!-- Dialog pagamento  -->
+	<ui:include src="/pages/protected/fatura/dialog-pagamento-fatura.xhtml" />
 
 </ui:composition>

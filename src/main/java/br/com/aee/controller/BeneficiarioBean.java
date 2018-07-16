@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.Asynchronous;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -521,7 +520,6 @@ public class BeneficiarioBean implements Serializable {
 	/**
 	 * Checa faixa etaria de todos os beneficiario
 	 */
-	@Asynchronous
 	public void checaFaixaEtariaDosBeneficiarios() {
 		if (diaDoMes() >= 20 && diaDoMes() <= 31) {
 			System.out.println(">>> atualizando faixa etaria beneficiario");

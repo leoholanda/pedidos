@@ -296,23 +296,26 @@
 										style="cursor: text; border-color: #26C6DA; background-color: #26C6DA; width: 100px;"
 										update="@this" process="@this" /></li>
 
-								<li
-									jsf:rendered="#{faturaMB.fatura.temResiduoDescontado or faturaMB.fatura.naoTemResiduoDescontado}">
+								<li jsf:rendered="#{faturaMB.fatura.temResiduoDaFaturaAnterior}">
 
 									<span
-									jsf:rendered="#{faturaMB.fatura.debitoDeResiduoDescontado}"
+									jsf:rendered="#{faturaMB.fatura.debitoFaturaAnterior}"
 									class="task-name FontBold Red">DÉBITO (FATURA ANTERIOR)</span>
 
 									<span
-									jsf:rendered="#{faturaMB.fatura.debitoDeResiduoDescontado eq false}"
+									jsf:rendered="#{!faturaMB.fatura.debitoFaturaAnterior}"
 									class="task-name FontBold Blue">CRÉDITO (FATURA
-										ANTERIOR)</span> <p:commandButton
+										ANTERIOR)</span> 
+										
+										<p:commandButton
 										value="#{faturaMB.fatura.converterResiduoDescontado}"
-										rendered="#{faturaMB.fatura.debitoDeResiduoDescontado}"
+										rendered="#{faturaMB.fatura.debitoFaturaAnterior}"
 										style="cursor: text; border-color: #E53935; background-color: #E53935; width: 100px;"
-										update="@this" process="@this" /> <p:commandButton
+										update="@this" process="@this" /> 
+										
+										<p:commandButton
 										value="#{faturaMB.fatura.converterResiduoDescontado}"
-										rendered="#{faturaMB.fatura.debitoDeResiduoDescontado eq false}"
+										rendered="#{!faturaMB.fatura.debitoFaturaAnterior}"
 										style="cursor: text; border-color: #03A9F4; background-color: #03A9F4; width: 100px;"
 										update="@this" process="@this" />
 								</li>
@@ -352,18 +355,20 @@
 							<br />
 
 							<ul class="task-list"
-								jsf:rendered="#{faturaMB.fatura.temResiduo or faturaMB.fatura.naoTemResiduo}">
+								jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">
 								<li><span class="task-name FontBold Red Fs16"
-									jsf:rendered="#{faturaMB.fatura.debitoDeResiduo}">DÉBITO
+									jsf:rendered="#{!faturaMB.fatura.residuoParaProximaFatura}">DÉBITO
 										(PRÓXIMA FATURA)</span> <span class="task-name FontBold Blue Fs16"
-									jsf:rendered="#{faturaMB.fatura.debitoDeResiduo eq false}">CRÉDITO
-										(PRÓXIMA FATURA)</span> <p:commandButton
+									jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">CRÉDITO
+										(PRÓXIMA FATURA)</span> 
+										<p:commandButton
 										value="#{faturaMB.fatura.converterValorDoResiduo}"
-										rendered="#{faturaMB.fatura.debitoDeResiduo}"
+										rendered="#{!faturaMB.fatura.residuoParaProximaFatura}"
 										style="cursor: text; border-color: #E53935; background-color: #E53935; width: 100px;"
-										update="@this" process="@this" /> <p:commandButton
+										update="@this" process="@this" /> 
+										<p:commandButton
 										value="#{faturaMB.fatura.converterValorDoResiduo}"
-										rendered="#{faturaMB.fatura.debitoDeResiduo eq false}"
+										rendered="#{faturaMB.fatura.residuoParaProximaFatura}"
 										style="cursor: text; border-color: #0288D1; background-color: #0288D1; width: 100px;"
 										update="@this" process="@this" /></li>
 							</ul>

@@ -1,6 +1,7 @@
 package br.com.aee.model;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,22 +55,22 @@ public class Fatura implements Serializable {
 	@Column(name = "valor_mensalidade")
 	private Double valorMensalidade;
 
-	// Este valor serve para aplicar mensalidade + plano
+	// TODO Mensalidade + Plano
 	@NotNull
 	@Column(name = "valor_total_gerado")
 	private Double valorTotalGerado;
 
-	// Este valor serve para aplicar multa por atraso e juros diario
+	// TODO Soma valorTotalGerado + multa por atraso + juros diario (se houver)
 	@NotNull
 	@Column(name = "valor_total")
 	private Double valorTotal;
 
-	// Se houver residuo na fatura inserir na proxima
-	@Column(name = "residuo")
+	// TODO Se houver residuo na fatura inserir na proxima
+	@Column(name = "residuo", precision = 2, scale = 2)
 	private Double valorDoResiduo;
 
-	// Valor do residuo descontado (usado para credito ou debito da fatura atual)
-	@Column(name = "residuo_descontado")
+	// TODO Valor do residuo descontado na fatura atual
+	@Column(name = "residuo_descontado", precision = 2, scale = 2)
 	private Double residuoDescontado;
 
 	@Column(name = "valor_pago")
@@ -323,57 +324,82 @@ public class Fatura implements Serializable {
 	}
 
 	public String getQualResiduo() {
-		if (valorDoResiduo != null && valorDoResiduo > 0.00) {
+		if (valorDoResiduo != null) {
 			return "CRÉDITO";
 		} else {
 			return "DÉBITO";
 		}
 	}
 
-	public Boolean getDebitoDeResiduo() {
+	public boolean isDebitoDeResiduo() {
+		boolean resultado = false;
 		if (valorDoResiduo != null) {
-			return valorDoResiduo > 0.00 ? true : false;
+			resultado = valorDoResiduo > 0.00 ? true : false;
 		}
-		return null;
+		return resultado;
 	}
 
 	public boolean isNaoTem() {
 		return valorDoResiduo != 0.0;
 	}
 
-	public Boolean getNaoTemResiduo() {
+	public boolean isNaoTemResiduo() {
+		boolean resultado = false;
 		if (valorDoResiduo != null) {
-			return valorDoResiduo < 0.00;
+			resultado = valorDoResiduo < 0.00;
 		}
-		return null;
+		return resultado;
 	}
 
-	public Boolean getTemResiduo() {
+	public boolean isResiduoParaProximaFatura() {
+		boolean resultado = false;
 		if (valorDoResiduo != null) {
-			return valorDoResiduo >= 0.01;
+			String resultado1 = String.format("%.2f", valorDoResiduo);
+			if (resultado1.equalsIgnoreCase("-0,00") || resultado1.equalsIgnoreCase("0,00")) {
+				resultado = false;
+			} else {
+				resultado = true;
+			}
 		}
-		return false;
+		return resultado;
 	}
 
-	public Boolean getDebitoDeResiduoDescontado() {
+	// public boolean isDebitoDeResiduoDescontado() {
+	public boolean isDebitoFaturaAnterior() {
+		boolean debito = false;
 		if (residuoDescontado != null) {
-			return residuoDescontado > 0.00 ? true : false;
+			DecimalFormat formato = new DecimalFormat("#.##");
+			residuoDescontado = Double.valueOf(formato.format(residuoDescontado));
+
+			if (residuoDescontado > 0.00) {
+				debito = true;
+			} else {
+				debito = false;
+			}
 		}
-		return false;
+		return debito;
 	}
 
-	public Boolean getTemResiduoDescontado() {
-		if (residuoDescontado != null) {
-			return residuoDescontado >= 0.01;
+	public boolean isTemResiduoDaFaturaAnterior() {
+		boolean resultado = false;
+		if(residuoDescontado != null) {
+			String resultado1 = String.format("%.2f", residuoDescontado);
+			
+			if (resultado1.equalsIgnoreCase("-0,00") || resultado1.equalsIgnoreCase("0,00")) {
+				resultado = false;
+			} else {
+				resultado = true;
+			}
 		}
-		return false;
+		return resultado;
 	}
 
-	public Boolean getNaoTemResiduoDescontado() {
+	public boolean isNaoTemResiduoDescontado() {
+		boolean resultado = false;
 		if (residuoDescontado != null) {
-			return residuoDescontado < 0.00;
+			resultado = residuoDescontado < 0.00;
 		}
-		return false;
+		return resultado;
 	}
 
 	// Getters and Setters
