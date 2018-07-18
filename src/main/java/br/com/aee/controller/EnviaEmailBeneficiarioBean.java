@@ -6,7 +6,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -73,23 +72,24 @@ public class EnviaEmailBeneficiarioBean implements Serializable {
 			System.out.println("Enviando email para: " + beneficiario.getNome());
 
 			HtmlEmail email = new HtmlEmail();
-			email.setHostName("aeeroraima.com.br");
-			email.setSslSmtpPort("25");
-			email.setAuthenticator(new DefaultAuthenticator("diretoria@aeeroraima.com.br", "zopic80a6h@"));
-			try {
-				email.addTo(beneficiario.getEmail());
-				email.setFrom("diretoria@aeeroraima.com.br");
-				email.setSubject("Associacao dos Empregados da Embrapa Roraima");
+			email.setCharset("UTF-8");
+			email.setFrom("diretoria@aeeroraima.com.br", "Diretoria AEE Roraima");
+			email.setSubject("AEE Roraima");
+			email.setSSLOnConnect(true);
+			email.setAuthentication("diretoria@aeeroraima.com.br", "zopic80a6h@");
+			email.setHostName("server28.integrator.com.br");
+			email.setSmtpPort(465);
+			email.addTo(beneficiario.getEmail(), beneficiario.getNomeComIniciaisMaiuscula());	
 
-				StringBuilder builder = new StringBuilder();
-				builder.append(" <p> " + texto + " </p>");
-				builder.append("<img src=\"http://www.faee.org.br/aees/logomarcas/AEERR.jpg\"> <br />");
+			StringBuilder builder = new StringBuilder();
+			builder.append(" <p> " + texto + " </p>"
+					+ " Consulte suas faturas em nosso sistema: http://www.aeeroraima.com.br/ <p />"
+					+ " Duvidas e sugestões atráves do email: diretoria@aeeroraima.com.br <br />");
+			
+			builder.append("<img src=\"http://www.faee.org.br/aees/logomarcas/AEERR.jpg\"> <br />");
 
-				email.setHtmlMsg(builder.toString());
-				email.send();
-			} catch (EmailException e) {
-				e.printStackTrace();
-			}
+			email.setHtmlMsg(builder.toString());
+			email.send();
 		}
 
 	}

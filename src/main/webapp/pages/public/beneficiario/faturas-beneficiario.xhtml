@@ -39,8 +39,13 @@
 								styleClass="red-button"
 								style="cursor: text; border-color: #E53935;  background-color: #E53935; width: auto;"
 								update="@this" process="@this" rendered="#{fatura.atrasado}" />
-								
-							<p:link outcome="/pages/protected/fatura/index-fatura.xhtml?id=#{fatura.id}"><p:outputLabel styleClass="MarLeft10 Fs18" value="#{fatura.id}" title="Código da Fatura" style="cursor: pointer;" /></p:link>	
+							
+							<p:commandButton value="#{fatura.id}" action="#{faturaMB.redirecionaParaFatura(fatura.id)}" 
+								update="@this" process="@this" title="Abrir fatura" styleClass="gray-button MarLeft10"
+								rendered="#{seguranca.usuarioLogado.enabled}"/>	
+
+			              	<p:outputLabel styleClass="MarLeft10 Fs18" value="#{fatura.id}" title="Código da Fatura" 
+			              		rendered="#{!seguranca.usuarioLogado.enabled}"/>   
 								
 							<p:outputLabel value="#{fatura.dataPagamento.time}"
 								styleClass="Gray Fs14" style="margin-left: 10px;"

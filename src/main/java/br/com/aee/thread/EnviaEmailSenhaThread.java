@@ -1,6 +1,5 @@
 package br.com.aee.thread;
 
-import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 
@@ -18,14 +17,13 @@ public class EnviaEmailSenhaThread extends Thread {
 
 	@Override
 	public void run() {
-			try {
-				enviaEmailComNovaSenha(usuario, senha);
-			} catch (EmailException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			enviaEmailComNovaSenha(usuario, senha);
+		} catch (EmailException e) {
+			e.printStackTrace();
+		}
 	}
-
+	
 	/**
 	 * Envia senha por email
 	 *
@@ -35,29 +33,24 @@ public class EnviaEmailSenhaThread extends Thread {
 	public void enviaEmailComNovaSenha(Usuario usuario, String senha) throws EmailException {
 		System.out.println("Enviando senha para usuário: " + usuario.getNome());
 
-		String nome = usuario.getNome();
-
 		HtmlEmail email = new HtmlEmail();
-		email.setHostName("aeeroraima.com.br");
-		email.setSslSmtpPort("25");
-		email.setAuthenticator(new DefaultAuthenticator("suporte@aeeroraima.com.br", "leo123qwe123151123"));
-		try {
-			email.addTo(usuario.getEmail());
-			email.setFrom("diretoria@aeeroraima.com.br");
-			email.setSubject("Solicitação de senha");
+		email.setCharset("UTF-8");
+		email.setFrom("suporte@aeeroraima.com.br", "Suporte AEE Roraima");
+		email.setSubject("Solicitação de Nova Senha");
+		email.setSSLOnConnect(true);
+		email.setAuthentication("suporte@aeeroraima.com.br", "leo12@3qwARe123");
+		email.setHostName("server28.integrator.com.br");
+		email.setSmtpPort(465);
+		email.addTo(usuario.getEmail(), usuario.getNomeComIniciaisMaiuscula());
 
-			StringBuilder builder = new StringBuilder();
-			builder.append("<h4>Ola, " + nome + "</h4>");
-			builder.append("<strong>Nova senha: " + senha + "</strong><p />");
-			builder.append("<img src=\"http://www.faee.org.br/aees/logomarcas/AEERR.jpg\"> <br />");
-			builder.append("Favor nao responder este email");
+		StringBuilder builder = new StringBuilder();
+		builder.append("<h4>Olá, " + usuario.getNomeComIniciaisMaiuscula() + "</h4>");
+		builder.append("<strong>Nova senha: " + senha + "</strong><p />");
+		builder.append("<img src=\"http://www.faee.org.br/aees/logomarcas/AEERR.jpg\"> <br />");
+		builder.append("Favor não responder este email");
 
-			email.setHtmlMsg(builder.toString());
-			email.send();
-		} catch (EmailException e) {
-			e.printStackTrace();
-		}
-
+		email.setHtmlMsg(builder.toString());
+		email.send();
 	}
 	
 	

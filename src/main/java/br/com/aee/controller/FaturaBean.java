@@ -134,7 +134,7 @@ public class FaturaBean implements Serializable {
 				JsfUtil.fatal("Código de segurança inválido");
 			}
 		} catch (Exception e) {
-			JsfUtil.error("Há registro de pagamento dessa fatura no fluxo de caixa, para continuar é necessário remover o registro na área sitada.");
+			JsfUtil.error("Há registro de pagamento dessa fatura no fluxo de caixa, para continuar é necessário remover o registro na área citada.");
 		}
 	}
 
@@ -911,6 +911,16 @@ public class FaturaBean implements Serializable {
 	public void alterarVencimento() {
 		repository.save(fatura);
 		JsfUtil.info("Data de vencimento alterada!");
+	}
+	
+	public void redirecionaParaFatura(int codigo) {
+		String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+		try {
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect(context + "/pages/protected/fatura/index-fatura.xhtml?id=" + codigo);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// Listing

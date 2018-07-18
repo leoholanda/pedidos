@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import com.outjected.email.api.MailMessage;
-import com.outjected.email.impl.templating.velocity.VelocityTemplate;
 
 import br.com.aee.mail.Mailer;
 import br.com.aee.model.Fatura;
