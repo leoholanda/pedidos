@@ -54,8 +54,9 @@
 						<i class="fa fa-heartbeat" /> Associados com Plano de Saúde
 					</span>
 					<p:link outcome="/pages/protected/beneficiario/pesquisa-beneficiario">
-						<span class="count PurpleBack"> <h:outputText
-								value="#{beneficiarioMB.totalBeneficiarios}"
+						<span class="count PurpleBack" 
+								title="De #{beneficiarioMB.totalAssociados} associados cadastrados #{beneficiarioMB.totalBeneficiarios} tem plano de saúde"> <h:outputText
+								value="#{beneficiarioMB.totalBeneficiarios}/#{beneficiarioMB.totalAssociados}"
 								style="margin-left:5px; margin-right:5px;" />
 						</span>
 					</p:link>
