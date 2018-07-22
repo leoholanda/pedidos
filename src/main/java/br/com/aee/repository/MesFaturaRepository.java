@@ -27,5 +27,8 @@ public interface MesFaturaRepository extends EntityRepository<MesFatura, Long> {
 	List<MesFatura> findByDataJuros(Calendar data);	
 	
 	@Query("SELECT f FROM MesFatura f WHERE dataProcesso = ?1 AND evento = 'ATRASO'")
-	List<MesFatura> findByFaturaAtrasada(Calendar data);	
+	List<MesFatura> findByFaturaAtrasada(Calendar data);
+
+	@Query("SELECT f FROM MesFatura f WHERE dataProcesso = ?1 AND evento = 'ANIVERSARIO'")
+	List<MesFatura> findByBeneficiarioAniversario(Calendar data);
 }

@@ -15,23 +15,12 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.aee.model.*;
+import br.com.aee.repository.*;
 import org.hibernate.Session;
 import org.primefaces.event.SelectEvent;
 
-import br.com.aee.model.Beneficiario;
-import br.com.aee.model.Convenio;
-import br.com.aee.model.Dependente;
-import br.com.aee.model.Endereco;
-import br.com.aee.model.FaixaEtaria;
-import br.com.aee.model.Fatura;
-import br.com.aee.model.Plano;
-import br.com.aee.model.Status;
 import br.com.aee.report.ExecutorRelatorio;
-import br.com.aee.repository.BeneficiarioRepository;
-import br.com.aee.repository.ConvenioRepository;
-import br.com.aee.repository.DependenteRepository;
-import br.com.aee.repository.FaturaRepository;
-import br.com.aee.repository.PlanoRepository;
 import br.com.aee.util.Adress;
 import br.com.aee.util.JsfUtil;
 import br.com.aee.util.Message;
@@ -67,6 +56,9 @@ public class BeneficiarioBean implements Serializable {
 	private FaturaRepository faturaRepository;
 
 	@Inject
+	private MesFaturaRepository mesFaturaRepository;
+
+	@Inject
 	private FaixaEtariaBean faixaEtariaBean;
 
 	@Inject
@@ -83,6 +75,8 @@ public class BeneficiarioBean implements Serializable {
 
 	private Plano plano = new Plano();
 
+	private MesFatura mesFatura;
+
 	private List<Beneficiario> listaBeneficiarios;
 
 	private List<Plano> listaDePlanosParaRemover;
@@ -97,6 +91,7 @@ public class BeneficiarioBean implements Serializable {
 		dependente = new Dependente();
 		plano = new Plano();
 		endereco = new Endereco();
+		mesFatura = new MesFatura();
 
 		listaBeneficiarios = repository.findAllOrderByNomeAsc();
 		listaDePlanosParaRemover = new ArrayList<>();
@@ -521,8 +516,7 @@ public class BeneficiarioBean implements Serializable {
 	 * Checa faixa etaria de todos os beneficiario
 	 */
 	public void checaFaixaEtariaDosBeneficiarios() {
-		if (diaDoMes() >= 20 && diaDoMes() <= 31) {
-			System.out.println(">>> atualizando faixa etaria beneficiario");
+		 if (isMudancaDeFaixaEtaria() && diaDoMes() >= 20 && diaDoMes() <= 31) {
 			// Carrega lista dos beneficiarios
 			for (Beneficiario beneficiario : this.getListaBeneficiarios()) {
 
@@ -539,8 +533,11 @@ public class BeneficiarioBean implements Serializable {
 				}
 			}
 
-			// Chama faixa etária do dependente
+			// Invoca faixa etária do dependente
 			dependenteBean.checaFaixaEtariaDependente();
+
+			mesFatura.setEvento("Aniversario");
+			mesFaturaRepository.save(mesFatura);
 		}
 	}
 
@@ -574,6 +571,11 @@ public class BeneficiarioBean implements Serializable {
 		int diaMes = hoje.get(Calendar.DAY_OF_MONTH);
 
 		return diaMes;
+	}
+
+	public boolean isMudancaDeFaixaEtaria() {
+		Calendar hoje = Calendar.getInstance();
+		return mesFaturaRepository.findByBeneficiarioAniversario(hoje).isEmpty();
 	}
 
 	public Beneficiario getBeneficiario() {

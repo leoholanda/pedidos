@@ -128,9 +128,7 @@ public class DependenteBean implements Serializable {
 	/**
 	 * Checa faixa etaria
 	 */
-	@Asynchronous
 	public void checaFaixaEtariaDependente() {
-		System.out.println(">>> checando faixa etaria dependente");
 		// Carrega lista dos dependentes do beneficiario
 		for (Dependente d : this.getListaDependentes()) {
 

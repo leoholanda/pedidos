@@ -47,7 +47,7 @@ public class Beneficiario implements Serializable, BaseEntity {
 	private String nome;
 
 	@NotEmpty
-	@CPF
+//	@CPF
 	@Column(name = "cpf")
 	private String cpf;
 
