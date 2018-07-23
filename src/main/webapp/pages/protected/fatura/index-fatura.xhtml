@@ -48,6 +48,10 @@
 								title="Fechar fatura serve para não gerar mais juros"
 								icon="fa fa-file-text-o"
 								rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado and !faturaMB.fatura.fechado}" />
+							<p:menuitem value="Cancelar Pagamento"
+										title="Fatura retorna para status 'Pendente'"
+										oncomplete="PF('modal-cancelamento').show()" icon="fa fa-close"
+										rendered="#{faturaMB.fatura.pago}" />
 							<p:menuitem value="Remover"
 								title="Necessário código de segurança"
 								oncomplete="PF('modal-remove').show()" icon="fa fa-trash" />
@@ -484,6 +488,36 @@
 									oncomplete="if (!args.validationFailed)">
 								</p:commandButton>
 							</p:panelGrid>
+						</h:panelGroup>
+					</h:form>
+				</p:dialog>
+
+				<!-- Dialog remover fatura -->
+				<p:dialog showEffect="drop" hideEffect="drop"
+						  widgetVar="modal-cancelamento" header="Cancelar Fatura" modal="true"
+						  responsive="true" resizable="false">
+					<h:form id="form-cancela">
+						<h:panelGroup id="panel-cancelar" layout="block"
+									  styleClass="ui-fluid">
+
+							<div class="ui-g-12">
+								<p:outputLabel value="Deseja cancelar o pagamento desta fatura?" />
+							</div>
+
+							<div class="ui-g-12">
+								<p:commandButton value="Sim"
+												 action="#{faturaMB.cancelarPagamento()}" icon="fa fa-check"
+												 styleClass="green-button"
+												 process="panel-cancelar" update="panel-cancelar form form:mensagem"
+												 oncomplete="PF('modal-cancelamento').hide()"
+												 style="width: auto;" />
+
+								<p:commandLink value="Não"
+											   process="panel-cancelar"
+											   update="panel-cancelar"
+											   oncomplete="PF('modal-cancelamento').hide()" styleClass="MarLeft20" />
+							</div>
+
 						</h:panelGroup>
 					</h:form>
 				</p:dialog>

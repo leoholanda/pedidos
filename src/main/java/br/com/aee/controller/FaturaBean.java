@@ -107,6 +107,18 @@ public class FaturaBean implements Serializable {
 		}
 	}
 
+	public void cancelarPagamento() {
+		if(fatura.getStatus().equals(Status.PAGO)){
+			fatura.setStatus(Status.PENDENTE);
+			fatura.setDataPagamento(null);
+			fatura.setValorPago(null);
+			fatura.setValorDoResiduo(null);
+			repository.save(fatura);
+
+			JsfUtil.info("Pagamento da fatura " + fatura.getId() + " cancelado com sucesso!");
+		}
+	}
+
 	/**
 	 * Remove fatura
 	 */
@@ -473,15 +485,12 @@ public class FaturaBean implements Serializable {
 		//TODO Dia da semana domingo, vencimento passa para dia 6
 		if(c.get(Calendar.DAY_OF_WEEK) == 1){
 			c.set(anoAtual(), mesAtual(), 6);
-			System.out.println(">> Domingo ");
 
 			//TODO Dia da semana sábado, vencimento passa para dia 7
 		} else if(c.get(Calendar.DAY_OF_WEEK) == 7) {
 			c.set(anoAtual(), mesAtual(), 7);
-			System.out.println(">> Sabado ");
 		}else {
 			c.set(anoAtual(), mesAtual(), 5);
-			System.out.println(">> Meio da semana ");
 		}
 
 		Date vencimento = c.getTime();
