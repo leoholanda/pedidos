@@ -274,7 +274,7 @@
 
 							<div class="ui-g-6">
 								<p:dataTable id="servicos"
-									value="#{beneficiarioMB.beneficiario.planos}" var="plano"
+									value="#{beneficiarioMB.listaPlanosAtivos}" var="plano"
 									emptyMessage="Nenhum serviço adicionado!" reflow="true">
 
 									<p:column headerText="Serviço">
@@ -288,7 +288,7 @@
 										</p:commandLink>
 										
 										<p:commandLink title="Remover2" rendered="#{plano.id ne null}"
-											action="#{beneficiarioMB.removerPlano(plano)}" update="servicos" process="servicos">
+											action="#{beneficiarioMB.removerPlano(plano)}" update="@form servicos" process="servicos">
 											<i class="fa fa-trash" />
 										</p:commandLink>
 									</p:column>

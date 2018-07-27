@@ -1,32 +1,12 @@
 package br.com.aee.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Locale;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+import java.util.*;
 
 @Entity
 @Table(name = "fatura")
@@ -66,11 +46,11 @@ public class Fatura implements Serializable {
 	private Double valorTotal;
 
 	// TODO Se houver residuo na fatura inserir na proxima
-	@Column(name = "residuo", precision = 2, scale = 2)
+	@Column(name = "residuo")
 	private Double valorDoResiduo;
 
 	// TODO Valor do residuo descontado na fatura atual
-	@Column(name = "residuo_descontado", precision = 2, scale = 2)
+	@Column(name = "residuo_descontado")
 	private Double residuoDescontado;
 
 	@Column(name = "valor_pago")
@@ -365,11 +345,16 @@ public class Fatura implements Serializable {
 	}
 
 	// public boolean isDebitoDeResiduoDescontado() {
+
+	/**
+	 * Define se o valor é debito ou credito
+	 * @return
+	 */
 	public boolean isDebitoFaturaAnterior() {
 		boolean debito = false;
 		if (residuoDescontado != null) {
-			DecimalFormat formato = new DecimalFormat("#.##");
-			residuoDescontado = Double.valueOf(formato.format(residuoDescontado));
+			DecimalFormat formato = new DecimalFormat("#,##0.00");
+//			residuoDescontado = Double.valueOf(formato.format(residuoDescontado));
 
 			if (residuoDescontado > 0.00) {
 				debito = true;

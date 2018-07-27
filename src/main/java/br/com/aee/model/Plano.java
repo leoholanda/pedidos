@@ -2,13 +2,7 @@ package br.com.aee.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "plano")
@@ -27,6 +21,9 @@ public class Plano implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "convenio")
 	private Convenio convenio;
+
+	@Column(name = "ativo", columnDefinition = "boolean default true")
+	private boolean ativo;
 
 	// Getters and Setters
 
@@ -53,7 +50,15 @@ public class Plano implements Serializable {
 	public void setConvenio(Convenio convenio) {
 		this.convenio = convenio;
 	}
-	
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

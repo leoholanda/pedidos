@@ -349,44 +349,51 @@ public class FaturaBean implements Serializable {
 	 */
 	public void geraFaturaIndividual(Beneficiario beneficiario) {
 		try {
-			for (Plano plano : planoRepository.findByPlanoBeneficiario(beneficiario)) {
-				Double mensalidade = 0.00;
+			if(!planoRepository.findByPlanoBeneficiario(beneficiario).isEmpty()){
+				for (Plano plano : planoRepository.findByPlanoBeneficiario(beneficiario)) {
+					System.out.println(">> Entrou no for");
+					Double mensalidade = 0.00;
 
-				// TODO calcula mensalidade
-				calculaMensalidade(plano, mensalidade);
+					// TODO calcula mensalidade
+					calculaMensalidade(plano, mensalidade);
 
-				// TODO verifica se há servicos adicionais
-				servicosAdicionais(plano.getBeneficiario());
+					// TODO verifica se há servicos adicionais
+					servicosAdicionais(plano.getBeneficiario());
 
-				// TODO tras o residuo da fatura anterior e soma
-				aplicaResiduoNaFatura(plano);
-				fatura.setResiduoDescontado(aplicaResiduoNaFatura(plano));
+					// TODO tras o residuo da fatura anterior e soma
+					aplicaResiduoNaFatura(plano);
+					fatura.setResiduoDescontado(aplicaResiduoNaFatura(plano));
 
-				// TODO calcula valor do plano de saude
-				if (plano.getBeneficiario().getTemPlanoDeSaude()) {
-					this.geraFaturaComPlanoDeSaude(plano);
+					// TODO calcula valor do plano de saude
+					if (plano.getBeneficiario().getTemPlanoDeSaude()) {
+						this.geraFaturaComPlanoDeSaude(plano);
+						System.out.println(">> Com PDS");
 
-					// TODO se nao tiver plano de saude gera somente mensalidade
-				} else {
-					this.geraFaturaSemPlanoDeSaude(plano);
+						// TODO se nao tiver plano de saude gera somente mensalidade
+					} else {
+						this.geraFaturaSemPlanoDeSaude(plano);
+						System.out.println(">> Sem PDS");
+					}
+
+					// TODO pega a data de ontem para setar os juros em caso de atraso
+					Calendar ontem = Calendar.getInstance();
+					ontem.add(Calendar.DAY_OF_MONTH, -1);
+
+					fatura.setPlano(plano);
+					fatura.setDataPagamento(null);
+					fatura.setDataJuros(ontem);
+
+					this.dataDeVencimentoFaturaIndividual();
+
+					repository.save(fatura);
+
+					JsfUtil.info("Fatura gerada com sucesso!");
+
+					this.faturaAtrasadaIndividual(fatura);
+					fatura = new Fatura();
 				}
-
-				// TODO pega a data de ontem para setar os juros em caso de atraso
-				Calendar ontem = Calendar.getInstance();
-				ontem.add(Calendar.DAY_OF_MONTH, -1);
-
-				fatura.setPlano(plano);
-				fatura.setDataPagamento(null);
-				fatura.setDataJuros(ontem);
-
-				this.dataDeVencimentoFaturaIndividual();
-
-				repository.save(fatura);
-
-				JsfUtil.info("Fatura gerada com sucesso!");
-				
-				this.faturaAtrasadaIndividual(fatura);
-				fatura = new Fatura();
+			} else {
+				JsfUtil.error("Desculpe. Nenhum serviço ou convênio esta vinculado ao associado!");
 			}
 		} catch (Exception e) {
 			JsfUtil.error("Algo aconteceu. Não foi possível gerar fatura para o associado!");

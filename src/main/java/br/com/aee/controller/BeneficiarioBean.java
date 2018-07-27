@@ -81,6 +81,8 @@ public class BeneficiarioBean implements Serializable {
 
 	private List<Plano> listaDePlanosParaRemover;
 
+	private List<Plano> listaPlanosAtivos;
+
 	private String searchValue;
 
 	private Long idConvenio;
@@ -92,6 +94,7 @@ public class BeneficiarioBean implements Serializable {
 		plano = new Plano();
 		endereco = new Endereco();
 		mesFatura = new MesFatura();
+		listaPlanosAtivos = new ArrayList<>();
 
 		listaBeneficiarios = repository.findAllOrderByNomeAsc();
 		listaDePlanosParaRemover = new ArrayList<>();
@@ -167,11 +170,18 @@ public class BeneficiarioBean implements Serializable {
 			repository.save(beneficiario);
 
 			JsfUtil.info(Message.MSG_UPDATE);
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+			String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			try {
+				FacesContext.getCurrentInstance().getExternalContext()
+						.redirect(context + "/novo-beneficiario.xhtml?id=" + beneficiario.getId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} catch (Exception e) {
 			JsfUtil.fatal(Message.MSG_CATCH);
 		}
-		// buscar();
-		// return Adress.INDEX_BENEFICIARIO + "id=" + beneficiario.getId();
 	}
 
 	public String indexBeneficiario() {
@@ -289,11 +299,30 @@ public class BeneficiarioBean implements Serializable {
 	}
 
 	public void removerPlano(Plano plano) {
-		beneficiario.getPlanos().remove(plano);
-		listaDePlanosParaRemover.add(plano);
+		if(beneficiario != null) {
+			plano.setAtivo(false);
+			planoRepository.save(plano);
+			System.out.println(">> Plano desativado!");
+		}else {
+			beneficiario.getPlanos().remove(plano);
+			listaDePlanosParaRemover.add(plano);
+		}
+		this.getListaPlanosAtivos();
 
 		plano = new Plano();
 		JsfUtil.info("Serviço removido!");
+	}
+
+	public void ativaPlanoDeSaude() {
+//		boolean resultado = false;
+//		if(beneficiario.getTemPlanoDeSaude()){
+//			resultado = true;
+//		}
+//		plano.setAtivo(resultado);
+//		planoRepository.save(plano);
+//		String msg = resultado ? "Plano habilitado!" : "Plano desativado!";
+//
+//		System.out.println(msg);
 	}
 
 	/**
@@ -316,6 +345,7 @@ public class BeneficiarioBean implements Serializable {
 	 */
 	public void buscar() {
 		beneficiario = repository.findBy(beneficiario.getId());
+		listaPlanosAtivos = planoRepository.findByPlanoAtivo(beneficiario);
 	}
 
 	/**
@@ -399,6 +429,7 @@ public class BeneficiarioBean implements Serializable {
 	public List<Beneficiario> getListaBeneficiarios() {
 		return listaBeneficiarios;
 	}
+
 
 	// Validations
 
@@ -630,5 +661,9 @@ public class BeneficiarioBean implements Serializable {
 
 	public void setCelular(Boolean celular) {
 		this.celular = celular;
+	}
+
+	public List<Plano> getListaPlanosAtivos() {
+		return listaPlanosAtivos;
 	}
 }

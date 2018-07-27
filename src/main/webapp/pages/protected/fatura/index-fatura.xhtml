@@ -361,18 +361,18 @@
 							<ul class="task-list"
 								jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">
 								<li><span class="task-name FontBold Red Fs16"
-									jsf:rendered="#{!faturaMB.fatura.residuoParaProximaFatura}">DÉBITO
+									jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">DÉBITO
 										(PRÓXIMA FATURA)</span> <span class="task-name FontBold Blue Fs16"
-									jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">CRÉDITO
+									jsf:rendered="#{!faturaMB.fatura.residuoParaProximaFatura}">CRÉDITO
 										(PRÓXIMA FATURA)</span> 
 										<p:commandButton
 										value="#{faturaMB.fatura.converterValorDoResiduo}"
-										rendered="#{!faturaMB.fatura.residuoParaProximaFatura}"
+										rendered="#{faturaMB.fatura.residuoParaProximaFatura}"
 										style="cursor: text; border-color: #E53935; background-color: #E53935; width: 100px;"
 										update="@this" process="@this" /> 
 										<p:commandButton
 										value="#{faturaMB.fatura.converterValorDoResiduo}"
-										rendered="#{faturaMB.fatura.residuoParaProximaFatura}"
+										rendered="#{!faturaMB.fatura.residuoParaProximaFatura}"
 										style="cursor: text; border-color: #0288D1; background-color: #0288D1; width: 100px;"
 										update="@this" process="@this" /></li>
 							</ul>

@@ -14,15 +14,23 @@ import br.com.aee.util.EntityRepository;
 public interface PlanoRepository extends EntityRepository<Plano, Long> {
 	
 //	@Query("SELECT p FROM Plano p WHERE p.beneficiario.status = ?1 AND p.convenio.id IN (1,2)")
-	@Query("SELECT p FROM Plano p WHERE p.beneficiario.status = ?1 AND p.convenio.tipoConvenio != 'SERVICO'")
+	@Query("SELECT p FROM Plano p WHERE p.beneficiario.status = ?1 AND p.convenio.tipoConvenio != 'SERVICO' AND p.ativo = true")
 	List<Plano> findByPlanoBeneficiarioAtivado(Status status);
 	
 	@Query("SELECT p FROM Plano p "
 			+ " WHERE p.beneficiario.status = 'ATIVADO'"
-			+ " AND p.beneficiario = ?1")
+			+ " AND p.beneficiario = ?1"
+			+ " AND p.ativo = true")
 	List<Plano> findByServico(Beneficiario beneficiario);
 	
-	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.convenio.id IN (1,2)")
+//	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.convenio.id IN (1,2) AND p.ativo = true")
+	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.ativo = true")
 	List<Plano> findByPlanoBeneficiario(Beneficiario beneficiario);
+
+	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.ativo = true")
+	List<Plano> findByPlanoAtivo(Beneficiario beneficiario);
+
+	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.convenio.tipoConvenio != 'SERVICO' AND p.ativo = true")
+	Plano findByPlanoDeSaude(Beneficiario beneficiario);
 	
 }
