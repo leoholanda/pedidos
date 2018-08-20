@@ -33,13 +33,14 @@ public class SetorBean implements Serializable {
 	/**
 	 * Salva setor
 	 */
-	public void save() {
+	public void save(Setor setor) {
 		try {
 			if (validacaoNomeSetor()) {
 				repository.save(setor);
 				setor = new Setor();
 
 				JsfUtil.info("Salvo com sucesso!");
+				System.out.println("Salvo com sucesso");
 
 			} else {
 				JsfUtil.error("Setor existente");

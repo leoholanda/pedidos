@@ -174,8 +174,9 @@ public interface FaturaRepository extends EntityRepository<Fatura, Long> {
     List<Fatura> findByFaturaMesAno(Integer mes, Integer ano);
     
     @Query("SELECT f FROM Fatura f WHERE EXTRACT(MONTH FROM f.vencimento) = ?1 "
-            + "AND f.plano.beneficiario = ?2")
-    List<Fatura> findByFaturaMesBeneficiario(Integer mes, Beneficiario beneficiario);
+    		+ "AND EXTRACT(YEAR FROM f.vencimento) = ?2 "
+            + "AND f.plano.beneficiario = ?3")
+    List<Fatura> findByFaturaMesBeneficiario(Integer mes, Integer ano, Beneficiario beneficiario);
     
     /**
      * Lista as faturadas do beneficiario, todas do ano

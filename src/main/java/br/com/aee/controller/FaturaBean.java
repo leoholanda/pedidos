@@ -95,16 +95,14 @@ public class FaturaBean implements Serializable {
 		
 		enviaCobrancaDeFaturaAtrasada();
 		
-		//TODO Verifica data de aniversario para possivel mudança de faixa-etaria
-		this.beneficiarioBean.checaFaixaEtariaDosBeneficiarios();
-		
 		//TODO Invoca o metodo para verificar fatura atrasada
 		this.faturaAtrasada();
 		
 		//TODO Aplica juros ao dia
-		if(diaDoMes() != 01) {
-			aplicaJurosAoDia();
-		}
+		aplicaJurosAoDia();
+		
+		//TODO Verifica data de aniversario para possivel mudança de faixa-etaria
+		this.beneficiarioBean.checaFaixaEtariaDosBeneficiarios();
 	}
 
 	public void cancelarPagamento() {
@@ -195,7 +193,7 @@ public class FaturaBean implements Serializable {
 		if (isFaturaParaEsseMes()) {
 
 			//TODO Gera fatura automatica do dia 01 ao dia 6
-			if (diaDoMes() >= 01 && diaDoMes() <= 06) {
+			if (diaDoMes() >= 01 && diaDoMes() <= 20) {
 				System.out.println(">> Gerando fatura...");
 				this.geraValoresDaFatura();
 
@@ -1145,14 +1143,14 @@ public class FaturaBean implements Serializable {
 	 * Verifica se existe fatura do mes atual
 	 */
 	public void checaExisteFaturaDesteMes(Beneficiario beneficiario) {
-		if (repository.findByFaturaMesBeneficiario(mesAtual() + 1, beneficiario).isEmpty()) {
+		if (repository.findByFaturaMesBeneficiario(mesAtual() + 1, anoAtual(), beneficiario).isEmpty()) {
 			JsfUtil.warning("Não foi gerada fatura do mês atual para o beneficiário "
 					+ beneficiario.getNomeComIniciaisMaiuscula());
 		}
 	}
 
 	public boolean isExisteFatura(Beneficiario beneficiario) {
-		return repository.findByFaturaMesBeneficiario(mesAtual() + 1, beneficiario).isEmpty();
+		return repository.findByFaturaMesBeneficiario(mesAtual() + 1, anoAtual(), beneficiario).isEmpty();
 	}
 
 	/**
@@ -1161,7 +1159,7 @@ public class FaturaBean implements Serializable {
 	 * @return
 	 */
 	public boolean isFaturaParaEsseMes() {
-		return mesFaturaRepository.findByDataProcesso(mesFatura.getDataProcesso()).isEmpty();
+		return mesFaturaRepository.findByFaturaDoMes(mesAtual() + 1, anoAtual()).isEmpty();
 	}
 
 	public boolean isCobrancaParaEsseDia() {
