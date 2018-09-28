@@ -1,12 +1,32 @@
 package br.com.aee.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "fatura")
@@ -47,11 +67,11 @@ public class Fatura implements Serializable {
 
 	// TODO Se houver residuo na fatura inserir na proxima
 	@Column(name = "residuo")
-	private Double valorDoResiduo;
+	private Double valorDoResiduo = 0.00;
 
 	// TODO Valor do residuo descontado na fatura atual
 	@Column(name = "residuo_descontado")
-	private Double residuoDescontado;
+	private Double residuoDescontado = 0.00;
 
 	@Column(name = "valor_pago")
 	private Double valorPago;
@@ -348,6 +368,7 @@ public class Fatura implements Serializable {
 
 	/**
 	 * Define se o valor é debito ou credito
+	 * 
 	 * @return
 	 */
 	public boolean isDebitoFaturaAnterior() {
@@ -367,9 +388,9 @@ public class Fatura implements Serializable {
 
 	public boolean isTemResiduoDaFaturaAnterior() {
 		boolean resultado = false;
-		if(residuoDescontado != null) {
+		if (residuoDescontado != null) {
 			String resultado1 = String.format("%.2f", residuoDescontado);
-			
+
 			if (resultado1.equalsIgnoreCase("-0,00") || resultado1.equalsIgnoreCase("0,00")) {
 				resultado = false;
 			} else {

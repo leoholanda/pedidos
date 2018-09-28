@@ -70,21 +70,24 @@
 					</div>
 
 					<div class="card">
-						<h1 class="SoftBlue"
-							jsf:rendered="#{faturaMB.fatura.plano.beneficiario.masculino}">
-							<span class="fa fa-male" /> <span>#{faturaMB.fatura.plano.beneficiario.nomeComIniciaisMaiuscula}</span>
-							<h:outputLabel styleClass="Fright Gray"
-								value="#{faturaMB.fatura.mesDaFatura}" />
-						</h1>
-
-						<h1 class="Pink"
-							jsf:rendered="#{faturaMB.fatura.plano.beneficiario.feminino}">
-							<span class="fa fa-female" />
-							<p:spacer width="10" />
-							<span>#{faturaMB.fatura.plano.beneficiario.nomeComIniciaisMaiuscula}</span>
-							<h:outputLabel styleClass="Fright Gray"
-								value="#{faturaMB.fatura.mesDaFatura}" />
-						</h1>
+						<p:link href="../beneficiario/index-beneficiario.xhtml?id=#{faturaMB.fatura.plano.beneficiario.id}" title="Redireciona para cadastro do associado">
+							<h1 class="SoftBlue"
+								jsf:rendered="#{faturaMB.fatura.plano.beneficiario.masculino}">
+								<span class="fa fa-male" /> <span>#{faturaMB.fatura.plano.beneficiario.nomeComIniciaisMaiuscula}</span>
+								<h:outputLabel styleClass="Fright Gray"
+									value="#{faturaMB.fatura.mesDaFatura}" />
+							</h1>
+						
+	
+							<h1 class="Pink"
+								jsf:rendered="#{faturaMB.fatura.plano.beneficiario.feminino}">
+								<span class="fa fa-female" />
+								<p:spacer width="10" />
+								<span>#{faturaMB.fatura.plano.beneficiario.nomeComIniciaisMaiuscula}</span>
+								<h:outputLabel styleClass="Fright Gray"
+									value="#{faturaMB.fatura.mesDaFatura}" />
+							</h1>
+						</p:link>	
 
 						<p:panelGrid columns="4" layout="grid" id="beneficiario"
 							styleClass="ui-panelgrid-blank"
@@ -470,24 +473,26 @@
 				<!-- Dialog remover fatura -->
 				<p:dialog showEffect="drop" hideEffect="drop"
 					widgetVar="modal-remove" header="Remover Fatura" modal="true"
-					responsive="true" resizable="false">
+					responsive="true" resizable="false" height="70" width="300">
 					<h:form id="form-remove">
 						<h:panelGroup id="panel-remover" layout="block"
 							styleClass="ui-fluid">
+							
+							<div class="ui-g-12">
+								<p:outputLabel value="Deseja remover fatura #{faturaMB.fatura.id}?" />
+							</div>
 	
-							<p:panelGrid columns="1" layout="grid"
-								styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-12">
-								<p:outputLabel value="Deseja remover esta fatura?" />
-								<p:password value="#{faturaMB.codigoDeSegurancao}"
-									styleClass="MarTop10" placeholder="Digite o código de segurança"
-									required="true" requiredMessage="Informe o código de segurança" />
-								<p:commandButton value="Salvar"
-									action="#{faturaMB.removerFatura()}" icon="fa fa-save"
+							<div class="ui-g-12">
+								<p:commandButton value="Sim"
+									action="#{faturaMB.removerFatura()}" icon="fa fa-check"
 									styleClass="green-button" process="panel-remover"
 									update="panel-remover form:mensagem"
-									oncomplete="if (!args.validationFailed)">
-								</p:commandButton>
-							</p:panelGrid>
+									oncomplete="if (!args.validationFailed)" style="width: auto;" />
+								
+								<p:commandLink value="Não"
+											   process="@this"
+											   oncomplete="PF('modal-remove').hide()" styleClass="MarLeft20" />
+							</div>				   
 						</h:panelGroup>
 					</h:form>
 				</p:dialog>

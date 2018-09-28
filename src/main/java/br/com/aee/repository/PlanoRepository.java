@@ -24,7 +24,7 @@ public interface PlanoRepository extends EntityRepository<Plano, Long> {
 	List<Plano> findByServico(Beneficiario beneficiario);
 	
 //	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.convenio.id IN (1,2) AND p.ativo = true")
-	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.ativo = true")
+	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.convenio.tipoConvenio != 'SERVICO' AND p.ativo = true")
 	List<Plano> findByPlanoBeneficiario(Beneficiario beneficiario);
 
 	@Query("SELECT p FROM Plano p WHERE p.beneficiario = ?1 AND p.ativo = true")

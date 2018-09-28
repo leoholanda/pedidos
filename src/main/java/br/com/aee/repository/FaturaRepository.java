@@ -3,6 +3,8 @@ package br.com.aee.repository;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.enterprise.context.Dependent;
+
 import org.apache.deltaspike.data.api.Query;
 import org.apache.deltaspike.data.api.Repository;
 
@@ -12,6 +14,7 @@ import br.com.aee.model.Status;
 import br.com.aee.util.EntityRepository;
 
 @Repository
+@Dependent
 public interface FaturaRepository extends EntityRepository<Fatura, Long> {
 	
 	@Query("SELECT f FROM Fatura f WHERE f.id = ?1")
@@ -25,6 +28,9 @@ public interface FaturaRepository extends EntityRepository<Fatura, Long> {
      */
     @Query("SELECT f FROM Fatura f WHERE f.status = ?1 ORDER BY f.vencimento ASC")
     List<Fatura> findByStatus(Status status);
+    
+    @Query("SELECT f FROM Fatura f WHERE f.status = 'PENDENTE' OR f.status = 'ATRASADO' ORDER BY f.vencimento ASC")
+    List<Fatura> findByFaturaPendenteOrAtrasada();
 
     /**
      * Lista as Fatura vencidas contando com o dia do vencimento

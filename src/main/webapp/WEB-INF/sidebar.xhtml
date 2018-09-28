@@ -57,6 +57,7 @@
                         </p:submenu>
 
                         <p:submenu id="om_email" label="Email" icon="fa fa-envelope" rendered="#{seguranca.consultarBeneficiario}">
+                        	<p:menuitem id="om_fatura_all" value="Enviar Fatura Para Todos" outcome="/pages/protected/email/envia-fatura-todos"/>
                         	<p:menuitem id="om_email_all" value="Email Para Todos" outcome="/pages/protected/email/envia-email-todos"/>
                         	<p:menuitem id="om_email_personal"  value="Email Individual" outcome="/pages/protected/email/envia-email-individual"/>
                         	<p:menuitem id="om_email_server"  value="Servidor de Email" url="https://server28.integrator.com.br:2096/" target="_blank"/>

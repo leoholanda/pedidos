@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+
+	<ui:define name="title">
+		<i class="fa fa-envelope MarRight10" />
+		<h:outputText value="Email" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+
+				<h:form id="form-email">
+					<p:messages closable="true"/>
+					<div class="card">
+						<h1>Enviar Fatura</h1>
+						
+						<div class="MarTop30 MarBot30">
+							<p:commandButton value="Enviar Fatura Para Todos"
+									action="#{enviaEmailBeneficiarioMB.enviarFaturaParaBeneficiarioAtivo}"
+									update="@form" icon="fa fa-send" style="width: auto;" />	
+						</div>
+					</div>
+				</h:form>
+
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

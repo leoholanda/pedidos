@@ -11,9 +11,13 @@ import org.apache.commons.mail.HtmlEmail;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.aee.model.Beneficiario;
+import br.com.aee.model.Fatura;
+import br.com.aee.model.Status;
 import br.com.aee.repository.BeneficiarioRepository;
+import br.com.aee.repository.FaturaRepository;
 import br.com.aee.thread.EnviaEmailIndividualAssociadoThread;
 import br.com.aee.thread.EnviaEmailParaBeneficiarioThread;
+import br.com.aee.thread.EnviaFaturaIndividualThread;
 import br.com.aee.util.JsfUtil;
 
 @Named("enviaEmailBeneficiarioMB")
@@ -24,11 +28,28 @@ public class EnviaEmailBeneficiarioBean implements Serializable {
 
 	@Inject
 	private BeneficiarioRepository repository;
+	
+	@Inject
+	private FaturaRepository faturaRepository;
 
 	@NotEmpty
 	private String textoDeEmail;
 
 	private Beneficiario beneficiario = new Beneficiario();
+	
+	/**
+	 * Reenvia as faturas com status pendente
+	 */
+	public void enviarFaturaParaBeneficiarioAtivo() {
+		for (Fatura fatura : faturaRepository.findByFaturaPendenteOrAtrasada()) {
+			System.out.println(">>>>> Solicitando reenvio de fatura por email para: " + fatura.getPlano().getBeneficiario().getNomeComIniciaisMaiuscula());
+			EnviaFaturaIndividualThread email = new EnviaFaturaIndividualThread(fatura);
+			email.start();
+		}
+
+		JsfUtil.info("Operação realizada com sucesso!");
+	}
+
 
 	/**
 	 * Envia email para todos
@@ -48,7 +69,7 @@ public class EnviaEmailBeneficiarioBean implements Serializable {
 	 * Envia email de forma individual
 	 */
 	public void enviarEmailParaBeneficiarioEscolhido() {
-		System.out.println(">> Enviando email individual");
+		System.out.println(">>>>> Enviando email individual");
 		EnviaEmailIndividualAssociadoThread email = new EnviaEmailIndividualAssociadoThread(
 				repository.findBeneficiarioAtivado(), textoDeEmail, beneficiario);
 		email.start();

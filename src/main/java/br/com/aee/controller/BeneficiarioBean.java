@@ -67,7 +67,7 @@ public class BeneficiarioBean implements Serializable {
 	@Inject
 	private FaturaBean faturaBean;
 
-	private Beneficiario beneficiario;
+	private Beneficiario beneficiario = new Beneficiario();
 
 	private Dependente dependente;
 
