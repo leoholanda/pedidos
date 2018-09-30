@@ -38,8 +38,8 @@
 							update="form:panel"
 							rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado}" />
 						<p:spacer width="10" />
-
-						<p:splitButton value="Mais Opções" icon="fa fa-angle-down">
+						
+						<p:menuButton value="Mais Opções" icon="fa fa-angle-down">
 							<p:menuitem value="Parcelar" oncomplete="PF('parcelas').show()"
 								icon="fa fa-list-alt"
 								rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado}" />
@@ -55,7 +55,7 @@
 							<p:menuitem value="Remover"
 								title="Necessário código de segurança"
 								oncomplete="PF('modal-remove').show()" icon="fa fa-trash" />
-						</p:splitButton>
+						</p:menuButton>
 
 						<div class="AlignRight"
 							jsf:rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado}">

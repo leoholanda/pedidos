@@ -31,7 +31,6 @@ import br.com.aee.repository.FaturaParceladaRepository;
 import br.com.aee.repository.FaturaRepository;
 import br.com.aee.repository.MesFaturaRepository;
 import br.com.aee.repository.PlanoRepository;
-import br.com.aee.thread.AplicaJurosAoDiaThread;
 import br.com.aee.thread.EnviaCobrancaThread;
 import br.com.aee.thread.EnviaEmailConfirmacaoDePagamento;
 import br.com.aee.thread.EnviaEmailThread;
@@ -199,7 +198,7 @@ public class FaturaBean implements Serializable {
 		if (isFaturaParaEsseMes()) {
 
 			// TODO Gera fatura automatica do dia 01 ao dia 7
-			if (diaDoMes() >= 01 && diaDoMes() <= 25) {
+			if (diaDoMes() >= 01 && diaDoMes() <= 29) {
 				System.out.println(">> Gerando fatura...");
 				this.geraValoresDaFatura();
 
@@ -488,6 +487,8 @@ public class FaturaBean implements Serializable {
 	 * Define o dia do vencimento da fatura
 	 */
 	public void dataDeVencimentoFatura() {
+		int domingo = 1;
+		int sabado = 7;
 		Date dataHoje = new java.util.Date();
 
 		Calendar c = Calendar.getInstance();
@@ -496,11 +497,11 @@ public class FaturaBean implements Serializable {
 		// c.set(anoAtual(), mesAtual() + 1, 5);
 
 		// TODO Dia da semana domingo, vencimento passa para dia 6
-		if (c.get(Calendar.DAY_OF_WEEK) == 1) {
+		if (c.get(Calendar.DAY_OF_WEEK) == domingo) {
 			c.set(anoAtual(), mesAtual(), 6);
 
 			// TODO Dia da semana sábado, vencimento passa para dia 7
-		} else if (c.get(Calendar.DAY_OF_WEEK) == 7) {
+		} else if (c.get(Calendar.DAY_OF_WEEK) == sabado) {
 			c.set(anoAtual(), mesAtual(), 7);
 		} else {
 			c.set(anoAtual(), mesAtual(), 5);
@@ -554,16 +555,17 @@ public class FaturaBean implements Serializable {
 		Calendar hoje = Calendar.getInstance();
 		int dia = hoje.get(Calendar.DAY_OF_MONTH);
 		int mes = hoje.get(Calendar.MONTH);
-		
+
 		GregorianCalendar dataCal = new GregorianCalendar();
 		dataCal.setTime(fatura.getVencimento());
 		int diaDaFatura = dataCal.get(Calendar.DAY_OF_MONTH);
 		int mesDaFatura = dataCal.get(Calendar.MONTH);
-		
-		if(dia > diaDaFatura && mes >= mesDaFatura) {
-			System.out.println(">>>>> Aplicando multa por atraso para: " + fatura.getPlano().getBeneficiario().getNome());
+
+		if (dia > diaDaFatura && mes >= mesDaFatura) {
+			System.out
+					.println(">>>>> Aplicando multa por atraso para: " + fatura.getPlano().getBeneficiario().getNome());
 			fatura.setMultaAplicada(true);
-			
+
 			repository.save(fatura);
 		}
 	}
@@ -582,16 +584,15 @@ public class FaturaBean implements Serializable {
 
 		if (dia != ultimoDiaGerado) {
 			juros = fatura.getValorTotalGerado() * 0.00033 * fatura.getDiasAtrasados();
-			
+
 			System.out.println(">>>>> Juros: " + juros);
 			System.out.println(">>>>> Multa: " + multa);
 			System.out.println(">>>>> Residuo: " + fatura.getResiduoDescontado());
-			
-			Double calculo = juros + fatura.getValorTotalGerado() + multa
-					+ fatura.getResiduoDescontado();
-			
+
+			Double calculo = juros + fatura.getValorTotalGerado() + multa + fatura.getResiduoDescontado();
+
 			System.out.println(">>>>> Calculo: " + calculo);
-			
+
 			fatura.setValorTotal(calculo);
 			fatura.setDataJuros(hoje);
 			repository.save(fatura);
@@ -603,32 +604,31 @@ public class FaturaBean implements Serializable {
 	 */
 	public void aplicaJurosAoDia() {
 		if (isJurosParaEsseDia()) {
-//			Double juros = 0.00;
-//			Double multa = 0.00;
-//			Calendar hoje = Calendar.getInstance();
-//			for (Fatura f : repository.findByJuros()) {
-//				if (f.getPlano().getBeneficiario().getStatus() == Status.ATIVADO) {
-//					System.out.println(">>> Calculando juros para: " + f.getPlano().getBeneficiario().getNome());
-//					multa = f.getValorTotalGerado() * 0.02;
-//					int ultimoDiaGerado = f.getDataJuros().get(Calendar.DAY_OF_MONTH);
-//					int dia = hoje.get(Calendar.DAY_OF_MONTH);
-//
-//					if (dia != ultimoDiaGerado) {
-//						juros = f.getValorTotalGerado() * 0.00033 * f.getDiasAtrasados();
-//						Double calculo = juros + f.getValorTotalGerado() + multa
-//								+ getResiduoAplicado(f.getResiduoDescontado());
-//						f.setValorTotal(calculo);
-//						f.setDataJuros(hoje);
-//						repository.save(f);
-//					}
-//				}
-//			}
+			if (repository.findByJuros().isEmpty()) {
+				Double juros = 0.00;
+				Double multa = 0.00;
+				Calendar hoje = Calendar.getInstance();
+				for (Fatura f : repository.findByJuros()) {
+					if (f.getPlano().getBeneficiario().getStatus() == Status.ATIVADO) {
+						System.out.println(">>> Calculando juros para: " + f.getPlano().getBeneficiario().getNome());
+						multa = f.getValorTotalGerado() * 0.02;
+						int ultimoDiaGerado = f.getDataJuros().get(Calendar.DAY_OF_MONTH);
+						int dia = hoje.get(Calendar.DAY_OF_MONTH);
 
-			AplicaJurosAoDiaThread aplicaJurosAoDiaThread = new AplicaJurosAoDiaThread(repository);
-			aplicaJurosAoDiaThread.start();
-
-			mesFatura.setEvento("Juros");
-			mesFaturaRepository.save(mesFatura);
+						if (dia != ultimoDiaGerado) {
+							juros = f.getValorTotalGerado() * 0.00033 * f.getDiasAtrasados();
+							Double calculo = juros + f.getValorTotalGerado() + multa
+									+ getResiduoAplicado(f.getResiduoDescontado());
+							f.setValorTotal(calculo);
+							f.setDataJuros(hoje);
+							repository.save(f);
+						}
+					}
+				}
+				
+				mesFatura.setEvento("Juros");
+				mesFaturaRepository.save(mesFatura);
+			}
 		}
 	}
 

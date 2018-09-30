@@ -14,7 +14,7 @@
 	</beans:bean>
 	
 	<beans:bean id="jsfAccessDeniedHandler" class="br.com.aee.ajax.JsfAccessDeniedHandler">
-	    <beans:property name="loginPath" value="/pages/error/access.xhtml" />
+	    <beans:property name="loginPath" value="/pages/error/404.xhtml" />
 	    <beans:property name="contextRelative" value="true" />
 	</beans:bean>
 	

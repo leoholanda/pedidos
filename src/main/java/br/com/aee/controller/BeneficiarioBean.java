@@ -1,5 +1,6 @@
 package br.com.aee.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -117,11 +118,18 @@ public class BeneficiarioBean implements Serializable {
 				// Adiciona faixa etiaria ao beneficiario
 				checaFaixaEtaria(beneficiario);
 
-				beneficiario = new Beneficiario();
 				endereco = new Endereco();
 				plano = new Plano();
 
 				JsfUtil.info(Message.MSG_SAVE);
+				String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				try {
+					FacesContext.getCurrentInstance().getExternalContext()
+							.redirect(context + "/pages/protected/beneficiario/index-beneficiario.xhtml?id=" + beneficiario.getId());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+//				beneficiario = new Beneficiario();
 			} else {
 				JsfUtil.error(Message.BENEFICIARIO + Message.MSG_EXISTING);
 			}
@@ -175,8 +183,8 @@ public class BeneficiarioBean implements Serializable {
 			String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
 			try {
 				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect(context + "/novo-beneficiario.xhtml?id=" + beneficiario.getId());
-			} catch (Exception e) {
+						.redirect(context + "/pages/protected/beneficiario/index-beneficiario.xhtml?id=" + beneficiario.getId());
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} catch (Exception e) {
