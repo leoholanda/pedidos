@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -83,7 +84,7 @@ public class FaturaBean implements Serializable {
 	private Integer searchMes;
 	private Integer searchAno;
 	private Integer numeroDeParcelas = 2;
-
+	
 	// Actions
 
 	@PostConstruct
@@ -94,19 +95,24 @@ public class FaturaBean implements Serializable {
 		// TODO Gera fatura para beneficiario com status ativo
 		this.geraFatura();
 
-//		enviaCobrancaDeFaturaAtrasada();
+//		this.enviaCobrancaDeFaturaAtrasada();
 
 		// TODO Invoca o metodo para verificar fatura atrasada
-		this.faturaAtrasada();
+//		this.faturaAtrasada();
 
 		// TODO Aplica multa por atraso
-		this.aplicaMultaPorAtraso();
+//		this.aplicaMultaPorAtraso();
 
 		// TODO Aplica juros ao dia
-		this.aplicaJurosAoDia();
+//		this.aplicaJurosAoDia();
 
 		// TODO Verifica data de aniversario para possivel mudança de faixa-etaria
-		this.beneficiarioBean.checaFaixaEtariaDosBeneficiarios();
+//		this.beneficiarioBean.checaFaixaEtariaDosBeneficiarios();
+	}
+	
+	@PreDestroy
+	public void destroy() {
+		System.out.println(">>>>> Executando destroy");
 	}
 
 	/**
@@ -156,7 +162,7 @@ public class FaturaBean implements Serializable {
 	 * Checa fatura atrasada
 	 */
 	public void faturaAtrasada() {
-		if (isFaturaAtrasada()) {
+		if (isFaturaAtrasada() && !repository.findByFaturaPendente().isEmpty()) {
 			Date hoje = new Date();
 
 			for (Fatura fatura : repository.findByFaturaPendente()) {
@@ -196,14 +202,14 @@ public class FaturaBean implements Serializable {
 
 	public void geraFatura() {
 		if (isFaturaParaEsseMes()) {
+			mesFatura.setEvento("Fatura");
+			mesFaturaRepository.save(mesFatura);
 
-			// TODO Gera fatura automatica do dia 01 ao dia 7
-			if (diaDoMes() >= 01 && diaDoMes() <= 29) {
-				System.out.println(">> Gerando fatura...");
-				this.geraValoresDaFatura();
-
-				mesFatura.setEvento("Fatura");
-				mesFaturaRepository.save(mesFatura);
+			System.out.println(">>>>> Gerando Fatura...");
+//			this.geraValoresDaFatura();
+			
+			for (Plano plano : planoRepository.findByPlanoBeneficiarioAtivado()) {
+				this.geraFaturaIndividual(plano.getBeneficiario());
 			}
 		}
 	}
@@ -308,7 +314,9 @@ public class FaturaBean implements Serializable {
 	 * Gera fatura
 	 */
 	public void geraValoresDaFatura() {
-		for (Plano plano : planoRepository.findByPlanoBeneficiarioAtivado(Status.ATIVADO)) {
+		for (Plano plano : planoRepository.findByPlanoBeneficiarioAtivado()) {
+			System.out.println(">>>>> Gerando valores da fatura para... " + plano.getBeneficiario().getNomeComIniciaisMaiuscula());
+			
 			Double mensalidade = 0.00;
 
 			// TODO Calcula mensalidade do associado
@@ -487,29 +495,41 @@ public class FaturaBean implements Serializable {
 	 * Define o dia do vencimento da fatura
 	 */
 	public void dataDeVencimentoFatura() {
-		int domingo = 1;
-		int sabado = 7;
 		Date dataHoje = new java.util.Date();
 
 		Calendar c = Calendar.getInstance();
 		c.setTime(dataHoje);
 
-		// c.set(anoAtual(), mesAtual() + 1, 5);
-
-		// TODO Dia da semana domingo, vencimento passa para dia 6
-		if (c.get(Calendar.DAY_OF_WEEK) == domingo) {
-			c.set(anoAtual(), mesAtual(), 6);
-
-			// TODO Dia da semana sábado, vencimento passa para dia 7
-		} else if (c.get(Calendar.DAY_OF_WEEK) == sabado) {
-			c.set(anoAtual(), mesAtual(), 7);
-		} else {
-			c.set(anoAtual(), mesAtual(), 5);
-		}
+		c.set(anoAtual(), mesAtual(), 5);
 
 		Date vencimento = c.getTime();
 
 		fatura.setVencimento(vencimento);
+		
+		
+//		int domingo = 1;
+//		int sabado = 7;
+//		Date dataHoje = new java.util.Date();
+//
+//		Calendar c = Calendar.getInstance();
+//		c.setTime(dataHoje);
+//
+//		// c.set(anoAtual(), mesAtual() + 1, 5);
+//
+//		// TODO Dia da semana domingo, vencimento passa para dia 6
+//		if (c.get(Calendar.DAY_OF_WEEK) == domingo) {
+//			c.set(anoAtual(), mesAtual(), 6);
+//
+//			// TODO Dia da semana sábado, vencimento passa para dia 7
+//		} else if (c.get(Calendar.DAY_OF_WEEK) == sabado) {
+//			c.set(anoAtual(), mesAtual(), 7);
+//		} else {
+//			c.set(anoAtual(), mesAtual(), 5);
+//		}
+//
+//		Date vencimento = c.getTime();
+//
+//		fatura.setVencimento(vencimento);
 	}
 
 	/**
@@ -577,12 +597,18 @@ public class FaturaBean implements Serializable {
 		Double juros = 0.00;
 		Double multa = 0.00;
 		Calendar hoje = Calendar.getInstance();
-		System.out.println(">>>>> Calculando juros para: " + fatura.getPlano().getBeneficiario().getNome());
 		multa = fatura.getValorTotalGerado() * 0.02;
 		int ultimoDiaGerado = fatura.getDataJuros().get(Calendar.DAY_OF_MONTH);
 		int dia = hoje.get(Calendar.DAY_OF_MONTH);
+		int mes = hoje.get(Calendar.MONTH);
 
-		if (dia != ultimoDiaGerado) {
+		GregorianCalendar dataCal = new GregorianCalendar();
+		dataCal.setTime(fatura.getVencimento());
+		int diaDaFatura = dataCal.get(Calendar.DAY_OF_MONTH);
+		int mesDaFatura = dataCal.get(Calendar.MONTH);
+
+		if (dia != ultimoDiaGerado && dia > diaDaFatura && mes >= mesDaFatura) {
+			System.out.println(">>>>> Calculando juros para: " + fatura.getPlano().getBeneficiario().getNome());
 			juros = fatura.getValorTotalGerado() * 0.00033 * fatura.getDiasAtrasados();
 
 			System.out.println(">>>>> Juros: " + juros);
@@ -625,7 +651,7 @@ public class FaturaBean implements Serializable {
 						}
 					}
 				}
-				
+
 				mesFatura.setEvento("Juros");
 				mesFaturaRepository.save(mesFatura);
 			}
