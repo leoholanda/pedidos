@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -95,26 +94,21 @@ public class FaturaBean implements Serializable {
 		// TODO Gera fatura para beneficiario com status ativo
 		this.geraFatura();
 
-//		this.enviaCobrancaDeFaturaAtrasada();
+		this.enviaCobrancaDeFaturaAtrasada();
 
 		// TODO Invoca o metodo para verificar fatura atrasada
-//		this.faturaAtrasada();
+		this.faturaAtrasada();
 
 		// TODO Aplica multa por atraso
-//		this.aplicaMultaPorAtraso();
+		this.aplicaMultaPorAtraso();
 
 		// TODO Aplica juros ao dia
-//		this.aplicaJurosAoDia();
+		this.aplicaJurosAoDia();
 
 		// TODO Verifica data de aniversario para possivel mudança de faixa-etaria
-//		this.beneficiarioBean.checaFaixaEtariaDosBeneficiarios();
+		this.beneficiarioBean.checaFaixaEtariaDosBeneficiarios();
 	}
 	
-	@PreDestroy
-	public void destroy() {
-		System.out.println(">>>>> Executando destroy");
-	}
-
 	/**
 	 * Cancela pagamento da fatura
 	 */
@@ -561,7 +555,11 @@ public class FaturaBean implements Serializable {
 				Double calculo = multa + f.getValorTotalGerado();
 
 				f.setMultaAplicada(true);
-				f.setValorTotal(calculo);
+//				f.setValorTotal(calculo);
+
+				Calendar hoje = Calendar.getInstance();
+				mesFatura.setDataProcesso(hoje);
+				mesFatura.setEvento("MULTA");
 
 				repository.save(f);
 			}
@@ -642,6 +640,7 @@ public class FaturaBean implements Serializable {
 						int dia = hoje.get(Calendar.DAY_OF_MONTH);
 
 						if (dia != ultimoDiaGerado) {
+							System.out.println(">>> Aplicando juros");
 							juros = f.getValorTotalGerado() * 0.00033 * f.getDiasAtrasados();
 							Double calculo = juros + f.getValorTotalGerado() + multa
 									+ getResiduoAplicado(f.getResiduoDescontado());

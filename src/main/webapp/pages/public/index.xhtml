@@ -16,6 +16,10 @@
 	<title>AEE</title>
 	<script type="text/javascript">
         $(function() {
+        	$('.title').hide().delay('1500').fadeIn(2000);
+        	$('.subtitle').hide().delay('1500').fadeIn(2000);
+        	$('#frmsearch').hide().delay('1500').fadeIn(2000);
+        	
             $('#menu-button').on('click', function(e) {
                 $('#menu').toggleClass('overlay-menu');
                 e.preventDefault();
@@ -28,10 +32,10 @@
 
             $(window).scroll(function(){
                 var topo = $(window).scrollTop();
-                if(topo > 50){
-                  $('.mostra').delay('300').fadeIn('slow');
+                if(topo > 30){
+                  $('.pricing-title').delay('100').fadeIn('slow');
                 }else {
-				  $('.mostra').hide();	
+				  $('.pricing-title').hide();	
                 }
               });
         });
@@ -56,8 +60,8 @@
 						onclick="PF('dlg-beneficiario').show()">Consulte Sua Fatura</a></li>
 					<li><a href="#pricing">Convênios e Serviços</a></li>
 					<!--                         <li><a href="#video">Eventos</a></li> -->
-					<li><a href="#{request.contextPath}/pages/public/login.xhtml">Área
-							Administrativa</a></li>
+					<li><p:link href="#{request.contextPath}/pages/public/login.xhtml">Área
+							Administrativa</p:link></li>
 				</ul>
 			</div>
 		</div>
@@ -68,7 +72,7 @@
 				<span class="subtitle">Associação dos Empregados da Embrapa Roraima</span>
 
 
-				<h:form>
+				<h:form id="frmsearch">
 					<p:commandButton value="CONSULTAR FATURA" style="color: gray"
 						oncomplete="PF('dlg-beneficiario').show()" styleClass="gray-button" />
 				</h:form>

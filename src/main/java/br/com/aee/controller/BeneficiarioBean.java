@@ -2,6 +2,7 @@ package br.com.aee.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -16,12 +17,31 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.aee.model.*;
-import br.com.aee.repository.*;
 import org.hibernate.Session;
 import org.primefaces.event.SelectEvent;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.WebResource;
+
+import br.com.aee.model.Beneficiario;
+import br.com.aee.model.Convenio;
+import br.com.aee.model.Dependente;
+import br.com.aee.model.Endereco;
+import br.com.aee.model.FaixaEtaria;
+import br.com.aee.model.Fatura;
+import br.com.aee.model.MesFatura;
+import br.com.aee.model.Plano;
+import br.com.aee.model.Status;
 import br.com.aee.report.ExecutorRelatorio;
+import br.com.aee.repository.BeneficiarioRepository;
+import br.com.aee.repository.ConvenioRepository;
+import br.com.aee.repository.DependenteRepository;
+import br.com.aee.repository.FaturaRepository;
+import br.com.aee.repository.MesFaturaRepository;
+import br.com.aee.repository.PlanoRepository;
 import br.com.aee.util.Adress;
 import br.com.aee.util.JsfUtil;
 import br.com.aee.util.Message;
@@ -100,7 +120,30 @@ public class BeneficiarioBean implements Serializable {
 		listaBeneficiarios = repository.findAllOrderByNomeAsc();
 		listaDePlanosParaRemover = new ArrayList<>();
 		dependenteBean.excluirDependente();
+		
+//		this.getListaBeneficiariosComRest();
 	}
+	
+	/**
+	 * Metodo para teste utilizando REST
+	 */
+	public List<Beneficiario> getListaBeneficiariosComRest(){
+		try {
+			Client client = Client.create();
+			WebResource wr = client.resource("http://www.mocky.io/v2/5bf0d2382f0000c1187a0d01");
+			String stringJson = wr.get(String.class);
+			
+			Gson gson = new Gson();
+			Type collectionType = new TypeToken<List<Beneficiario>>(){}.getType();
+			List<Beneficiario> lista = gson.fromJson(stringJson, collectionType);
+			
+			return lista;
+			
+		} catch (ClientHandlerException e) {
+			return null;
+		}
+	}
+	
 
 	// Actions
 	/**
