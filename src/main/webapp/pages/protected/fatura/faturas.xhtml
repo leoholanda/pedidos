@@ -9,7 +9,7 @@
 	</p:column>
 
 
-	<p:column headerText="Associado" width="270">
+	<p:column headerText="Associado" width="255">
 		<i class="fa fa-male Blue"
 			jsf:rendered="#{fatura.plano.beneficiario.masculino}" />
 		<i class="fa fa-female Pink"
@@ -23,22 +23,22 @@
                                jsf:rendered="#{fatura.plano.beneficiario.temPlanoDeSaude and !beneficiario.desativado}" />
 	</p:column>
 
-	<p:column headerText="Situação" width="130">
-		<p:commandButton value="#{fatura.status}" styleClass="Fs12"
+	<p:column headerText="Situação" width="100">
+		<p:commandButton value="#{fatura.status}" styleClass="Fs10"
 			style="cursor: text; border-color: #43A047;  background-color: #43A047;"
 			update="@this" process="@this" rendered="#{fatura.pago}" />
-		<p:commandButton value="#{fatura.status}" styleClass="Fs12"
+		<p:commandButton value="#{fatura.status}" styleClass="Fs10"
 			style="cursor: text; border-color: #0084b4;  background-color: #0084b4;"
 			update="@this" process="@this" rendered="#{fatura.parcelado}" />
-		<p:commandButton value="#{fatura.status}" styleClass="Fs12" title="Fatura ainda pendente porém não acumula juros"
+		<p:commandButton value="#{fatura.status}" styleClass="Fs10" title="Fatura ainda pendente porém não acumula juros"
 			style="cursor: text; border-color: #0084b4;  background-color: #0084b4;"
 			update="@this" process="@this" rendered="#{fatura.fechado}" />	
-		<p:commandButton value="#{fatura.status}" styleClass="Fs12"
+		<p:commandButton value="#{fatura.status}" styleClass="Fs10"
 			style="cursor: text; border-color: #FB8C00;  background-color: #FB8C00;"
 			update="@this" process="@this" rendered="#{fatura.pendente}" />
 		<p:commandButton
 			value="#{fatura.diasAtrasados} (#{fatura.formatacaoTextoDiaDeAtraso})"
-			styleClass="red-button Fs12"
+			styleClass="red-button Fs10"
 			style="cursor: text; border-color: #E53935;  background-color: #E53935;"
 			update="@this" process="@this" rendered="#{fatura.atrasado}" />
 	</p:column>

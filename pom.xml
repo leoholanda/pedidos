@@ -5,7 +5,7 @@
 
 	<groupId>com.holanda</groupId>
 	<artifactId>AEE</artifactId>
-	<version>1.9.2</version>
+	<version>1.9.4</version>
 	<packaging>war</packaging>
 
 	<name>AEE</name>

@@ -91,9 +91,6 @@ public class FaturaBean implements Serializable {
 		listaFaturaAtrasada = repository.findByFaturaAtrasada();
 		listaFaturaPendente = repository.findByFaturaPendenteAndFechada();
 
-		// TODO Gera fatura para beneficiario com status ativo
-		this.geraFatura();
-
 		this.enviaCobrancaDeFaturaAtrasada();
 
 		// TODO Invoca o metodo para verificar fatura atrasada
@@ -206,6 +203,21 @@ public class FaturaBean implements Serializable {
 				this.geraFaturaIndividual(plano.getBeneficiario());
 			}
 		}
+	}
+	
+	public String redirecionaParaTodasAsFatura() {
+		System.out.println(">>>>> redirecionando");
+		String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+		try {
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect(context + "/pages/protected/fatura/index-fatura.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.geraFatura();
+		System.out.println(">>>>> end");
+		
+		return context;
 	}
 
 	/**

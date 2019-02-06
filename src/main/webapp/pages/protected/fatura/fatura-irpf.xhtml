@@ -32,7 +32,7 @@
                                 <div class="ui-g">
 
                                     <div class="col">
-                                    	<p:selectOneMenu id="beneficiario" style="width: 100px;" 
+                                    	<p:selectOneMenu id="beneficiario" 
                                                          value="#{geraRelatorioMB.idBeneficiario}" filter="true" filterMatchMode="contains"
                                                          effect="slide" effectSpeed="fast">
                                             <f:selectItem itemLabel="Associado" noSelectionOption="true" />
@@ -64,7 +64,7 @@
 
 
                         <p:column headerText="Beneficiário" width="250">
-                            <h:outputText value="#{fatura.plano.beneficiario.nome}" />
+                            <h:outputText value="#{fatura.plano.beneficiario.nomeComIniciaisMaiuscula}" />
                         </p:column>
 
                         <p:column headerText="Situação" width="70">
@@ -81,7 +81,7 @@
                         </p:column>
 
                         <p:column headerText="Valor Total" width="75">
-                            <h:outputText value="#{fatura.valorPlanoDeSaude}">
+                            <h:outputText value="#{fatura.valorPlanoDeSaude}" title="Valor Total do Plano de Saúde">
                                 <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
                             </h:outputText>
                         </p:column>
