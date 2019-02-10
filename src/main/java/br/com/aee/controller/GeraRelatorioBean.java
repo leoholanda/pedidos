@@ -78,6 +78,7 @@ public class GeraRelatorioBean implements Serializable {
 		if (idBeneficiario != null) {
 			Map<String, Object> parametros = new HashMap<>();
 			parametros.put("p_beneficiario_id", this.idBeneficiario);
+			parametros.put("p_ano", this.searchAno);
 
 			ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/declaracao_irpf_3.jasper", this.response,
 					parametros, "Declaração Imposto de Renda.pdf");

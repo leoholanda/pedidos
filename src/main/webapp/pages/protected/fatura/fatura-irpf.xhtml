@@ -43,7 +43,7 @@
                                         
                                     	<p:selectOneMenu id="ano"
                                                          value="#{geraRelatorioMB.searchAno}">
-                                            <f:selectItem itemLabel="2017" itemValue="2017" />
+<!--                                             <f:selectItem itemLabel="2017" itemValue="2017" /> -->
                                             <f:selectItem itemLabel="2018" itemValue="2018" />
                                             <f:selectItem itemLabel="2019" itemValue="2019" />
                                             <f:selectItem itemLabel="2020" itemValue="2020" />
@@ -61,19 +61,7 @@
                                 </div>
                             </p:outputPanel>
                         </f:facet>
-
-
-                        <p:column headerText="Beneficiário" width="250">
-                            <h:outputText value="#{fatura.plano.beneficiario.nomeComIniciaisMaiuscula}" />
-                        </p:column>
-
-                        <p:column headerText="Situação" width="70">
-                            <h:outputText value="#{fatura.status}" styleClass="Green" rendered="#{fatura.pago}" />
-                            <h:outputText value="#{fatura.status}" styleClass="Orange" rendered="#{fatura.pendente}" />
-                            <h:outputText value="#{fatura.status}" styleClass="Blue" rendered="#{fatura.parcelado}" />
-                            <h:outputText value="#{fatura.diasAtrasados} (#{fatura.formatacaoTextoDiaDeAtraso})" styleClass="Red" rendered="#{fatura.atrasado}" />
-                        </p:column>
-
+                        
                         <p:column headerText="Mês" width="60">
                             <h:outputText value="#{fatura.mesDaFatura}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -85,6 +73,19 @@
                                 <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
                             </h:outputText>
                         </p:column>
+
+<!--                         <p:column headerText="Beneficiário" width="250"> -->
+<!--                             <h:outputText value="#{fatura.plano.beneficiario.nomeComIniciaisMaiuscula}" /> -->
+<!--                         </p:column> -->
+
+                        <p:column headerText="Situação" width="70">
+                            <h:outputText value="#{fatura.status}" styleClass="Green" rendered="#{fatura.pago}" />
+                            <h:outputText value="#{fatura.status}" styleClass="Orange" rendered="#{fatura.pendente}" />
+                            <h:outputText value="#{fatura.status}" styleClass="Blue" rendered="#{fatura.parcelado}" />
+                            <h:outputText value="#{fatura.diasAtrasados} (#{fatura.formatacaoTextoDiaDeAtraso})" styleClass="Red" rendered="#{fatura.atrasado}" />
+                        </p:column>
+
+                        
 
                     </p:dataTable>
 
