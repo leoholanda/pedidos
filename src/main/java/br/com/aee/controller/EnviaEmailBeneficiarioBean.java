@@ -12,7 +12,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import br.com.aee.model.Beneficiario;
 import br.com.aee.model.Fatura;
-import br.com.aee.model.Status;
 import br.com.aee.repository.BeneficiarioRepository;
 import br.com.aee.repository.FaturaRepository;
 import br.com.aee.thread.EnviaEmailIndividualAssociadoThread;
@@ -107,7 +106,7 @@ public class EnviaEmailBeneficiarioBean implements Serializable {
 					+ " Consulte suas faturas em nosso sistema: http://www.aeeroraima.com.br/ <p />"
 					+ " Duvidas e sugestões atráves do email: diretoria@aeeroraima.com.br <br />");
 			
-			builder.append("<img src=\"http://www.faee.org.br/aees/logomarcas/AEERR.jpg\"> <br />");
+			builder.append("<img src=\\\"http://www.aeeroraima.com.br/javax.faces.resource/logo-aee-sem-nome.png.xhtml?ln=images\"> <p />");
 
 			email.setHtmlMsg(builder.toString());
 			email.send();

@@ -60,7 +60,7 @@ public class EnviaFaturaCobranca {
 					+ " Consulte sua fatura em nosso sistema: http://www.aeeroraima.com.br/ <p />"
 					+ " Duvidas e sugestões através do email: diretoria@aeeroraima.com.br <br />");
 			
-			builder.append("<img src=\"http://www.faee.org.br/aees/logomarcas/AEERR.jpg\"> <p />");
+			builder.append("<img src=\\\"http://www.aeeroraima.com.br/javax.faces.resource/logo-aee-sem-nome.png.xhtml?ln=images\"> <p />");
 			builder.append("Favor não responder este email");
 
 			email.setHtmlMsg(builder.toString());
