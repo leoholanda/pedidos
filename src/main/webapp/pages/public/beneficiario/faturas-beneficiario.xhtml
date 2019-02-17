@@ -46,12 +46,6 @@
 
 			              	<p:outputLabel styleClass="MarLeft10 Fs18" value="#{fatura.id}" title="Código da Fatura" 
 			              		rendered="#{!seguranca.usuarioLogado.enabled}"/>   
-								
-							<p:outputLabel value="#{fatura.dataPagamento.time}"
-								styleClass="Gray Fs14" style="margin-left: 10px;"
-								rendered="#{fatura.pago || fatura.parcelado || fatura.fechado}">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</p:outputLabel>	
 						</div>
 
 						<div style="text-align: right;">
@@ -62,6 +56,12 @@
 							</p:outputLabel>
 						</div>
 					</div>
+					
+					<p:outputLabel value="#{fatura.dataPagamento.time}"
+						styleClass="Gray Fs14"
+						rendered="#{fatura.pago || fatura.parcelado || fatura.fechado}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</p:outputLabel>
 
 
 					<!-- Detalha das parcelas -->

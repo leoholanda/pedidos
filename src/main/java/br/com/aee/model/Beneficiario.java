@@ -28,7 +28,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.br.CPF;
 
 import br.com.aee.converter.BaseEntity;
 import br.com.aee.converter.StringExtended;

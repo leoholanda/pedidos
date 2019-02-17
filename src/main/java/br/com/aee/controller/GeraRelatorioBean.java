@@ -15,8 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 
+import br.com.aee.model.Dependente;
 import br.com.aee.model.Fatura;
 import br.com.aee.report.ExecutorRelatorio;
+import br.com.aee.repository.DependenteRepository;
 import br.com.aee.repository.FaturaRepository;
 import br.com.aee.util.JsfUtil;
 
@@ -37,13 +39,18 @@ public class GeraRelatorioBean implements Serializable {
 
 	@Inject
 	private FaturaRepository faturaRepository;
+	
+	@Inject
+	private DependenteRepository dependenteRepository;
 
 	private Long idBeneficiario;
 
 	private Integer searchAno;
 	
 	private Double valor;
-
+	
+	private List<Dependente> listaDeDependenteDoBeneficiario;
+	
 	/**
 	 * Lista fatura anual por beneficiário
 	 *
@@ -57,12 +64,17 @@ public class GeraRelatorioBean implements Serializable {
 			return faturaRepository.findByFaturaBeneficiarioAno(idBeneficiario, searchAno);
 		}
 	}
+	
+	public boolean isPossuiDependente() {
+		return !dependenteRepository.findByIdBeneficiario(idBeneficiario).isEmpty();
+	}
 
 	/**
 	 * Emite declaracao imposto de renda pf
 	 */
 	public void emitirDeclaracao() {
 		List<Fatura> faturas = this.getListaFaturaAnualDoBeneficiario();
+		listaDeDependenteDoBeneficiario = dependenteRepository.findByIdBeneficiario(idBeneficiario);
 		faturas = faturaRepository.findByFaturaBeneficiarioAno(idBeneficiario, searchAno);
 		System.out.println(">>> " + idBeneficiario + " " + searchAno);
 
@@ -143,5 +155,13 @@ public class GeraRelatorioBean implements Serializable {
 	
 	public void setValor(Double valor) {
 		this.valor = valor;
+	}
+	
+	public List<Dependente> getListaDeDependenteDoBeneficiario() {
+		return listaDeDependenteDoBeneficiario;
+	}
+
+	public List<Dependente> getDadosDoDependente(Dependente dependente) {
+		return dependenteRepository.findById(dependente.getId());
 	}
 }

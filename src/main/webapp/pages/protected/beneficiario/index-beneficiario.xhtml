@@ -95,8 +95,6 @@
 									styleClass="Red" style="margin-left: 10px;" />
 								<span class="fa fa-times-circle Red"
 									jsf:rendered="#{beneficiarioMB.beneficiario.desativado}" />
-
-								<h:outputLabel styleClass="Fright Gray" value="TITULAR" />
 							</h1>
 
 							<div class="ui-g-12">
@@ -111,124 +109,131 @@
 									</div>
 								</div>
 
-								<p:panel>
-									<p:panelGrid columns="4" layout="grid" id="registro"
-										styleClass="ui-panelgrid-blank"
-										columnClasses="ui-grid-col-2,ui-grid-col-4">
-
-										<p:outputLabel value="Data de Registro" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.dataRegistro.time}"
-											styleClass="Gray">
-											<f:convertDateTime />
-										</p:outputLabel>
-
-									</p:panelGrid>
-
-									<p:panelGrid columns="4" layout="grid" id="beneficiario"
-										styleClass="ui-panelgrid-blank"
-										columnClasses="ui-grid-col-2,ui-grid-col-4, ui-grid-col-2,ui-grid-col-4">
-
-										<p:outputLabel value="Nome" styleClass="Blue"
-											rendered="#{beneficiarioMB.beneficiario.desativado}" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}"
-											rendered="#{beneficiarioMB.beneficiario.desativado}" />
-
-										<p:outputLabel value="Matrícula" styleClass="Blue" />
-										<p:outputLabel value="#{beneficiarioMB.beneficiario.servidor}" />
-
-										<p:outputLabel value="CPF" styleClass="Blue" />
-										<p:outputLabel value="#{beneficiarioMB.beneficiario.cpf}" />
-
-										<p:outputLabel value="SUS" styleClass="Blue" />
-										<p:outputLabel value="#{beneficiarioMB.beneficiario.sus}" />
-
-										<p:outputLabel value="Sexo" styleClass="Blue" />
-										<p:outputLabel value="#{beneficiarioMB.beneficiario.sexo}" />
-
-										<p:outputLabel value="Nascimento" styleClass="Blue" />
-										<h:panelGroup>
+								<p:accordionPanel multiple="true" >
+									<p:tab title="Informações">
+										<p:panelGrid columns="2" layout="grid" id="beneficiario"
+											styleClass="ui-panelgrid-blank"
+											columnClasses="ui-grid-col-4,ui-grid-col-8">
+											
+											<p:outputLabel value="Data de Registro" styleClass="Blue" />
 											<p:outputLabel
-												value="#{beneficiarioMB.beneficiario.dataNascimento}">
-												<f:convertDateTime pattern="dd/MM/yyyy" />
+												value="#{beneficiarioMB.beneficiario.dataRegistro.time}"
+												styleClass="Gray">
+												<f:convertDateTime />
 											</p:outputLabel>
-											<br />
+											
+											<p:outputLabel value="Nome" styleClass="Blue"
+												rendered="#{beneficiarioMB.beneficiario.desativado}" />
 											<p:outputLabel
-												value="Idade: #{beneficiarioMB.beneficiario.idade}"
-												styleClass="Green" />
-										</h:panelGroup>
-
-										<p:outputLabel value="Faixa" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.faixaEtaria.periodo}" />
-
-										<p:outputLabel value="Telefone" styleClass="Blue" />
-										<p:outputLabel value="#{beneficiarioMB.beneficiario.telefone}" />
-
-										<p:outputLabel value="E-mail" styleClass="Blue" />
-										<p:outputLabel value="#{beneficiarioMB.beneficiario.email}" />
-
-										<p:outputLabel value="Endereço" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.endereco.logradouro}" />
-
-										<p:outputLabel value="Nº" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.endereco.numero}" />
-
-										<p:outputLabel value="Bairro" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.endereco.bairro}" />
-
-										<p:outputLabel value="CEP" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.endereco.cep}" />
-
-										<p:outputLabel value="Cidade" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.endereco.cidadeEstado}" />
-
-										<p:outputLabel value="Salário" styleClass="Blue" />
-										<p:outputLabel value="#{beneficiarioMB.beneficiario.salario}">
-											<f:convertNumber locale="pt_BR" type="currency"
-												minFractionDigits="2" currencySymbol="R$" />
-										</p:outputLabel>
-
-										<p:outputLabel value="Plano de Saúde" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.temPlanoDeSaude ? 'Sim' : 'Não'}" />
-
-										<p:outputLabel value="Acomodação" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.acomodacao}" />
-
-										<p:outputLabel value="Consignado" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.pagamentoConsignado}" />
-
-									</p:panelGrid>
-
-									<p:panelGrid columns="2" layout="grid" id="fiador"
-										rendered="#{beneficiarioMB.beneficiario.temFiador}"
+												value="#{beneficiarioMB.beneficiario.nomeComIniciaisMaiuscula}"
+												rendered="#{beneficiarioMB.beneficiario.desativado}" />
+	
+											<p:outputLabel value="Matrícula" styleClass="Blue" />
+											<p:outputLabel value="#{beneficiarioMB.beneficiario.servidor}" />
+	
+											<p:outputLabel value="CPF" styleClass="Blue" />
+											<p:outputLabel value="#{beneficiarioMB.beneficiario.cpf}" />
+	
+											<p:outputLabel value="SUS" styleClass="Blue" />
+											<p:outputLabel value="#{beneficiarioMB.beneficiario.sus}" />
+	
+											<p:outputLabel value="Sexo" styleClass="Blue" />
+											<p:outputLabel value="#{beneficiarioMB.beneficiario.sexo}" />
+	
+											<p:outputLabel value="Nascimento" styleClass="Blue" />
+											<h:panelGroup>
+												<p:outputLabel
+													value="#{beneficiarioMB.beneficiario.dataNascimento}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</p:outputLabel>
+												
+												<p:outputLabel
+													value="Idade: #{beneficiarioMB.beneficiario.idade}"
+													styleClass="Green MarLeft5" />
+											</h:panelGroup>
+	
+											<p:outputLabel value="Faixa" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.faixaEtaria.periodo}" />
+	
+											<p:outputLabel value="Telefone" styleClass="Blue" />
+											<p:outputLabel value="#{beneficiarioMB.beneficiario.telefone}" />
+	
+											<p:outputLabel value="E-mail" styleClass="Blue" />
+											<p:outputLabel value="#{beneficiarioMB.beneficiario.email}" />
+											
+										</p:panelGrid>
+									</p:tab>
+											
+									<p:tab title="Endereço">
+										<p:panelGrid columns="2" layout="grid" id="end"
 										styleClass="ui-panelgrid-blank"
-										columnClasses="ui-grid-col-2,ui-grid-col-10">
-										<p:outputLabel value="Fiador" styleClass="Blue" />
-										<p:outputLabel
-											value="#{beneficiarioMB.beneficiario.fiador.nomeComIniciaisMaiuscula}" />
-									</p:panelGrid>
+										columnClasses="ui-grid-col-4,ui-grid-col-8">
+											
+											<p:outputLabel value="Endereço" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.endereco.logradouro}" />
+	
+											<p:outputLabel value="Nº" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.endereco.numero}" />
+	
+											<p:outputLabel value="Bairro" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.endereco.bairro}" />
+	
+											<p:outputLabel value="CEP" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.endereco.cep}" />
+	
+											<p:outputLabel value="Cidade" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.endereco.cidadeEstado}" />
+										</p:panelGrid>	
+									</p:tab>
+												
+									<p:tab title="Adicionais">
+										<p:panelGrid columns="2" layout="grid" id="adicionais"
+										styleClass="ui-panelgrid-blank"
+										columnClasses="ui-grid-col-4,ui-grid-col-8">
+										
+											<p:outputLabel value="Salário" styleClass="Blue" />
+											<p:outputLabel value="#{beneficiarioMB.beneficiario.salario}">
+												<f:convertNumber locale="pt_BR" type="currency"
+													minFractionDigits="2" currencySymbol="R$" />
+											</p:outputLabel>
+	
+											<p:outputLabel value="Plano de Saúde" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.temPlanoDeSaude ? 'Sim' : 'Não'}" />
+	
+											<p:outputLabel value="Acomodação" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.acomodacao}" />
+	
+											<p:outputLabel value="Consignado" styleClass="Blue" />
+											<p:outputLabel
+												value="#{beneficiarioMB.beneficiario.pagamentoConsignado}" />
+												
+											<p:outputLabel value="Fiador" styleClass="Blue" rendered="#{beneficiarioMB.beneficiario.temFiador}"/>
+											<p:outputLabel rendered="#{beneficiarioMB.beneficiario.temFiador}"
+												value="#{beneficiarioMB.beneficiario.fiador.nomeComIniciaisMaiuscula}" />	
+										</p:panelGrid>
+									</p:tab>
 
-								</p:panel>
-
-								<p:dataTable value="#{beneficiarioMB.listaServicos}"
-									id="servicos" var="plano"
-									emptyMessage="Nenhum servico adicionado!"
-									styleClass="MarTop10 MarBot20"
-									rendered="#{not beneficiarioMB.servicos}" reflow="true">
-									<p:column headerText="Convênios e Serviços Adicionados">
-										<p:outputLabel value="#{plano.convenio.nome}" />
-									</p:column>
-								</p:dataTable>
+									<p:tab title="Convênios e Serviços Adicionados">
+										<p:dataTable value="#{beneficiarioMB.listaServicos}"
+											id="servicos" var="plano"
+											emptyMessage="Nenhum servico adicionado!"
+											styleClass="MarTop10 MarBot20"
+											rendered="#{not beneficiarioMB.servicos}" reflow="true">
+											<p:column headerText="">
+												<p:outputLabel value="#{plano.convenio.nome}" />
+											</p:column>
+										</p:dataTable>
+									</p:tab>
+								
+								</p:accordionPanel>
 							</div>
 						</div>
 
@@ -268,7 +273,7 @@
 
 									<p:panelGrid columns="2" layout="grid" id="dependente"
 										styleClass="ui-panelgrid-blank MarTop10"
-										columnClasses="ui-grid-col-2,ui-grid-col-4">
+										columnClasses="ui-grid-col-4,ui-grid-col-4">
 
 										<p:outputLabel value="CPF" styleClass="Blue" />
 										<p:outputLabel value="#{dependente.cpf}" />

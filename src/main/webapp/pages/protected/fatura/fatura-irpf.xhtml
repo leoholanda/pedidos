@@ -56,7 +56,7 @@
                                     <div class="col" style="text-align: right;">
                                         <p:commandButton icon="fa fa-search" ignoreAutoUpdate="false"
                                                          action="#{geraRelatorioMB.emitirDeclaracao}"
-                                                         update="fatura-table" process="fatura-table" />
+                                                         update="form" process="fatura-table" />
                                     </div>
                                 </div>
                             </p:outputPanel>
@@ -68,26 +68,55 @@
                             </h:outputText>
                         </p:column>
 
-                        <p:column headerText="Valor Total" width="75">
+                        <p:column headerText="Valor" width="75">
                             <h:outputText value="#{fatura.valorPlanoDeSaude}" title="Valor Total do Plano de Saúde">
                                 <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
                             </h:outputText>
                         </p:column>
 
-<!--                         <p:column headerText="Beneficiário" width="250"> -->
-<!--                             <h:outputText value="#{fatura.plano.beneficiario.nomeComIniciaisMaiuscula}" /> -->
-<!--                         </p:column> -->
-
-                        <p:column headerText="Situação" width="70">
-                            <h:outputText value="#{fatura.status}" styleClass="Green" rendered="#{fatura.pago}" />
-                            <h:outputText value="#{fatura.status}" styleClass="Orange" rendered="#{fatura.pendente}" />
-                            <h:outputText value="#{fatura.status}" styleClass="Blue" rendered="#{fatura.parcelado}" />
-                            <h:outputText value="#{fatura.diasAtrasados} (#{fatura.formatacaoTextoDiaDeAtraso})" styleClass="Red" rendered="#{fatura.atrasado}" />
-                        </p:column>
-
-                        
+						<p:columnGroup type="footer" rendered="#{not empty geraRelatorioMB.listaFaturaAnualDoBeneficiario}">
+			                <p:row>
+			                    <p:column footerText="Total: " style="text-align:left"/>
+			                    <p:column footerText="2.000,00" style="text-align:left"/>
+			                </p:row>
+			            </p:columnGroup>
 
                     </p:dataTable>
+                    
+                    <div jsf:rendered="#{geraRelatorioMB.possuiDependente}">
+                    	
+                    	<p:repeat var="dependente" value="#{geraRelatorioMB.listaDeDependenteDoBeneficiario}">
+                    		<h2 class="Gray MarTop20">#{dependente.nomeComIniciaisMaiuscula} -  
+                    			<h:outputText value="#{dependente.dataNascimento}">
+                    				 <f:convertDateTime pattern="dd/MM/yyyy" />
+                    			</h:outputText> 
+                    		</h2>
+                    		
+                    		<p:dataTable id="table" styleClass="MarTop10"
+                                 value="#{geraRelatorioMB.listaFaturaAnualDoBeneficiario}" var="fatura"
+                                 reflow="true" emptyMessage="Nenhum registro encontrado">
+
+		                        <p:column headerText="Mês" width="60">
+		                            <h:outputText value="#{fatura.mesDaFatura}">
+		                                <f:convertDateTime pattern="dd/MM/yyyy" />
+		                            </h:outputText>
+		                        </p:column>
+		
+		                        <p:column headerText="Valor" width="75">
+		                            <h:outputText value="#{dependente.faixaEtaria.valorApartamento}" rendered="#{fatura.plano.beneficiario.apartamento}">
+		                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
+		                            </h:outputText>
+		                            
+		                            <h:outputText value="#{dependente.faixaEtaria.valorEnfermaria}" rendered="#{fatura.plano.beneficiario.enfermaria}">
+		                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
+		                            </h:outputText>
+		                        </p:column>
+		
+		                    </p:dataTable>
+                    
+                    	</p:repeat>
+	                    
+                    </div>             
 
                 </h:form>
             </div>

@@ -18,6 +18,8 @@ public interface DependenteRepository extends EntityRepository<Dependente, Long>
      * @return
      */
     List<Dependente> findAllOrderByNomeAsc();
+    
+    List<Dependente> findById(Long id);
 
     /**
      * Checa se há dados do cpf informado
@@ -71,6 +73,9 @@ public interface DependenteRepository extends EntityRepository<Dependente, Long>
      */
     @Query("SELECT d FROM Dependente d WHERE d.beneficiario = ?1")
     List<Dependente> findByBeneficiario(Beneficiario beneficiario);
+    
+    @Query("SELECT d FROM Dependente d WHERE d.beneficiario.id = ?1 ORDER BY d.nome")
+    List<Dependente> findByIdBeneficiario(Long beneficiario);
     
     @Query("SELECT d FROM Dependente d WHERE d.status = 'DESATIVADO'")
     List<Dependente> findByStatusDesativado();

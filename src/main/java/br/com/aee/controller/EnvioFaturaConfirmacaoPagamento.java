@@ -37,7 +37,7 @@ public class EnvioFaturaConfirmacaoPagamento {
 			email.addTo(fatura.getPlano().getBeneficiario().getEmail(), fatura.getPlano().getBeneficiario().getNomeComIniciaisMaiuscula());		
 
 			StringBuilder builder = new StringBuilder();
-			builder.append("<h4>Ola, " + nomeBeneficiario + "</h4>");
+			builder.append("<h4>Olá, " + nomeBeneficiario + "</h4>");
 			builder.append("<strong>Recebemos a confirmação do pagamento referente a fatura<br />"
 					+ " do mês de " + mes + "</strong><p />" + " <table> <tr>"
 					+ " <td style='width: 100px'>Nome:</td>" + " <td>" + nomeBeneficiario + "</td>" + " </tr>"
@@ -48,7 +48,7 @@ public class EnvioFaturaConfirmacaoPagamento {
 					+ " Consulte sua fatura em nosso sistema: http://www.aeeroraima.com.br/ <p />"
 					+ " Duvidas e sugestões atráves do email: diretoria@aeeroraima.com.br <br />");
 			
-			builder.append("<img src=\"http://www.faee.org.br/aees/logomarcas/AEERR.jpg\"> <p />");
+			builder.append("<img src=\"http://www.aeeroraima.com.br/javax.faces.resource/logo-aee-sem-nome.png.xhtml?ln=images\"> <p />");
 			builder.append("Favor não responder este email");
 
 			email.setHtmlMsg(builder.toString());

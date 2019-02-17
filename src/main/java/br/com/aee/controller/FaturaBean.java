@@ -34,7 +34,6 @@ import br.com.aee.repository.PlanoRepository;
 import br.com.aee.thread.EnviaCobrancaThread;
 import br.com.aee.thread.EnviaEmailConfirmacaoDePagamento;
 import br.com.aee.thread.EnviaEmailThread;
-import br.com.aee.thread.EnviaFaturaIndividualThread;
 import br.com.aee.util.Adress;
 import br.com.aee.util.JsfUtil;
 
@@ -267,13 +266,6 @@ public class FaturaBean implements Serializable {
 			Double valorDependente = this.valorDependente(plano.getBeneficiario());
 			fatura.setValorPlanoDeSaude(valorEnfermaria + valorDependente);
 
-			fatura.setValorTotalGerado((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade()
-					+ fatura.getValorServicosAdicionais()));
-
-			fatura.setValorTotal((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade()
-					+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais()));
-
-			// TODO Acomodacao apartamento
 		} else {
 			Double valorApartamento = this
 					.valorAcomodacao(plano.getBeneficiario().getFaixaEtaria().getValorApartamento());
@@ -282,12 +274,13 @@ public class FaturaBean implements Serializable {
 			Double valorDependente = this.valorDependente(plano.getBeneficiario());
 			fatura.setValorPlanoDeSaude(valorApartamento + valorDependente);
 
-			fatura.setValorTotalGerado((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade()
-					+ fatura.getValorServicosAdicionais()));
-			fatura.setValorTotal((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade()
-					+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais()));
-
 		}
+		
+		fatura.setValorTotalGerado((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade()
+		+ fatura.getValorServicosAdicionais()));
+		
+		fatura.setValorTotal((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade()
+		+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais()));
 	}
 
 	/**
@@ -319,47 +312,47 @@ public class FaturaBean implements Serializable {
 	/**
 	 * Gera fatura
 	 */
-	public void geraValoresDaFatura() {
-		for (Plano plano : planoRepository.findByPlanoBeneficiarioAtivado()) {
-			System.out.println(">>>>> Gerando valores da fatura para... " + plano.getBeneficiario().getNomeComIniciaisMaiuscula());
-			
-			Double mensalidade = 0.00;
-
-			// TODO Calcula mensalidade do associado
-			calculaMensalidade(plano, mensalidade);
-
-			// TODO verifica se há servicos adicionais
-			servicosAdicionais(plano.getBeneficiario());
-
-			// TODO tras o residuo da fatura anterior e soma
-			aplicaResiduoNaFatura(plano);
-			fatura.setResiduoDescontado(aplicaResiduoNaFatura(plano));
-
-			// TODO calcula valor do plano de saude
-			if (plano.getBeneficiario().getTemPlanoDeSaude()) {
-				this.geraFaturaComPlanoDeSaude(plano);
-
-				// TODO se nao tiver plano gera somente mensalidade
-			} else {
-				this.geraFaturaSemPlanoDeSaude(plano);
-			}
-
-			fatura.setPlano(plano);
-			fatura.setDataPagamento(null);
-
-			this.dataDeVencimentoFatura();
-
-			repository.save(fatura);
-
-			/**
-			 * Envia email de forma assincrona
-			 */
-			EnviaFaturaIndividualThread email = new EnviaFaturaIndividualThread(fatura);
-			email.start();
-
-			fatura = new Fatura();
-		}
-	}
+//	public void geraValoresDaFatura() {
+//		for (Plano plano : planoRepository.findByPlanoBeneficiarioAtivado()) {
+//			System.out.println(">>>>> Gerando valores da fatura para... " + plano.getBeneficiario().getNomeComIniciaisMaiuscula());
+//			
+//			Double mensalidade = 0.00;
+//
+//			// TODO Calcula mensalidade do associado
+//			calculaMensalidade(plano, mensalidade);
+//
+//			// TODO verifica se há servicos adicionais
+//			servicosAdicionais(plano.getBeneficiario());
+//
+//			// TODO tras o residuo da fatura anterior e soma
+//			aplicaResiduoNaFatura(plano);
+//			fatura.setResiduoDescontado(aplicaResiduoNaFatura(plano));
+//
+//			// TODO calcula valor do plano de saude
+//			if (plano.getBeneficiario().getTemPlanoDeSaude()) {
+//				this.geraFaturaComPlanoDeSaude(plano);
+//
+//				// TODO se nao tiver plano gera somente mensalidade
+//			} else {
+//				this.geraFaturaSemPlanoDeSaude(plano);
+//			}
+//
+//			fatura.setPlano(plano);
+//			fatura.setDataPagamento(null);
+//
+//			this.dataDeVencimentoFatura();
+//
+//			repository.save(fatura);
+//
+//			/**
+//			 * Envia email de forma assincrona
+//			 */
+//			EnviaFaturaIndividualThread email = new EnviaFaturaIndividualThread(fatura);
+//			email.start();
+//
+//			fatura = new Fatura();
+//		}
+//	}
 
 	/**
 	 * Gera fatura individual
@@ -560,14 +553,10 @@ public class FaturaBean implements Serializable {
 	public void aplicaMultaPorAtraso() {
 		if (!repository.findByCalculoDaMulta().isEmpty()) {
 			System.out.println(">>>>> Aplicando multa por atraso");
-			Double multa = 0.00;
+			
 			for (Fatura f : repository.findByCalculoDaMulta()) {
 				System.out.println(">>>>> Calculando multa para: " + f.getPlano().getBeneficiario().getNome());
-				multa = f.getValorTotalGerado() * 0.02;
-				Double calculo = multa + f.getValorTotalGerado();
-
 				f.setMultaAplicada(true);
-//				f.setValorTotal(calculo);
 
 				Calendar hoje = Calendar.getInstance();
 				mesFatura.setDataProcesso(hoje);
@@ -644,9 +633,11 @@ public class FaturaBean implements Serializable {
 				Double juros = 0.00;
 				Double multa = 0.00;
 				Calendar hoje = Calendar.getInstance();
+				
 				for (Fatura f : repository.findByJuros()) {
 					if (f.getPlano().getBeneficiario().getStatus() == Status.ATIVADO) {
 						System.out.println(">>> Calculando juros para: " + f.getPlano().getBeneficiario().getNome());
+						
 						multa = f.getValorTotalGerado() * 0.02;
 						int ultimoDiaGerado = f.getDataJuros().get(Calendar.DAY_OF_MONTH);
 						int dia = hoje.get(Calendar.DAY_OF_MONTH);
@@ -874,7 +865,7 @@ public class FaturaBean implements Serializable {
 
 		if (dataPagamento.before(fatura.getVencimento()) || dataPagamento.equals(fatura.getVencimento())) {
 			fatura.setMultaAplicada(false);
-			fatura.setValorTotal(fatura.getValorTotalGerado());
+			fatura.setValorTotal(fatura.getValorTotalGerado() + fatura.getResiduoDescontado());
 
 			// TODO registro de entrada no caixa
 			fluxoCaixaBean.entradaDeCaixa(fatura, fatura.getValorTotalGerado(), calendar, nomeAssociado);
@@ -885,7 +876,7 @@ public class FaturaBean implements Serializable {
 			// Valor total
 			Double multa = fatura.getValorTotalGerado() * 0.02;
 			Double juros = fatura.getValorTotalGerado() * 0.00033 * selecaoData();
-			Double calculo = fatura.getValorTotalGerado() + juros + multa;
+			Double calculo = fatura.getValorTotalGerado() + juros + multa + fatura.getResiduoDescontado();
 
 			fatura.setValorTotal(calculo);
 
