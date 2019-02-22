@@ -36,6 +36,14 @@
 
 							<p:outputLabel for="email" value="E-mail" />
 							<p:inputText id="email" value="#{usuarioMB.usuario.email}" />
+							
+							<p:outputLabel for="status" value="Status" />
+							<p:selectOneMenu id="status" value="#{usuarioMB.usuario.status}"
+								converter="omnifaces.SelectItemsConverter">
+								<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+								<f:selectItems value="#{usuarioMB.listaStatusParaUsuario}" var="s"
+									itemValue="#{s}" itemLabel="#{s.descricao}" />
+							</p:selectOneMenu>
 
 							<p:outputLabel value="Acesso" />
 							<p:selectOneMenu id="tipo" value="#{usuarioMB.usuario.perfil}"
@@ -58,8 +66,8 @@
 
 					<p:toolbar styleClass="MarTop10">
 						<p:toolbarGroup align="right">
-							<p:commandButton style="width: 100px;"
-								onclick="javascript:window.history.go(-1)" value="Voltar"
+							<p:commandButton style="width: 100px;" action="pesquisa-usuario?faces-redirect=true"
+								ajax="false" value="Voltar"
 								icon="fa fa-mail-reply" title="Retornar"
 								styleClass="black-button" />
 							<p:spacer width="10" />

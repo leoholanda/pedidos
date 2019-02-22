@@ -76,8 +76,8 @@
 
 						<p:columnGroup type="footer" rendered="#{not empty geraRelatorioMB.listaFaturaAnualDoBeneficiario}">
 			                <p:row>
-			                    <p:column footerText="Total: " style="text-align:left"/>
-			                    <p:column footerText="2.000,00" style="text-align:left"/>
+			                    <p:column footerText="Total: " style="text-align:left" styleClass="Blue"/>
+			                    <p:column footerText="R$ #{geraRelatorioMB.somaValorPlanoDeSaudeTitular}" style="text-align:left;" styleClass="Blue"/>
 			                </p:row>
 			            </p:columnGroup>
 
@@ -86,11 +86,7 @@
                     <div jsf:rendered="#{geraRelatorioMB.possuiDependente}">
                     	
                     	<p:repeat var="dependente" value="#{geraRelatorioMB.listaDeDependenteDoBeneficiario}">
-                    		<h2 class="Gray MarTop20">#{dependente.nomeComIniciaisMaiuscula} -  
-                    			<h:outputText value="#{dependente.dataNascimento}">
-                    				 <f:convertDateTime pattern="dd/MM/yyyy" />
-                    			</h:outputText> 
-                    		</h2>
+                    		<h2 class="BoldGray MarTop20">#{dependente.nomeComIniciaisMaiuscula}</h2>
                     		
                     		<p:dataTable id="table" styleClass="MarTop10"
                                  value="#{geraRelatorioMB.listaFaturaAnualDoBeneficiario}" var="fatura"
@@ -111,6 +107,13 @@
 		                                <f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$"/>
 		                            </h:outputText>
 		                        </p:column>
+		                        
+		                        <p:columnGroup type="footer">
+			                		<p:row>
+					                    <p:column footerText="Total: " style="text-align:left" styleClass="Blue"/>
+					                    <p:column footerText="R$ #{geraRelatorioMB.getSomaValorPlanoDeSaudeDependente(dependente)}" style="text-align:left;" styleClass="Blue"/>
+					                </p:row>
+			            		</p:columnGroup>
 		
 		                    </p:dataTable>
                     

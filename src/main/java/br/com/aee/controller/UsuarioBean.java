@@ -2,6 +2,7 @@ package br.com.aee.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -60,14 +61,17 @@ public class UsuarioBean implements Serializable {
 	 */
 	public void save() {
 		try {
-			if (validacaoMatriculaUsuario()) {
+			if(usuario != null) {
+				repository.save(usuario);
+				JsfUtil.info("Usuário atualizado com sucesso!");
+			} else if (validacaoMatriculaUsuario()) {
 				repository.save(usuario);
 				usuario = new Usuario();
 
 				JsfUtil.info("Solicitação enviada com sucesso!");
 
 			} else {
-				JsfUtil.error("Matrícula já encontra-se em nossos dados");
+				JsfUtil.error("A matrícula utilizada já tem nos nossos dados!");
 			}
 
 		} catch (Exception e) {
@@ -268,6 +272,10 @@ public class UsuarioBean implements Serializable {
 
 	public boolean isExisteSolicitacao() {
 		return !repository.findAllStatusOrderByNome(Status.PENDENTE).isEmpty();
+	}
+	
+	public List<Status> getListaStatusParaUsuario() {
+		return Arrays.asList(Status.ATIVADO, Status.DESATIVADO);
 	}
 
 	// Validations
