@@ -77,6 +77,9 @@ public class Dependente implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
+    
+    @Column(name = "valor_acomodacao")
+    private Double valorAcomodacao;
 
     /**
      * Beneficiario do sexo masculino
@@ -251,6 +254,14 @@ public class Dependente implements Serializable {
     
     public void setStatus(Status status) {
 		this.status = status;
+	}
+    
+    public Double getValorAcomodacao() {
+		return valorAcomodacao;
+	}
+    
+    public void setValorAcomodacao(Double valorAcomodacao) {
+		this.valorAcomodacao = valorAcomodacao;
 	}
 
     @Override

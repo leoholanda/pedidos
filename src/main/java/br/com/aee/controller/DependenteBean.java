@@ -38,10 +38,8 @@ public class DependenteBean implements Serializable {
 
 	private String searchValue;
 
-	
 	// Action
-	
-	
+
 	/**
 	 * Salva associado
 	 */
@@ -63,7 +61,7 @@ public class DependenteBean implements Serializable {
 		repository.remove(dependente);
 		JsfUtil.info("Dependente Removido!");
 	}
-	
+
 	/**
 	 * Outra forma para remover dependente
 	 */
@@ -130,19 +128,44 @@ public class DependenteBean implements Serializable {
 	 */
 	public void checaFaixaEtariaDependente() {
 		// Carrega lista dos dependentes do beneficiario
-		for (Dependente d : this.getListaDependentes()) {
 
-			// Carrega lista de faixa etaria existentes
-			for (FaixaEtaria faixaEtaria : faixaEtariaBean.getListaFaixaEtaria()) {
+		this.getListaDependentes().forEach(d -> {
+			faixaEtariaBean.getListaFaixaEtaria().forEach(faixaEtaria -> {
+				if (d.getIdade() >= faixaEtaria.getPeriodoInicial() && d.getIdade() <= faixaEtaria.getPeriodoFinal()) {
+
+				if (d.getBeneficiario().getAcomodacao().equalsIgnoreCase("APARTAMENTO")) {
+					d.setValorAcomodacao(faixaEtaria.getValorApartamento());
+				} else {
+					d.setValorAcomodacao(faixaEtaria.getValorEnfermaria());
+				}
 
 				// Faz a magica para setar a faixa etaria de acordo com a
 				// idade
-				if (d.getIdade() >= faixaEtaria.getPeriodoInicial() && d.getIdade() <= faixaEtaria.getPeriodoFinal()) {
 					d.setFaixaEtaria(faixaEtaria);
 					repository.save(d);
 				}
-			}
-		}
+			});
+		});
+
+//		for (Dependente d : this.getListaDependentes()) {
+
+			// Carrega lista de faixa etaria existentes
+//			for (FaixaEtaria faixaEtaria : faixaEtariaBean.getListaFaixaEtaria()) {
+//
+//				if (d.getBeneficiario().getAcomodacao().equalsIgnoreCase("APARTAMENTO")) {
+//					d.setValorAcomodacao(faixaEtaria.getValorApartamento());
+//				} else {
+//					d.setValorAcomodacao(faixaEtaria.getValorEnfermaria());
+//				}
+
+				// Faz a magica para setar a faixa etaria de acordo com a
+				// idade
+//				if (d.getIdade() >= faixaEtaria.getPeriodoInicial() && d.getIdade() <= faixaEtaria.getPeriodoFinal()) {
+//					d.setFaixaEtaria(faixaEtaria);
+//				}
+//				repository.save(d);
+//			}
+//		}
 	}
 
 	/**

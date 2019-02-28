@@ -98,7 +98,7 @@ public class BeneficiarioBean implements Serializable {
 
 	private MesFatura mesFatura;
 
-	private List<Beneficiario> listaBeneficiarios;
+	private List<Beneficiario> listaBeneficiarios = new ArrayList<Beneficiario>();
 
 	private List<Plano> listaDePlanosParaRemover;
 
@@ -120,30 +120,30 @@ public class BeneficiarioBean implements Serializable {
 		listaBeneficiarios = repository.findAllOrderByNomeAsc();
 		listaDePlanosParaRemover = new ArrayList<>();
 		dependenteBean.excluirDependente();
-		
+
 //		this.getListaBeneficiariosComRest();
 	}
-	
+
 	/**
 	 * Metodo para teste utilizando REST
 	 */
-	public List<Beneficiario> getListaBeneficiariosComRest(){
+	public List<Beneficiario> getListaBeneficiariosComRest() {
 		try {
 			Client client = Client.create();
 			WebResource wr = client.resource("http://www.mocky.io/v2/5bf0d2382f0000c1187a0d01");
 			String stringJson = wr.get(String.class);
-			
+
 			Gson gson = new Gson();
-			Type collectionType = new TypeToken<List<Beneficiario>>(){}.getType();
+			Type collectionType = new TypeToken<List<Beneficiario>>() {
+			}.getType();
 			List<Beneficiario> lista = gson.fromJson(stringJson, collectionType);
-			
+
 			return lista;
-			
+
 		} catch (ClientHandlerException e) {
 			return null;
 		}
 	}
-	
 
 	// Actions
 	/**
@@ -167,8 +167,8 @@ public class BeneficiarioBean implements Serializable {
 				JsfUtil.info(Message.MSG_SAVE);
 				String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
 				try {
-					FacesContext.getCurrentInstance().getExternalContext()
-							.redirect(context + "/pages/protected/beneficiario/index-beneficiario.xhtml?id=" + beneficiario.getId());
+					FacesContext.getCurrentInstance().getExternalContext().redirect(context
+							+ "/pages/protected/beneficiario/index-beneficiario.xhtml?id=" + beneficiario.getId());
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -212,12 +212,12 @@ public class BeneficiarioBean implements Serializable {
 					plano = new Plano();
 				}
 			}
-			
+
 			for (Dependente dependente : beneficiario.getDependentes()) {
 				dependente.setAcomodacao(beneficiario.getAcomodacao());
-				
+
 			}
-			
+
 			repository.save(beneficiario);
 
 			JsfUtil.info(Message.MSG_UPDATE);
@@ -225,8 +225,8 @@ public class BeneficiarioBean implements Serializable {
 
 			String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
 			try {
-				FacesContext.getCurrentInstance().getExternalContext()
-						.redirect(context + "/pages/protected/beneficiario/index-beneficiario.xhtml?id=" + beneficiario.getId());
+				FacesContext.getCurrentInstance().getExternalContext().redirect(
+						context + "/pages/protected/beneficiario/index-beneficiario.xhtml?id=" + beneficiario.getId());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -326,10 +326,11 @@ public class BeneficiarioBean implements Serializable {
 		if (contemPlanoAdicionado(beneficiario.getPlanos(), idConvenio)) {
 			JsfUtil.error("Plano já adicionado!");
 		} else {
-			// this.getListaServicos().add(plano);
 			beneficiario.getPlanos().add(plano);
+			plano.setAtivo(true);
 			plano.setBeneficiario(beneficiario);
 			plano.setConvenio(convenio);
+			JsfUtil.info("Adicionado! Salve para confirmar decisão. ");
 		}
 		plano = new Plano();
 	}
@@ -337,7 +338,7 @@ public class BeneficiarioBean implements Serializable {
 	// verifica se a lista ja contem plano adicionado para nao duplicar
 	public Boolean contemPlanoAdicionado(List<Plano> planos, Long convenio) {
 		for (Plano p : planos) {
-			if (p.getConvenio().getId().equals(convenio)) {
+			if (p.getConvenio().getId().equals(convenio) && p.isAtivo()) {
 				return true;
 			}
 		}
@@ -350,11 +351,11 @@ public class BeneficiarioBean implements Serializable {
 	}
 
 	public void removerPlano(Plano plano) {
-		if(beneficiario != null) {
+		if (beneficiario != null) {
 			plano.setAtivo(false);
 			planoRepository.save(plano);
 			System.out.println(">> Plano desativado!");
-		}else {
+		} else {
 			beneficiario.getPlanos().remove(plano);
 			listaDePlanosParaRemover.add(plano);
 		}
@@ -481,7 +482,6 @@ public class BeneficiarioBean implements Serializable {
 		return listaBeneficiarios;
 	}
 
-
 	// Validations
 
 	/**
@@ -598,22 +598,31 @@ public class BeneficiarioBean implements Serializable {
 	 * Checa faixa etaria de todos os beneficiario
 	 */
 	public void checaFaixaEtariaDosBeneficiarios() {
-		 if (isMudancaDeFaixaEtaria() && diaDoMes() >= 20 && diaDoMes() <= 31) {
+		if (isMudancaDeFaixaEtaria() && diaDoMes() >= 20 && diaDoMes() <= 31) {
+
 			// Carrega lista dos beneficiarios
-			for (Beneficiario beneficiario : this.getListaBeneficiarios()) {
-
-				// Carrega lista de faixa etaria existentes
-				for (FaixaEtaria faixaEtaria : faixaEtariaBean.getListaFaixaEtaria()) {
-
-					// Faz a magica para setar a faixa etaria de acordo com a
-					// idade
+			this.getListaBeneficiarios().forEach(beneficiario -> {
+				faixaEtariaBean.getListaFaixaEtaria().forEach(faixaEtaria -> {
 					if (beneficiario.getIdade() >= faixaEtaria.getPeriodoInicial()
 							&& beneficiario.getIdade() <= faixaEtaria.getPeriodoFinal()) {
+
+						if(beneficiario.getAcomodacao() == null) {
+							beneficiario.setValorAcomodacao(0.00);	
+						}						
+						else if (beneficiario.getAcomodacao().equalsIgnoreCase("APARTAMENTO")) {
+							beneficiario.setValorAcomodacao(faixaEtaria.getValorApartamento());
+						} 
+						else {
+							beneficiario.setValorAcomodacao(faixaEtaria.getValorEnfermaria());
+						}
+
+						// Faz a magica para setar a faixa etaria de acordo com a
+						// idade
 						beneficiario.setFaixaEtaria(faixaEtaria);
 						repository.save(beneficiario);
 					}
-				}
-			}
+				});
+			});
 
 			// Invoca faixa etária do dependente
 			dependenteBean.checaFaixaEtariaDependente();

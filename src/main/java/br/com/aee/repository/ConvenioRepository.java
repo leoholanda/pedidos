@@ -23,6 +23,9 @@ public interface ConvenioRepository extends EntityRepository<Convenio, Long> {
 	
 	@Query("SELECT c FROM Convenio c WHERE c.status = 'ATIVADO' AND c.tipo = 'Plano de Saúde' ORDER BY c.nome")
 	List<Convenio> findBySomentePlanoDeSaude();
+	
+	@Query("SELECT c FROM Convenio c WHERE c.status = 'ATIVADO' ORDER BY c.nome")
+	List<Convenio> findByPlanoDeSaudeConvenioServico();
 
 	/**
 	 * checa o nome do plano na lista

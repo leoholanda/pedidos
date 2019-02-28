@@ -39,7 +39,7 @@
                             </p:outputPanel>
                         </f:facet>
 
-                        <p:column headerText="Nome" width="280">
+                        <p:column headerText="Nome" width="300">
                             <i class="fa fa-male Blue"
                                jsf:rendered="#{dependente.masculino}" />
                             <i class="fa fa-female Pink"
@@ -54,7 +54,7 @@
                             <h:outputText value="#{dependente.cpf}" />
                         </p:column>
                         
-                        <p:column headerText="Titular" width="300">
+                        <p:column headerText="Titular" width="200">
 							<p:link
 								outcome="/pages/protected/beneficiario/index-beneficiario"
 								value="#{dependente.beneficiario.nomeComIniciaisMaiuscula}">
@@ -62,8 +62,14 @@
 							</p:link>
                         </p:column>
                         
-                        <p:column headerText="Dependencia" width="150">
-                            <h:outputText value="#{dependente.tipoDependencia.descricao}" />
+                        <p:column headerText="Faixa Etária" width="80">
+                            <h:outputText value="#{dependente.faixaEtaria.periodo}" />
+                        </p:column>
+                        
+                        <p:column headerText="Valor" width="80">
+                            <h:outputText value="#{dependente.valorAcomodacao}">
+                            	<f:convertNumber pattern="#,##0.00" maxFractionDigits="2" />
+                            </h:outputText>
                         </p:column>
 
                     </p:dataTable>

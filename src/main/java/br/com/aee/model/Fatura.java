@@ -101,6 +101,9 @@ public class Fatura implements Serializable {
 	@OneToMany(mappedBy = "fatura", cascade = { CascadeType.PERSIST, CascadeType.MERGE,
 			CascadeType.DETACH }, fetch = FetchType.LAZY)
 	private List<FaturaParcelada> faturaParcelada = new ArrayList<FaturaParcelada>();
+	
+	@OneToMany(mappedBy = "fatura", cascade = CascadeType.ALL)
+	private List<ItemDaFatura> itemDaFatura = new ArrayList<ItemDaFatura>();
 
 	@NotNull
 	@ManyToOne
@@ -559,6 +562,10 @@ public class Fatura implements Serializable {
 
 	public void setValorServicosAdicionais(Double valorServicosAdicionais) {
 		this.valorServicosAdicionais = valorServicosAdicionais;
+	}
+	
+	public List<ItemDaFatura> getItemDaFatura() {
+		return itemDaFatura;
 	}
 
 	@Override

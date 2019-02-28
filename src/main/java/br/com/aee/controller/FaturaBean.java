@@ -20,8 +20,10 @@ import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
 
 import br.com.aee.model.Beneficiario;
+import br.com.aee.model.Dependente;
 import br.com.aee.model.Fatura;
 import br.com.aee.model.FaturaParcelada;
+import br.com.aee.model.ItemDaFatura;
 import br.com.aee.model.Mes;
 import br.com.aee.model.MesFatura;
 import br.com.aee.model.Plano;
@@ -29,6 +31,7 @@ import br.com.aee.model.Status;
 import br.com.aee.repository.DependenteRepository;
 import br.com.aee.repository.FaturaParceladaRepository;
 import br.com.aee.repository.FaturaRepository;
+import br.com.aee.repository.ItemDaFaturaRepository;
 import br.com.aee.repository.MesFaturaRepository;
 import br.com.aee.repository.PlanoRepository;
 import br.com.aee.thread.EnviaCobrancaThread;
@@ -45,6 +48,9 @@ public class FaturaBean implements Serializable {
 
 	@Inject
 	private FaturaRepository repository;
+
+	@Inject
+	private ItemDaFaturaRepository itemDaFaturaRepository;
 
 	@Inject
 	private FaturaParceladaRepository faturaParceladaRepository;
@@ -82,7 +88,11 @@ public class FaturaBean implements Serializable {
 	private Integer searchMes;
 	private Integer searchAno;
 	private Integer numeroDeParcelas = 2;
-	
+
+	private ItemDaFatura item = new ItemDaFatura();
+	private List<ItemDaFatura> listaItemDaFaturaPlanoDeSaude;
+	private List<ItemDaFatura> listaItemDaFaturaOutros;
+
 	// Actions
 
 	@PostConstruct
@@ -104,7 +114,7 @@ public class FaturaBean implements Serializable {
 		// TODO Verifica data de aniversario para possivel mudança de faixa-etaria
 		this.beneficiarioBean.checaFaixaEtariaDosBeneficiarios();
 	}
-	
+
 	/**
 	 * Cancela pagamento da fatura
 	 */
@@ -197,13 +207,13 @@ public class FaturaBean implements Serializable {
 
 			System.out.println(">>>>> Gerando Fatura...");
 //			this.geraValoresDaFatura();
-			
+
 			for (Plano plano : planoRepository.findByPlanoBeneficiarioAtivado()) {
 				this.geraFaturaIndividual(plano.getBeneficiario());
 			}
 		}
 	}
-	
+
 	public String redirecionaParaTodasAsFatura() {
 		System.out.println(">>>>> redirecionando");
 		String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
@@ -215,7 +225,7 @@ public class FaturaBean implements Serializable {
 		}
 		this.geraFatura();
 		System.out.println(">>>>> end");
-		
+
 		return context;
 	}
 
@@ -275,12 +285,12 @@ public class FaturaBean implements Serializable {
 			fatura.setValorPlanoDeSaude(valorApartamento + valorDependente);
 
 		}
-		
-		fatura.setValorTotalGerado((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade()
-		+ fatura.getValorServicosAdicionais()));
-		
+
+		fatura.setValorTotalGerado(
+				(fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade() + fatura.getValorServicosAdicionais()));
+
 		fatura.setValorTotal((fatura.getValorPlanoDeSaude() + fatura.getValorMensalidade()
-		+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais()));
+				+ fatura.getResiduoDescontado() + fatura.getValorServicosAdicionais()));
 	}
 
 	/**
@@ -310,49 +320,63 @@ public class FaturaBean implements Serializable {
 	}
 
 	/**
-	 * Gera fatura
+	 * Gera itens da fatura
 	 */
-//	public void geraValoresDaFatura() {
-//		for (Plano plano : planoRepository.findByPlanoBeneficiarioAtivado()) {
-//			System.out.println(">>>>> Gerando valores da fatura para... " + plano.getBeneficiario().getNomeComIniciaisMaiuscula());
-//			
-//			Double mensalidade = 0.00;
-//
-//			// TODO Calcula mensalidade do associado
-//			calculaMensalidade(plano, mensalidade);
-//
-//			// TODO verifica se há servicos adicionais
-//			servicosAdicionais(plano.getBeneficiario());
-//
-//			// TODO tras o residuo da fatura anterior e soma
-//			aplicaResiduoNaFatura(plano);
-//			fatura.setResiduoDescontado(aplicaResiduoNaFatura(plano));
-//
-//			// TODO calcula valor do plano de saude
-//			if (plano.getBeneficiario().getTemPlanoDeSaude()) {
-//				this.geraFaturaComPlanoDeSaude(plano);
-//
-//				// TODO se nao tiver plano gera somente mensalidade
-//			} else {
-//				this.geraFaturaSemPlanoDeSaude(plano);
-//			}
-//
-//			fatura.setPlano(plano);
-//			fatura.setDataPagamento(null);
-//
-//			this.dataDeVencimentoFatura();
-//
-//			repository.save(fatura);
-//
-//			/**
-//			 * Envia email de forma assincrona
-//			 */
-//			EnviaFaturaIndividualThread email = new EnviaFaturaIndividualThread(fatura);
-//			email.start();
-//
-//			fatura = new Fatura();
-//		}
-//	}
+	public void geraItensDaFatura(Beneficiario beneficiario) {
+		System.out.println(">>>>> geraItensDaFatura()");
+		List<Plano> listaPlanos = planoRepository.findByPlanoAtivo(beneficiario);
+		List<Dependente> listaDependentes = beneficiario.getDependentes();
+
+		listaPlanos.forEach(plano -> {
+			item.setIdentificacao(plano.getConvenio().getNome());
+			item.setFatura(fatura);
+			item.setOrdem(plano.getConvenio().getId());
+
+			if (plano.getConvenio().getId() == 1) {
+				item.setValor(beneficiario.getValorAcomodacao());
+
+				// Se o convenio for mensalidade
+			} else if (plano.getConvenio().getId() == 2) {
+
+				Double mensalidade = 00.00;
+				// Gera mensalidade para servidor
+				if (plano.getBeneficiario().isBeneficiarioServidor()) {
+
+					if (plano.getBeneficiario().isConsignado()) {
+						item.setValor(mensalidade);
+						item.setIdentificacao(plano.getConvenio().getNome() + " (CONSIGNADO)");
+
+						// Calcula mensalidade para não consignado
+					} else {
+						// Mensalidade é 0,8% do salário
+						mensalidade = plano.getBeneficiario().getSalario() * 0.008;
+						fatura.setValorMensalidade(mensalidade);
+					}
+				} else {
+					mensalidade = 70.00;
+					item.setValor(mensalidade);
+				}
+			} else {
+				item.setValor(plano.getConvenio().getValor());
+			}
+
+			itemDaFaturaRepository.save(item);
+			item = new ItemDaFatura();
+
+		});
+
+		// Gerar item da fatura para os dependentes
+		listaDependentes.forEach(dependente -> {
+			item.setIdentificacao(dependente.getNome());
+			item.setFatura(fatura);
+			item.setValor(dependente.getValorAcomodacao());
+			item.setOrdem(1l);
+			
+			itemDaFaturaRepository.save(item);
+			item = new ItemDaFatura();
+		});
+
+	}
 
 	/**
 	 * Gera fatura individual
@@ -396,6 +420,8 @@ public class FaturaBean implements Serializable {
 					this.dataDeVencimentoFaturaIndividual();
 
 					repository.save(fatura);
+
+					this.geraItensDaFatura(beneficiario);
 
 					JsfUtil.info("Fatura gerada com sucesso!");
 
@@ -504,31 +530,6 @@ public class FaturaBean implements Serializable {
 		Date vencimento = c.getTime();
 
 		fatura.setVencimento(vencimento);
-		
-		
-//		int domingo = 1;
-//		int sabado = 7;
-//		Date dataHoje = new java.util.Date();
-//
-//		Calendar c = Calendar.getInstance();
-//		c.setTime(dataHoje);
-//
-//		// c.set(anoAtual(), mesAtual() + 1, 5);
-//
-//		// TODO Dia da semana domingo, vencimento passa para dia 6
-//		if (c.get(Calendar.DAY_OF_WEEK) == domingo) {
-//			c.set(anoAtual(), mesAtual(), 6);
-//
-//			// TODO Dia da semana sábado, vencimento passa para dia 7
-//		} else if (c.get(Calendar.DAY_OF_WEEK) == sabado) {
-//			c.set(anoAtual(), mesAtual(), 7);
-//		} else {
-//			c.set(anoAtual(), mesAtual(), 5);
-//		}
-//
-//		Date vencimento = c.getTime();
-//
-//		fatura.setVencimento(vencimento);
 	}
 
 	/**
@@ -553,7 +554,7 @@ public class FaturaBean implements Serializable {
 	public void aplicaMultaPorAtraso() {
 		if (!repository.findByCalculoDaMulta().isEmpty()) {
 			System.out.println(">>>>> Aplicando multa por atraso");
-			
+
 			for (Fatura f : repository.findByCalculoDaMulta()) {
 				System.out.println(">>>>> Calculando multa para: " + f.getPlano().getBeneficiario().getNome());
 				f.setMultaAplicada(true);
@@ -633,11 +634,11 @@ public class FaturaBean implements Serializable {
 				Double juros = 0.00;
 				Double multa = 0.00;
 				Calendar hoje = Calendar.getInstance();
-				
+
 				for (Fatura f : repository.findByJuros()) {
 					if (f.getPlano().getBeneficiario().getStatus() == Status.ATIVADO) {
 						System.out.println(">>> Calculando juros para: " + f.getPlano().getBeneficiario().getNome());
-						
+
 						multa = f.getValorTotalGerado() * 0.02;
 						int ultimoDiaGerado = f.getDataJuros().get(Calendar.DAY_OF_MONTH);
 						int dia = hoje.get(Calendar.DAY_OF_MONTH);
@@ -1367,4 +1368,19 @@ public class FaturaBean implements Serializable {
 	public void setCodigoDeSegurancao(String codigoDeSegurancao) {
 		this.codigoDeSegurancao = codigoDeSegurancao;
 	}
+
+	public List<ItemDaFatura> getListaItemDaFaturaPlanoDeSaude() {
+		if(listaItemDaFaturaPlanoDeSaude == null) {
+			listaItemDaFaturaPlanoDeSaude = itemDaFaturaRepository.findAllOrderByOrdem(fatura);
+		}
+		return listaItemDaFaturaPlanoDeSaude;
+	}
+	
+	public List<ItemDaFatura> getListaItemDaFaturaOutros() {
+		if(listaItemDaFaturaOutros == null) {
+			listaItemDaFaturaOutros = itemDaFaturaRepository.findAllExcetoPlanoDeSaude(fatura);
+		}
+		return listaItemDaFaturaOutros;
+	}
+
 }

@@ -86,6 +86,9 @@ public class Beneficiario implements Serializable, BaseEntity {
 	// APARTAMENTO, ENFERMARIA
 	@Column(name = "acomodacao")
 	private String acomodacao;
+	
+	@Column(name = "valor_acomodacao")
+	private Double valorAcomodacao;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "status")
@@ -106,7 +109,7 @@ public class Beneficiario implements Serializable, BaseEntity {
 			CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Dependente> dependentes = new ArrayList<Dependente>();
 
-	@OneToMany(mappedBy = "beneficiario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "beneficiario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Plano> planos = new ArrayList<Plano>();
 
 	@ManyToOne
@@ -425,6 +428,14 @@ public class Beneficiario implements Serializable, BaseEntity {
 
 	public void setTemPlanoDeSaude(Boolean temPlanoDeSaude) {
 		this.temPlanoDeSaude = temPlanoDeSaude;
+	}
+	
+	public Double getValorAcomodacao() {
+		return valorAcomodacao;
+	}
+	
+	public void setValorAcomodacao(Double valorAcomodacao) {
+		this.valorAcomodacao = valorAcomodacao;
 	}
 
 	@Override

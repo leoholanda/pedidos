@@ -45,6 +45,8 @@ public class ConvenioBean implements Serializable {
     private List<Convenio> listaPlanoDeSaude;
 
     private List<Convenio> listaTudo;
+    
+    private List<Convenio> listaPlanoDeSaudeConvenioServico;
 
     private String searchValue;
 
@@ -56,6 +58,7 @@ public class ConvenioBean implements Serializable {
 		listaPlanoDeSaude = repository.findBySomentePlanoDeSaude();
 		listaConvenios = repository.findAllConvenios();
 		listaServicos = repository.findAllServicos();
+		listaPlanoDeSaudeConvenioServico = repository.findByPlanoDeSaudeConvenioServico();
 		
 		listaConveniosIndex = repository.findAllConveniosIndex();
 		listaServicosIndex = repository.findAllServicosIndex();
@@ -331,5 +334,9 @@ public class ConvenioBean implements Serializable {
     
     public List<Convenio> getListaServicosIndex() {
 		return listaServicosIndex;
+	}
+    
+    public List<Convenio> getListaPlanoDeSaudeConvenioServico() {
+		return listaPlanoDeSaudeConvenioServico;
 	}
 }

@@ -1,3 +1,11 @@
+/* Status */
+.Pendente {
+	cursor: text; 
+	border-color: #FB8C00; 
+	color: #FB8C00; 
+	background-color: #FFF;
+}
+
 .save {
 	margin: 20px 10px .5em 0;
 	border-top: 1px solid #d5d5d5;

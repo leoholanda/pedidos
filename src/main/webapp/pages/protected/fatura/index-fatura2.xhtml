@@ -1,0 +1,510 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{faturaMB.fatura.id}" />
+
+		<f:viewAction action="#{faturaMB.buscar}" if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="title">
+		<h:outputText value="Fatura" />
+	</ui:define>
+	<ui:define name="content">
+		<div class="ui-g dashboard">
+			<div class="ui-g-12">
+				<h:form id="form">
+					<ui:include src="../util/messages.xhtml" />
+
+					<div class="MarBot10">
+
+						<p:commandButton onclick="javascript:history.back();"
+							value="Voltar" icon="fa fa-mail-reply" title="Retornar"
+							styleClass="black-button" process="@this"/>
+						<p:spacer width="10" />
+
+						<p:commandButton value="Editar Fatura" icon="fa fa-edit"
+							title="Editar fatura" oncomplete="PF('pagar').show()"
+							rendered="#{faturaMB.fatura.pago}" />
+
+						<p:commandButton value="Pagar Fatura" icon="fa fa-check"
+							styleClass="green-button"
+							action="#{faturaMB.mostraPagamentoCalculadoDoDia}"
+							title="Efetuar pagamento" oncomplete="PF('pagar').show()"
+							update="form:panel"
+							rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado}" />
+						<p:spacer width="10" />
+						
+						<p:menuButton value="Mais Opções" icon="fa fa-angle-down">
+							<p:menuitem value="Parcelar" oncomplete="PF('parcelas').show()"
+								icon="fa fa-list-alt"
+								rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado}" />
+							<p:menuitem value="Fechar" action="#{faturaMB.fecharFatura()}"
+								update="@form" process="@this"
+								title="Fechar fatura serve para não gerar mais juros"
+								icon="fa fa-file-text-o"
+								rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado and !faturaMB.fatura.fechado}" />
+							<p:menuitem value="Cancelar Pagamento"
+										title="Fatura retorna para status 'Pendente'"
+										oncomplete="PF('modal-cancelamento').show()" icon="fa fa-close"
+										rendered="#{faturaMB.fatura.pago}" />
+							<p:menuitem value="Remover"
+								title="Necessário código de segurança"
+								oncomplete="PF('modal-remove').show()" icon="fa fa-trash" />
+						</p:menuButton>
+
+						<div class="AlignRight"
+							jsf:rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado}">
+							<p:commandButton update="mensagem" styleClass="aqua-button"
+								value="Enviar por email" icon="fa fa-send"
+								title="Envia fatura por email">
+								<p:confirm header="Confirmação"
+									message="Deseja enviar novamente a fatura para o titular?"
+									icon="ui-icon-alert" />
+							</p:commandButton>
+						</div>
+					</div>
+
+					<div class="card">
+						<p:link href="../beneficiario/index-beneficiario.xhtml?id=#{faturaMB.fatura.plano.beneficiario.id}" title="Redireciona para cadastro do associado">
+							<h1 class="BoldGray">
+								#{faturaMB.fatura.plano.beneficiario.nomeComIniciaisMaiuscula}
+								<h:outputLabel styleClass="Fright Gray"
+									value="#{faturaMB.fatura.mesDaFatura}" />
+							</h1>
+						</p:link>	
+
+						<p:panelGrid columns="4" layout="grid" id="beneficiario"
+							styleClass="ui-panelgrid-blank"
+							columnClasses="ui-grid-col-2,ui-grid-col-4, ui-grid-col-2,ui-grid-col-4">
+
+							<p:outputLabel value="Matrícula" styleClass="Blue" />
+							<p:outputLabel
+								value="#{faturaMB.fatura.plano.beneficiario.servidor}" />
+
+							<p:outputLabel value="CPF" styleClass="Blue" />
+							<p:outputLabel value="#{faturaMB.fatura.plano.beneficiario.cpf}" />
+
+							<p:outputLabel value="SUS" styleClass="Blue" />
+							<p:outputLabel value="#{faturaMB.fatura.plano.beneficiario.sus}" />
+
+							<p:outputLabel value="Telefone" styleClass="Blue" />
+							<p:outputLabel
+								value="#{faturaMB.fatura.plano.beneficiario.telefone}" />
+
+							<p:outputLabel value="Email" styleClass="Blue" />
+							<p:outputLabel
+								value="#{faturaMB.fatura.plano.beneficiario.email}" />
+
+							<p:outputLabel value="Nascimento" styleClass="Blue" />
+							<h:panelGroup>
+								<p:outputLabel
+									value="#{faturaMB.fatura.plano.beneficiario.dataNascimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</p:outputLabel>
+								<p:spacer width="10" />
+								<p:outputLabel
+									value="Idade: #{faturaMB.fatura.plano.beneficiario.idade}"
+									styleClass="Green" />
+							</h:panelGroup>
+
+							<p:outputLabel value="Faixa Etária" styleClass="Blue" />
+							<p:outputLabel
+								value="#{faturaMB.fatura.plano.beneficiario.faixaEtaria.periodo}" />
+
+							<p:outputLabel value="Acomodação" styleClass="Blue"
+								rendered="#{faturaMB.fatura.plano.beneficiario.temPlanoDeSaude}" />
+							<p:outputLabel
+								value="#{faturaMB.fatura.plano.beneficiario.acomodacao}"
+								rendered="#{faturaMB.fatura.plano.beneficiario.temPlanoDeSaude}" />
+
+							<p:outputLabel value="Consignado" styleClass="Blue" />
+							<p:outputLabel
+								value="#{faturaMB.fatura.plano.beneficiario.pagamentoConsignado}" />
+
+							<p:outputLabel value="Código da Fatura" styleClass="Blue" />
+							<p:outputLabel value="#{faturaMB.fatura.id}" />
+
+						</p:panelGrid>
+
+						<div class="MarTop20 MarBot10">
+							<div style="text-align: left;" class="Fleft">
+								<p:commandButton value="#{faturaMB.fatura.status}" styleClass="Fs10"
+									style="cursor: text; border-color: #43A047;  background-color: #43A047;"
+									update="@this" process="@this"
+									rendered="#{faturaMB.fatura.pago}" />
+								<p:commandButton value="#{faturaMB.fatura.status}" styleClass="Fs10"
+									style="cursor: text; border-color: #0084b4;  background-color: #0084b4;"
+									update="@this" process="@this"
+									rendered="#{faturaMB.fatura.parcelado}" />
+								<p:commandButton value="#{faturaMB.fatura.status}" styleClass="Fs10"
+									style="cursor: text; border-color: #0084b4;  background-color: #0084b4;"
+									update="@this" process="@this"
+									rendered="#{faturaMB.fatura.fechado}" />
+
+								<p:commandButton value="#{faturaMB.fatura.status}" styleClass="Pendente Fs10"
+									update="@this" process="@this"
+									rendered="#{faturaMB.fatura.pendente}" />
+								<p:commandButton
+									value="#{faturaMB.fatura.diasAtrasados} (#{faturaMB.fatura.formatacaoTextoDiaDeAtraso})"
+									styleClass="red-button Fs10"
+									style="cursor: text; border-color: #E53935;  background-color: #E53935;"
+									update="@this" process="@this"
+									rendered="#{faturaMB.fatura.atrasado}" />
+
+								<p:outputLabel value="#{faturaMB.fatura.dataPagamento.time}"
+									styleClass="Gray Fs14" style="margin-left: 10px;"
+									rendered="#{faturaMB.fatura.pago || faturaMB.fatura.parcelado || faturaMB.fatura.fechado}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</p:outputLabel>
+							</div>
+
+							<div style="text-align: right;">
+								<p:commandLink update="@form" style="cursor: pointer;">
+									<p:outputLabel value="Vencimento: "
+										styleClass="Red Fs14 MarTop20" />
+									<p:outputLabel value="#{faturaMB.fatura.vencimento}"
+										styleClass="Red Fs14">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:outputLabel>
+								</p:commandLink>
+							</div>
+						</div>
+
+						<p:dialog widgetVar="confirma-vencimento"
+							header="Data de Vencimento" modal="true" resizable="false"
+							width="350" showEffect="fade" hideEffect="fade" responsive="true">
+							<div class="ui-g-12">
+								<p:outputLabel value="Deseja alterar data de vencimento?" />
+							</div>
+							<div class="ui-g-12">
+								<p:calendar value="#{faturaMB.fatura.vencimento}" mask="true"
+									pattern="dd/MM/yyyy" mode="popup" showButtonPanel="true"
+									showOn="null" />
+							</div>
+							<div class="ui-g-12">
+								<p:commandButton value="Salvar"
+									action="#{faturaMB.alterarVencimento()}" update="@form"
+									icon="fa fa-save" styleClass="green-button" />
+							</div>
+						</p:dialog>
+
+						<!-- Detalhe da fatura parcelada -->
+						<p:panel header="Parcelas" id="pnl-parcelas" styleClass="MarBot20"
+							rendered="#{faturaMB.faturaParcelada}">
+							<ui:repeat value="#{faturaMB.parcelasDaFatura}" var="parcela">
+								<ul class="task-list" id="teste">
+									<li><span class="task-name"> <p:outputLabel
+												value="Parcela #{parcela.numeroDaParcela}"
+												styleClass="Green" rendered="#{!parcela.pendente}" /> <p:commandLink
+												value="Parcela #{parcela.numeroDaParcela}"
+												style="cursor: pointer;" styleClass="Red"
+												onclick="PF('pagar-parcela').show()"
+												rendered="#{parcela.pendente}"
+												update="form:panel-pagar-parcela">
+												<f:setPropertyActionListener value="#{parcela}"
+													target="#{faturaParceladaMB.parcela}" />
+											</p:commandLink>
+									</span> <span class="task-name" jsf:rendered="#{parcela.pendente}"
+										style="margin-left: 10px;">#{parcela.converterDataVencimento}</span>
+										<span class="task-name Gray"
+										jsf:rendered="#{!parcela.pendente}" style="margin-left: 10px;">#{parcela.converterDataVencimento}</span>
+
+										<i class="task-name Green fa fa-check"
+										jsf:rendered="#{!parcela.pendente}" style="margin-left: 10px;" />
+
+										<p:commandButton value="#{parcela.converterValorTotal}"
+											oncomplete="PF('pagar-parcela').show()"
+											style="cursor: text; border-color: #FB8C00;  background-color: #FB8C00; width: 100px;"
+											update="@this" process="@this" /></li>
+								</ul>
+							</ui:repeat>
+						</p:panel>
+
+
+						<p:panel header="Fatura Detalhada" style="height:100%">
+
+							<ui:repeat
+								value="#{faturaMB.listaItemDaFaturaPlanoDeSaude}"
+								var="item">
+								<ul class="task-list">
+									<li><span class="task-name">#{item.nomeComIniciaisMaiuscula}</span>
+
+										<p:commandButton value="#{item.converterValor}"
+											style="cursor: text; border-color: #2b81c6;  background-color: #2b81c6; width: 100px;"
+											update="@this" process="@this" />
+									</li>
+								</ul>
+							</ui:repeat>
+							<br />
+							
+							<ul class="task-list" jsf:rendered="#{faturaMB.fatura.plano.beneficiario.temPlanoDeSaude}">
+								<li>
+									<span class="task-name">TOTAL PLANO DE SAÚDE</span> <p:commandButton
+										value="#{faturaMB.fatura.converterValorPlano}"
+										style="cursor: text; border-color: #2b81c6;  background-color: #2b81c6; width: 100px;"
+										update="@this" process="@this" />
+								</li>
+							</ul>
+							<br />	
+							
+							<ui:repeat
+								value="#{faturaMB.listaItemDaFaturaOutros}"
+								var="item">
+								<ul class="task-list">
+									<li><span class="task-name">#{item.nomeComIniciaisMaiuscula}</span>
+
+										<p:commandButton value="#{item.converterValor}"
+											style="cursor: text; border-color: #2b81c6;  background-color: #2b81c6; width: 100px;"
+											update="@this" process="@this" />
+									</li>
+								</ul>
+							</ui:repeat>
+							<br />
+
+							<ul class="task-list">
+								<li
+									jsf:rendered="#{!faturaMB.fatura.plano.beneficiario.consignado}"><span
+									class="task-name">MENSALIDADE</span> <p:commandButton
+										value="#{faturaMB.fatura.converterMensalidade}"
+										style="cursor: text; border-color: #2b81c6;  background-color: #2b81c6; width: 100px;"
+										update="@this" process="@this" /></li>
+										
+								<li jsf:rendered="#{faturaMB.fatura.multaAplicada}"><span
+									class="task-name BoldGray">VALOR TOTAL GERADO</span> <p:commandButton
+										value="#{faturaMB.fatura.converterValorTotalGerado}"
+										style="cursor: text; border-color: #26C6DA; background-color: #26C6DA; width: 100px;"
+										update="@this" process="@this" /></li>
+
+								<li jsf:rendered="#{faturaMB.fatura.temResiduoDaFaturaAnterior}">
+
+									<span
+									jsf:rendered="#{faturaMB.fatura.debitoFaturaAnterior}"
+									class="task-name FontBold Red">DÉBITO (FATURA ANTERIOR)</span>
+
+									<span
+									jsf:rendered="#{!faturaMB.fatura.debitoFaturaAnterior}"
+									class="task-name FontBold Blue">CRÉDITO (FATURA
+										ANTERIOR)</span> 
+										
+										<p:commandButton
+										value="#{faturaMB.fatura.converterResiduoDescontado}"
+										rendered="#{faturaMB.fatura.debitoFaturaAnterior}"
+										style="cursor: text; border-color: #E53935; background-color: #E53935; width: 100px;"
+										update="@this" process="@this" /> 
+										
+										<p:commandButton
+										value="#{faturaMB.fatura.converterResiduoDescontado}"
+										rendered="#{!faturaMB.fatura.debitoFaturaAnterior}"
+										style="cursor: text; border-color: #03A9F4; background-color: #03A9F4; width: 100px;"
+										update="@this" process="@this" />
+								</li>
+							</ul>
+							<br />
+
+							<ul class="task-list"
+								jsf:rendered="#{faturaMB.fatura.multaAplicada}">
+								<li><span class="task-name">MULTA</span> <p:commandButton
+										value="#{faturaMB.fatura.multaPorAtraso}"
+										style="cursor: text; border-color: #FB8C00;  background-color: #FB8C00; width: 100px;"
+										update="@this" process="@this" /></li>
+
+								<li><span class="task-name">JUROS</span> <p:commandButton
+										value="#{faturaMB.fatura.jurosAoDia}"
+										style="cursor: text; border-color: #FB8C00;  background-color: #FB8C00; width: 100px;"
+										update="@this" process="@this" /></li>
+							</ul>
+							<br />
+
+							<ul class="task-list">
+								<li><span class="task-name FontBold LeadenGreen Fs16">TOTAL
+										À PAGAR</span> <p:commandButton
+										value="#{faturaMB.fatura.converterValorTotal}"
+										style="cursor: text; border-color: #26A69A; background-color: #26A69A; width: 100px;"
+										update="@this" process="@this" /></li>
+							</ul>
+
+							<ul class="task-list"
+								jsf:rendered="#{faturaMB.fatura.valorPago ne null}">
+								<li><span class="task-name FontBold Green Fs16">VALOR
+										PAGO</span> <p:commandButton
+										value="#{faturaMB.fatura.converterValorPago}"
+										style="cursor: text; border-color: #43A047; background-color: #43A047; width: 100px;"
+										update="@this" process="@this" /></li>
+							</ul>
+							<br />
+
+							<ul class="task-list"
+								jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">
+								<li><span class="task-name FontBold Red Fs16"
+									jsf:rendered="#{faturaMB.fatura.residuoParaProximaFatura}">DÉBITO
+										(PRÓXIMA FATURA)</span> <span class="task-name FontBold Blue Fs16"
+									jsf:rendered="#{!faturaMB.fatura.residuoParaProximaFatura}">CRÉDITO
+										(PRÓXIMA FATURA)</span> 
+										<p:commandButton
+										value="#{faturaMB.fatura.converterValorDoResiduo}"
+										rendered="#{faturaMB.fatura.residuoParaProximaFatura}"
+										style="cursor: text; border-color: #E53935; background-color: #E53935; width: 100px;"
+										update="@this" process="@this" /> 
+										<p:commandButton
+										value="#{faturaMB.fatura.converterValorDoResiduo}"
+										rendered="#{!faturaMB.fatura.residuoParaProximaFatura}"
+										style="cursor: text; border-color: #0288D1; background-color: #0288D1; width: 100px;"
+										update="@this" process="@this" /></li>
+							</ul>
+
+						</p:panel>
+						<br />
+						<div align="center">
+							<p:commandButton widgetVar="parcelas" value="Pagar Fatura"
+								styleClass="green-button" oncomplete="PF('pagar').show()"
+								icon="fa fa-check" title="Efetuar pagamento"
+								rendered="#{!faturaMB.fatura.pago and !faturaMB.fatura.parcelado}">
+							</p:commandButton>
+						</div>
+
+					</div>
+
+					<!-- Dialog parcelas -->
+					<p:dialog width="parcelas" showEffect="fade" hideEffect="fade"
+						widgetVar="parcelas" header="Parcelar Fatura" modal="true"
+						responsive="true" resizable="false">
+						<h:panelGroup id="panel-parcela" layout="block"
+							styleClass="ui-fluid">
+							<p:panelGrid columns="1" layout="grid" id="panel-parcelas"
+								styleClass="ui-panelgrid-blank" columnClasses="ui-grid-col-6">
+
+								<p:outputLabel for="parcelas" value="Número de Parcelas" />
+								<p:spinner id="parcelas" value="#{faturaMB.numeroDeParcelas}"
+									min="2" max="12" />
+
+								<p:commandButton value="Parcelar"
+									action="#{faturaMB.parcelarFatura}" icon="ui-icon-check"
+									process="@form panel-parcela"
+									update="@form form:pnl-parcelas pnl-parcelas"
+									oncomplete="if (!args.validationFailed)" />
+
+							</p:panelGrid>
+						</h:panelGroup>
+
+					</p:dialog>
+
+
+					<!-- Dialog pagamento da parcela -->
+					<p:dialog showEffect="fade" hideEffect="fade"
+						widgetVar="pagar-parcela" header="Pagar parcela" modal="true"
+						responsive="true" resizable="false">
+						<h:panelGroup id="panel-pagar-parcela" layout="block"
+							styleClass="ui-fluid">
+
+							<p:panelGrid columns="2" layout="grid" id="panel-pagar"
+								styleClass="ui-panelgrid-blank"
+								columnClasses="ui-grid-col-2, ui-grid-col-8">
+
+								<p:outputLabel id="number" styleClass="Fs20 Bold"
+									value="#{faturaParceladaMB.parcela.numeroDaParcela}ª: " />
+								<p:outputLabel value="Parcela" styleClass="Fs20 Bold" />
+							</p:panelGrid>
+
+							<p:panelGrid columns="2" layout="grid" id="panel-pagar2"
+								styleClass="ui-panelgrid-blank"
+								columnClasses="ui-grid-col-6, ui-grid-col-6">
+
+								<p:commandButton value="Sim"
+									action="#{faturaParceladaMB.pagarParcela}" icon="ui-icon-check"
+									process="@form" update="@form"
+									onclick="PF('pagar-parcela').hide()">
+								</p:commandButton>
+
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+
+							</p:panelGrid>
+						</h:panelGroup>
+
+					</p:dialog>
+
+					<!-- Dialog pagamento  -->
+					<ui:include src="dialog-pagamento-fatura.xhtml" />
+
+					<!-- confirm email -->
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+						widgetVar="reenvia-email">
+
+						<p:commandButton value="Sim"
+							actionListener="#{faturaMB.enviaFaturaPorEmail}"
+							icon="ui-icon-check" process="@this" update="@form"
+							onclick="PF('reenvia-email').hide()">
+						</p:commandButton>
+
+						<p:commandLink value="Fechar" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+				</h:form>
+
+				<!-- Dialog remover fatura -->
+				<p:dialog showEffect="drop" hideEffect="drop"
+					widgetVar="modal-remove" header="Remover Fatura" modal="true"
+					responsive="true" resizable="false" height="70" width="300">
+					<h:form id="form-remove">
+						<h:panelGroup id="panel-remover" layout="block"
+							styleClass="ui-fluid">
+							
+							<div class="ui-g-12">
+								<p:outputLabel value="Deseja remover fatura #{faturaMB.fatura.id}?" />
+							</div>
+	
+							<div class="ui-g-12">
+								<p:commandButton value="Sim"
+									action="#{faturaMB.removerFatura()}" icon="fa fa-check"
+									styleClass="green-button" process="panel-remover"
+									update="panel-remover form:mensagem"
+									oncomplete="if (!args.validationFailed)" style="width: auto;" />
+								
+								<p:commandLink value="Não"
+											   process="@this"
+											   oncomplete="PF('modal-remove').hide()" styleClass="MarLeft20" />
+							</div>				   
+						</h:panelGroup>
+					</h:form>
+				</p:dialog>
+
+				<!-- Dialog remover fatura -->
+				<p:dialog showEffect="drop" hideEffect="drop"
+						  widgetVar="modal-cancelamento" header="Cancelar Fatura" modal="true"
+						  responsive="true" resizable="false">
+					<h:form id="form-cancela">
+						<h:panelGroup id="panel-cancelar" layout="block"
+									  styleClass="ui-fluid">
+
+							<div class="ui-g-12">
+								<p:outputLabel value="Deseja cancelar o pagamento desta fatura?" />
+							</div>
+
+							<div class="ui-g-12">
+								<p:commandButton value="Sim"
+												 action="#{faturaMB.cancelarPagamento()}" icon="fa fa-check"
+												 styleClass="green-button"
+												 process="panel-cancelar" update="panel-cancelar form form:mensagem"
+												 oncomplete="PF('modal-cancelamento').hide()"
+												 style="width: auto;" />
+
+								<p:commandLink value="Não"
+											   process="panel-cancelar"
+											   update="panel-cancelar"
+											   oncomplete="PF('modal-cancelamento').hide()" styleClass="MarLeft20" />
+							</div>
+
+						</h:panelGroup>
+					</h:form>
+				</p:dialog>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
