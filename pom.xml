@@ -4,73 +4,25 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.holanda</groupId>
-	<artifactId>AEE</artifactId>
-	<version>1.10.1</version>
+	<artifactId>produtos</artifactId>
+	<version>1.11.0</version>
 	<packaging>war</packaging>
 
-	<name>AEE</name>
+	<name>beta-clean</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.sun.jersey</groupId>
-			<artifactId>jersey-client</artifactId>
-			<version>1.19.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.8.5</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-client</artifactId>
-			<version>3.0.11.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-			<version>3.0.11.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>3.0.11.Final</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>6.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.primefaces.omega</groupId>
-			<artifactId>omega-theme</artifactId>
-			<version>1.1.4</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.ejb</groupId>
-			<artifactId>javax.ejb-api</artifactId>
-			<version>3.2</version>
-		</dependency>
-
+	
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>javax.faces</artifactId>
 			<version>2.2.8</version>
 			<scope>compile</scope>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
@@ -106,13 +58,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.38</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
@@ -122,14 +67,14 @@
 		<dependency>
 			<groupId>org.apache.deltaspike.modules</groupId>
 			<artifactId>deltaspike-data-module-api</artifactId>
-			<version>1.7.0</version>
+			<version>1.8.1</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.deltaspike.modules</groupId>
 			<artifactId>deltaspike-data-module-impl</artifactId>
-			<version>1.7.0</version>
+			<version>1.8.1</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -138,21 +83,6 @@
 			<groupId>org.omnifaces</groupId>
 			<artifactId>omnifaces</artifactId>
 			<version>2.5.1</version>
-		</dependency>
-
-		<!-- JUNIT -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>2.0.2-beta</version>
-			<scope>test</scope>
 		</dependency>
 
 		<!-- Commons Logging (abstrai a implementação de logging) -->
@@ -171,23 +101,6 @@
 			<scope>compile</scope>
 		</dependency>
 
-		<!-- Spring Security (autenticação e autorização) -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>3.1.4.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>3.1.4.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>3.1.4.RELEASE</version>
-		</dependency>
-
 		<!-- API de Servlet -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -196,29 +109,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- Abstração para envio de e-mails -->
-		<dependency>
-			<groupId>com.outjected</groupId>
-			<artifactId>simple-email</artifactId>
-			<version>0.2.6-SNAPSHOT</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Requerido para envio de e-mails -->
-		<dependency>
-			<groupId>com.sun.mail</groupId>
-			<artifactId>javax.mail</artifactId>
-			<version>1.5.5</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<!-- Usamos para templates de emails -->
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.7</version>
-			<scope>compile</scope>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
 		<dependency>
@@ -242,41 +132,6 @@
 			<version>3.7</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/itext/itext -->
-		<!-- <dependency> -->
-		<!-- <groupId>itext</groupId> -->
-		<!-- <artifactId>itext</artifactId> -->
-		<!-- <version>4.2.1</version> -->
-		<!-- </dependency> -->
-
-
-		<!-- https://mvnrepository.com/artifact/com.lowagie/itext -->
-		<!-- <dependency> -->
-		<!-- <groupId>com.lowagie</groupId> -->
-		<!-- <artifactId>itext</artifactId> -->
-		<!-- <version>4.2.0</version> -->
-		<!-- </dependency> -->
-
-		<!-- <dependency> -->
-		<!-- <groupId>com.lowagie</groupId> -->
-		<!-- <artifactId>itext</artifactId> -->
-		<!-- <version>2.1.7</version> -->
-		<!-- </dependency> -->
-
-
-		<!-- Upload de imagens -->
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
@@ -296,7 +151,7 @@
 	</repositories>
 
 	<build>
-		<finalName>${project.artifactId}-${project.version}</finalName>
+		<finalName>${project.artifactId}</finalName>
 
 		<resources>
 			<resource>
@@ -323,21 +178,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-<!-- 					<executions> -->
-<!-- 						<execution> -->
-<!-- 							<phase>initialize</phase> -->
-<!-- 							<goals> -->
-<!-- 								<goal>initialize</goal> -->
-<!-- 							</goals> -->
-<!-- 							<configuration> -->
-<!-- 								<groupId>com.outjected</groupId> -->
-<!-- 								<artifactId>simple-email</artifactId> -->
-<!-- 								<version>0.2.6-SNAPSHOT</version> -->
-<!-- 								<packaging>jar</packaging> -->
-<!-- 								<file>${project-basedir}/src/main/resources/lib/simple-email-0.2.6-SNAPSHOT.jar</file> -->
-<!-- 							</configuration> -->
-<!-- 						</execution> -->
-<!-- 					</executions> -->
 				</configuration>
 			</plugin>
 		</plugins>

@@ -1,0 +1,24 @@
+package net.bonsamigos.enums;
+
+public enum Status {
+	// Para Pedido
+	ABERTO("Aberto"),
+	AUTORIZADO("Autorizado"),
+	ENTREGUE("Entregue"),
+	
+	// Para Usuario
+	SOLICITADO("Solicitado"),
+	DESATIVADO("Desativado");
+	
+	
+	private Status(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	private String descricao;
+	
+	public String getDescricao() {
+		return descricao;
+	}
+
+}

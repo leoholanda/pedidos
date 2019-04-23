@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	template="/WEB-INF/templates/template.xhtml">
+
+	<ui:define name="content">
+		<blockquote>
+			<div>
+				<h4>Pesquisar Unidade</h4>
+				<a href="cadastro-unidade.xhtml" class="waves-effect waves-light btn"><i
+					class="material-icons left">add</i>Cadastrar</a>
+			</div>
+		</blockquote>
+
+		<div class="row">
+			<div class="col s12 m12">
+				<div class="card center-align">
+					<div style="padding: 10px;">
+						<h:dataTable value="#{pesquisaUnidadeController.unidades}"
+							var="unidade" rows="20" styleClass="responsive-table striped">
+
+							<h:column>
+								<f:facet name="header">Código</f:facet>
+								<h:outputText value="#{unidade.codigo}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Nome</f:facet>
+								<h:outputText value="#{unidade.nomeInicialMaiuscula}" />
+							</h:column>
+
+							<h:column>
+								<f:facet name="header">Área</f:facet>
+								<h:outputText value="#{unidade.area.descricao}" />
+							</h:column>
+
+							<h:column styleClass="right-align">
+								<a class="waves-effect waves-light btn-small blue">Editar</a>
+								<a class="waves-effect waves-light btn-small red">Remover</a>
+							</h:column>
+						</h:dataTable>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

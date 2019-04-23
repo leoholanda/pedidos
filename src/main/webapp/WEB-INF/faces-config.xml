@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
 	version="2.2">
 	
-	<name>AEE</name>
+	<name>produtos</name>
 
 	<application>
 		<message-bundle>com.properties.Messages</message-bundle>

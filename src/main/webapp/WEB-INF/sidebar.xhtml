@@ -40,7 +40,7 @@
        	                    	<p:menuitem id="om_gerar_fatura" value="Gerar Fatura Para #{faturaMB.mesAtualPorExtenso}" action="#{faturaMB.geraFatura}" rendered="#{faturaMB.faturaParaEsseMes}"/>
 	                        </p:submenu>
 	                        
-	                        <p:menuitem id="om_caixa" value="Fluxo de Caixa" icon="fa fa-calculator" outcome="/pages/protected/caixa/fluxo-caixa" rendered="#{seguranca.consultarBeneficiario}" update="frm"/>
+	                        <p:menuitem id="om_caixa" value="Caixa" icon="fa fa-calculator" outcome="/pages/protected/caixa/fluxo-caixa" rendered="#{seguranca.consultarBeneficiario}" update="frm"/>
 	
 	                        <p:menuitem id="om_faixa_etaria" value="Faixa Etária" icon="fa fa-sort-numeric-asc" outcome="/pages/protected/faixa/pesquisa-faixa" rendered="#{seguranca.consultarBeneficiario}" update="frm"/>
 	
