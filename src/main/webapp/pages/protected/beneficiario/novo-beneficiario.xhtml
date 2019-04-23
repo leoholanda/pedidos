@@ -252,11 +252,11 @@
 					</div>
 
 					<div class="card">
-						<h1>Serviços</h1>
+						<h1>Plano de Saúde/Serviços/Convênios</h1>
 						<div class="ui-g">
 
 							<div class="ui-g-12">
-								<p:outputLabel for="servico" value="Serviços" />
+								<p:outputLabel for="servico" value="Adicione" />
 							</div>
 
 							<div class="ui-g-6">
@@ -264,11 +264,11 @@
 									value="#{beneficiarioMB.idConvenio}">
 									<f:selectItem itemValue="" itemLabel=""
 										noSelectionOption="true" />
-									<f:selectItems value="#{convenioMB.listaServicos}"
+									<f:selectItems value="#{convenioMB.listaPlanoDeSaudeConvenioServico}"
 										var="servico" itemValue="#{servico.id}"
 										itemLabel="#{servico.nome}" />
-									<p:ajax listener="#{beneficiarioMB.adicionaPlano()}"
-										event="itemSelect" update="servicos" />
+									<p:ajax listener="#{beneficiarioMB.adicionaPlano}"
+										event="itemSelect" update="servicos mensagem" />
 								</p:selectOneMenu>
 							</div>
 
@@ -283,7 +283,7 @@
 
 									<p:column width="10">
 										<p:commandLink title="Remover1" rendered="#{plano.id eq null}"
-											action="#{beneficiarioMB.removerServico(plano)}" update="servicos" process="servicos">
+											action="#{beneficiarioMB.removerServico(plano)}" update="@form servicos" process="servicos">
 											<i class="fa fa-trash" />
 										</p:commandLink>
 										

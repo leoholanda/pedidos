@@ -25,7 +25,7 @@
 			<div class="ui-g-12">
 				<h:form id="form">
 					<ui:include src="../util/messages.xhtml" />
-
+					
 					<div class="MarBot10">
 						<p:commandButton onclick="javascript:window.history.go(-1)"
 							value="Voltar" icon="fa fa-mail-reply" title="Retornar"
@@ -61,7 +61,18 @@
 									icon="ui-icon-alert" />
 							</p:commandButton>
 						</div>
+
+						<div class="ui-messages ui-widget" aria-live="polite" jsf:rendered="#{beneficiarioMB.existeFaturaDoMesAtual}">
+							<div class="ui-messages-warn ui-corner-all">
+								<span class="ui-messages-error-icon"></span>
+								<ul>
+									<li><span class="ui-messages-warn-summary">Sem
+											identificação de fatura para o mês atual</span></li>
+								</ul>
+							</div>
+						</div>
 					</div>
+					
 
 					<div class="ui-g-12 ui-sm-12 ui-lg-6">
 						<div class="card">
@@ -78,8 +89,6 @@
 									styleClass="Red" style="margin-left: 10px;" />
 								<span class="fa fa-times-circle Red"
 									jsf:rendered="#{beneficiarioMB.beneficiario.desativado}" />
-
-								<h:outputLabel styleClass="Fright Gray" value="Titular" />
 							</h1>
 
 							<h1 class="Pink"
@@ -98,18 +107,7 @@
 							</h1>
 
 							<div class="ui-g-12">
-								<div jsf:rendered="#{beneficiarioMB.existeFaturaDoMesAtual}"
-									class="ui-messages ui-widget" aria-live="polite">
-									<div class="ui-messages-warn ui-corner-all">
-										<span class="ui-messages-error-icon"></span>
-										<ul>
-											<li><span class="ui-messages-warn-summary">Sem
-													identificação de fatura para o mês atual</span></li>
-										</ul>
-									</div>
-								</div>
-
-								<p:accordionPanel multiple="true" >
+								<p:accordionPanel multiple="true" activeIndex="false">
 									<p:tab title="Informações">
 										<p:panelGrid columns="2" layout="grid" id="beneficiario"
 											styleClass="ui-panelgrid-blank"
@@ -153,8 +151,19 @@
 											</h:panelGroup>
 	
 											<p:outputLabel value="Faixa" styleClass="Blue" />
-											<p:outputLabel
-												value="#{beneficiarioMB.beneficiario.faixaEtaria.periodo}" />
+											<h:panelGroup>
+												<p:outputLabel value="#{beneficiarioMB.beneficiario.faixaEtaria.periodo}" />
+												<p:spacer width="10" />
+												<p:outputLabel value="#{beneficiarioMB.beneficiario.valorAcomodacao}" styleClass="Green">
+													<f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2" currencySymbol="R$" />
+												</p:outputLabel>
+											</h:panelGroup>		
+											
+											<p:outputLabel value="Salário" styleClass="Blue" />
+											<p:outputLabel value="#{beneficiarioMB.beneficiario.salario}">
+												<f:convertNumber locale="pt_BR" type="currency"
+													minFractionDigits="2" currencySymbol="R$" />
+											</p:outputLabel>
 	
 											<p:outputLabel value="Telefone" styleClass="Blue" />
 											<p:outputLabel value="#{beneficiarioMB.beneficiario.telefone}" />
@@ -192,17 +201,11 @@
 										</p:panelGrid>	
 									</p:tab>
 												
-									<p:tab title="Adicionais">
+									<p:tab title="Plano de Saúde">
 										<p:panelGrid columns="2" layout="grid" id="adicionais"
 										styleClass="ui-panelgrid-blank"
 										columnClasses="ui-grid-col-4,ui-grid-col-8">
-										
-											<p:outputLabel value="Salário" styleClass="Blue" />
-											<p:outputLabel value="#{beneficiarioMB.beneficiario.salario}">
-												<f:convertNumber locale="pt_BR" type="currency"
-													minFractionDigits="2" currencySymbol="R$" />
-											</p:outputLabel>
-	
+																					
 											<p:outputLabel value="Plano de Saúde" styleClass="Blue" />
 											<p:outputLabel
 												value="#{beneficiarioMB.beneficiario.temPlanoDeSaude ? 'Sim' : 'Não'}" />
@@ -295,7 +298,14 @@
 										</h:panelGroup>
 
 										<p:outputLabel value="Faixa" styleClass="Blue" />
-										<p:outputLabel value="#{dependente.faixaEtaria.periodo}" />
+										<h:panelGroup>
+											<p:outputLabel value="#{dependente.faixaEtaria.periodo}" />
+											<p:spacer width="10" />
+											<p:outputLabel value="#{dependente.valorAcomodacao}" styleClass="Green">
+												<f:convertNumber locale="pt_BR" type="currency" minFractionDigits="2"
+													currencySymbol="R$" />
+											</p:outputLabel>
+										</h:panelGroup>	
 
 									</p:panelGrid>
 								</p:panel>
