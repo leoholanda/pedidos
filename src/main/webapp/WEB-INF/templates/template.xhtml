@@ -11,24 +11,31 @@
 	<link rel="stylesheet"
 		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Beta Clean</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Produtos</title>
 
 	<ui:insert name="head" />
 </h:head>
 
 <h:body>
+	<!-- Menu -->
 	<nav style="background-color: #4682B4">
 		<div class="nav-wrapper">
 			<a href="#" class="brand-logo" style="margin-left: 8px;">Logo</a>
 			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="/produtos/pages/protected/unidade/pesquisa-unidade.xhtml">Unidade</a></li>
+				<li><a href="produtos/pages/protected/unidade/pesquisa-unidade.xhtml">Unidade</a></li>
 				<li><a href="badges.html">Produto</a></li>
 			</ul>
 		</div>
 	</nav>
 
+	<div class="container">
+		<ui:insert name="content"/>
+	</div>
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js" />
+		
 </h:body>
 
 </html>

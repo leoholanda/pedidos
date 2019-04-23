@@ -1,3 +1,77 @@
+<<<<<<< HEAD
+=======
+/* Status */
+
+.Pago {
+	cursor: text; 
+	border-color: #43A047 !important;
+	border-radius: 0px; 
+	color: #43A047 !important; 
+	background-color: #FFF !important;	
+}
+
+.Pendente {
+	cursor: text; 
+	border-color: #FB8C00 !important; 
+	border-radius: 0px;
+	color: #FB8C00 !important; 
+	background-color: #FFF !important;
+}
+
+.Parcelado {
+	font-size: 12px !important;
+	border-color: #0084b4 !important; 
+	border-radius: 0px; 
+	color: #0084b4 !important; 
+	background-color: #FFF !important;	
+}
+
+.Fechado {
+	cursor: text; 
+	border-color: #0084b4 !important; 
+	border-radius: 0px; 
+	color: #0084b4 !important; 
+	background-color: #FFF !important;
+}
+
+.Atrasado {
+	cursor: text; 
+	border-color: #E53935 !important; 
+	border-radius: 0px; 
+	color: #E53935 !important; 
+	background-color: #FFF !important;
+	border-radius: 0px;
+}
+
+.FaturaDescricao {
+	cursor: text; 
+	border-color: #546E7A !important; 
+	border-radius: 0px; 
+	color: #546E7A !important; 
+	background-color: #FFF !important;
+	border-radius: 2px;
+}
+
+.ButtonTurquoise {
+	cursor: text; 
+	border-color: #26C6DA !important; 
+	border-radius: 0px; 
+	color: #26C6DA !important; 
+	background-color: #FFF !important;
+	border-radius: 2px;
+}
+
+.TotalPagar {
+	cursor: text; 
+	border-color: #000 !important; 
+	border-radius: 0px; 
+	color: #000 !important; 
+	background-color: #FFF !important;
+	border-radius: 2px;
+}
+
+
+>>>>>>> 8999e81... Mudando para JSF
 .save {
 	margin: 20px 10px .5em 0;
 	border-top: 1px solid #d5d5d5;
