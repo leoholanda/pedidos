@@ -1,2 +1,2 @@
 # Beta Clean
-Sistema para controle de pedidos
+Sistema para notificação de pedidos
