@@ -2,6 +2,7 @@ package net.bonsamigos.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,6 +23,7 @@ public class Unidade implements Serializable {
 	private Long codigo;
 
 	@NotBlank
+	@Column(length = 60, unique = true)
 	private String nome;
 
 	@NotNull
