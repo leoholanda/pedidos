@@ -7,13 +7,12 @@ import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.Repository;
 
 import net.bonsamigos.model.Produto;
-import net.bonsamigos.model.Unidade;
 
 @Repository
 public interface ProdutoRepository extends EntityRepository<Produto, Long> {
 	
-	List<Unidade> findAllOrderByNome();
+	List<Produto> findAllOrderByNome();
 
-	Optional<Unidade> findByCodigo(Long codigo);
+	Optional<Produto> findByCodigo(Long codigo);
 
 }
