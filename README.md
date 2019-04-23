@@ -1,2 +1,2 @@
-# Fatura
-Java EE criado com Maven, utiliza JPA, Hibernate, CDI, Delta Spike - Data, Spring Security e Primefaces.
+# Beta Clean
+Sistema para controle de pedidos
