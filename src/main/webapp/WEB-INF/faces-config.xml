@@ -7,7 +7,7 @@
 	<name>produtos</name>
 
 	<application>
-		<message-bundle>com.properties.Messages</message-bundle>
+		<message-bundle>Messages</message-bundle>
 
 		<locale-config>
 			<default-locale>pt_BR</default-locale>

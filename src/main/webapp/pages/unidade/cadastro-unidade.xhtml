@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="codigo"
+			value="#{cadastroUnidadeController.unidade.codigo}" />
+		<f:viewAction action="#{cadastroUnidadeController.carregarUnidade}"
+			if="#{param.codigo ne null}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+				
+<!-- 				<p:breadCrumb> -->
+<!-- 				    <p:menuitem value="Unidade" url="#" /> -->
+<!-- 				    <p:menuitem value="Pesquisar Unidade" url="#" /> -->
+<!-- 				    <p:menuitem value="Cadastrar Unidade" url="#" /> -->
+<!-- 				</p:breadCrumb> -->
+				
+				<div class="card card-w-title">
+					<h:form>
+						<p:growl id="growl" />
+						<h1>
+							#{cadastroUnidadeController.titulo} Unidade
+							
+							<p:button outcome="cadastro-unidade.xhtml" value="CADASTRAR"
+							icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" rendered="#{cadastroUnidadeController.unidadeExistente}" />
+								
+							<p:button outcome="pesquisa-unidade.xhtml" value="PESQUISAR" 
+								icon="fa fa-search" styleClass="btn teal-btn" style="float:right" />
+								
+						</h1>
+
+						<p:panelGrid columns="1" layout="grid"
+							styleClass="ui-panelgrid-blank form-group">
+
+							<h:panelGroup styleClass="md-inputfield">
+								<p:inputText value="#{cadastroUnidadeController.unidade.codigo}" styleClass="input">
+								</p:inputText>
+								<label>Código</label>
+							</h:panelGroup>
+
+							<h:panelGroup styleClass="md-inputfield">
+								<p:inputText id="nome" styleClass="input"
+									value="#{cadastroUnidadeController.unidade.nome}" />
+								<label>Nome</label>
+							</h:panelGroup>
+							
+							<p:selectOneMenu id="area" required="true" value="#{cadastroUnidadeController.unidade.area}">
+								<f:selectItem itemLabel="Área" noSelectionOption="true" />
+	                            <f:selectItem itemLabel="Educação" itemValue="EDUCACAO" />
+	                            <f:selectItem itemLabel="Saúde" itemValue="SAUDE" />
+                        	</p:selectOneMenu>
+						</p:panelGrid>
+						
+						<div class="save">
+							<p:commandButton action="#{cadastroUnidadeController.salvar}" value="#{cadastroUnidadeController.titulo}" 
+								update="@form" style="width: auto;"></p:commandButton>
+						</div>
+						
+					</h:form>
+				</div>
+
+
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

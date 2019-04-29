@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="codigo"
+			value="#{cadastroUnidadeController.unidade.codigo}" />
+		<f:viewAction action="#{cadastroUnidadeController.carregarUnidade}"
+			if="#{param.codigo ne null}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ui-g">
+
+			<div class="card card-w-title">
+				<p:growl id="growl" />
+
+				<h1>
+					Pesquisar Unidade
+					<p:button outcome="cadastro-unidade.xhtml" value="CADASTRAR"
+						icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" />
+				</h1>
+
+				<h:form id="form">
+					<p:focus for="search" />
+					
+					<div class="MarTop30 MarBot10">
+						<div class="ui-g-6">
+							<div class="ui-fluid">
+								<div class="ui-inputgroup">
+									<p:inputText placeholder="Digite o Código" id="search"
+										value="#{pesquisaUnidadeController.valorDePesquisa}" />
+
+									<p:commandButton id="pesquisar"
+										action="#{pesquisaUnidadeController.pesquisar}"
+										update="unidades growl" icon="fa fa-search"
+										styleClass="blue-grey-btn" />
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="ui-g-12">
+						<p:dataTable value="#{pesquisaUnidadeController.unidades}"
+							id="unidades" var="unidade" rows="10"
+							paginator="#{pesquisaUnidadeController.paginator}"
+							emptyMessage="Nenhuma unidade encontrada!"
+							paginatorPosition="bottom" reflow="true">
+
+							<p:column width="50">
+								<f:facet name="header">Código</f:facet>
+								<h:outputText value="#{unidade.codigo}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">Nome</f:facet>
+								<h:outputText value="#{unidade.nomeInicialMaiuscula}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">Área</f:facet>
+								<h:outputText value="#{unidade.area.descricao}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">Status</f:facet>
+								<h:outputText value="#{unidade.status.descricao}" />
+							</p:column>
+
+							<p:column>
+								<p:button
+									outcome="cadastro-unidade.xhtml?codigo=#{unidade.codigo}"
+									value="Editar" styleClass="btn cyan-btn" />
+
+								<p:commandButton styleClass="btn red-btn" value="Desativar">
+									<p:confirm header="#{unidade.nomeInicialMaiuscula}"
+										message="Deseja desativar unidade?" icon="ui-icon-warning" />
+									<f:setPropertyActionListener
+										value="#{unidade}"
+										target="#{pesquisaUnidadeController.unidade}" />
+								</p:commandButton>
+
+								<p:confirmDialog global="true" showEffect="fade"
+									hideEffect="fade" width="250" closable="false">
+									<p:commandButton value="Sim"
+										actionListener="#{pesquisaUnidadeController.desativar(unidade)}"
+										update="unidades growl"
+										styleClass="ui-confirmdialog-yes GreenButton"
+										icon="ui-icon-check" />
+									<p:commandButton value="Não" type="button"
+										styleClass="ui-confirmdialog-no RedButton"
+										icon="ui-icon-close" />
+								</p:confirmDialog>
+							</p:column>
+						</p:dataTable>
+					</div>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

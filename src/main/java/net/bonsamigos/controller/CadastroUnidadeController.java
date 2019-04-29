@@ -7,7 +7,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import net.bonsamigos.enums.Area;
 import net.bonsamigos.model.Unidade;
 import net.bonsamigos.service.UnidadeService;
 import net.bonsamigos.util.FacesUtil;
@@ -31,7 +30,6 @@ public class CadastroUnidadeController implements Serializable {
 	
 	public void salvar() {
 		try {
-			unidade.setArea(Area.SAUDE);
 			unidadeService.save(unidade);
 			
 			unidade = new Unidade();
@@ -40,6 +38,19 @@ public class CadastroUnidadeController implements Serializable {
 			FacesUtil.error(e.getMessage());
 		}
 		
+	}
+	
+	public void carregarUnidade() {
+		unidade = unidadeService.findById(unidade.getCodigo());
+	}
+	
+	public boolean isUnidadeExistente() {
+		return unidade.getCodigo() != null ? true : false;
+	}
+	
+	public String getTitulo() {
+		String titulo = unidade.getCodigo() == null ? "Cadastrar" : "Editar";
+		return titulo;
 	}
 
 	public Unidade getUnidade() {

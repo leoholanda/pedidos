@@ -10,6 +10,8 @@ import javax.inject.Named;
 
 import net.bonsamigos.model.Unidade;
 import net.bonsamigos.service.UnidadeService;
+import net.bonsamigos.util.FacesUtil;
+import net.bonsamigos.util.NegocioException;
 
 @Named
 @ViewScoped
@@ -24,10 +26,37 @@ public class PesquisaUnidadeController implements Serializable {
 
 	private List<Unidade> unidades;
 
+	private String valorDePesquisa;
+
+	public final static int ROW = 10; // Quantidade de linhas para paginacao
+
 	@PostConstruct
 	public void init() {
 		unidade = new Unidade();
 		unidades = unidadeService.findAll();
+	}
+
+	/**
+	 * Pesquisa unidade pelo nome
+	 * 
+	 * @throws NegocioException
+	 * @throws NumberFormatException
+	 */
+	public void pesquisar() {
+		unidades = unidadeService.findByCodigo(valorDePesquisa);
+	}
+
+	public void desativar(Unidade unidade) {
+		unidadeService.remove(unidade);
+		FacesUtil.info("Unidade desativada!");
+	}
+
+	/**
+	 * Verifica necessidade de paginação
+	 * 
+	 */
+	public boolean isPaginator() {
+		return unidades.size() > 10 ? true : false;
 	}
 
 	public List<Unidade> getListaTodos() {
@@ -52,6 +81,14 @@ public class PesquisaUnidadeController implements Serializable {
 
 	public void setUnidades(List<Unidade> unidades) {
 		this.unidades = unidades;
+	}
+
+	public String getValorDePesquisa() {
+		return valorDePesquisa;
+	}
+
+	public void setValorDePesquisa(String valorDePesquisa) {
+		this.valorDePesquisa = valorDePesquisa;
 	}
 
 }

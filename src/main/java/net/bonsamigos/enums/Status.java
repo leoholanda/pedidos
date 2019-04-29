@@ -8,7 +8,8 @@ public enum Status {
 	
 	// Para Usuario
 	SOLICITADO("Solicitado"),
-	DESATIVADO("Desativado");
+	DESATIVADO("Desativado"),
+	ATIVADO("Ativado");
 	
 	
 	private Status(String descricao) {

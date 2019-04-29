@@ -2,40 +2,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets" lang="pt-br">
 
 <h:head>
 	<!--Import Google Icon Font-->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-		rel="stylesheet" />
-	<link rel="stylesheet"
-		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" />
+<!-- 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" -->
+<!-- 		rel="stylesheet" /> -->
+<!-- 	<link rel="stylesheet" -->
+<!-- 		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css" /> -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Produtos</title>
 
+	<h:outputStylesheet name="container.css" library="css" />			
+	<h:outputStylesheet name="style.css" library="css" />			
 	<ui:insert name="head" />
 </h:head>
 
 <h:body>
 	<!-- Menu -->
-	<nav style="background-color: #4682B4">
-		<div class="nav-wrapper">
-			<a href="#" class="brand-logo" style="margin-left: 8px;">Logo</a>
-			<ul id="nav-mobile" class="right hide-on-med-and-down">
-				<li><a href="produtos/pages/protected/unidade/pesquisa-unidade.xhtml">Unidade</a></li>
-				<li><a href="badges.html">Produto</a></li>
-			</ul>
-		</div>
-	</nav>
+<!-- 	<nav style="background-color: #4682B4"> -->
+<!-- 		<div class="nav-wrapper"> -->
+<!-- 			<a href="#" class="brand-logo" style="margin-left: 8px;">Logo</a> -->
+<!-- 			<ul id="nav-mobile" class="right hide-on-med-and-down"> -->
+<!-- 				<li><a href="produtos/pages/protected/unidade/pesquisa-unidade.xhtml">Unidade</a></li> -->
+<!-- 				<li><a href="badges.html">Produto</a></li> -->
+<!-- 			</ul> -->
+<!-- 		</div> -->
+<!-- 	</nav> -->
 
-	<div class="container">
+	<p:growl id="msgs" showDetail="true" />
+ 
+	<div id="content">
 		<ui:insert name="content"/>
 	</div>
-
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js" />
-		
+	
+<!-- 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script> -->
+<!-- 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js" /> -->
 </h:body>
 
 </html>

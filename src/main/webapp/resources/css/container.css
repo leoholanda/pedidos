@@ -1,0 +1,20 @@
+html {
+    line-height: 1.5;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-weight: normal;
+    color: rgba(0,0,0,0.87);
+}
+
+body {
+    color: rgba(0,0,0,0.87);
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+}
+
+#content {
+  width: 70%;
+  margin: auto;
+  position: relative;
+  text-align: left;
+}
