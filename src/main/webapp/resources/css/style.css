@@ -235,3 +235,287 @@
 .Fnone {
 	float: none !important;
 }
+
+
+/* Cores */
+
+/* text colors */
+.White {
+	color: #ffffff;
+}
+
+.WhiteBlue {
+	color: #E1F5FE;
+}
+
+.SoftBlue {
+	color: #03A9F4;
+}
+
+.Blue {
+	color: #0288D1;
+}
+
+.Turquoise {
+	color: #26C6DA;
+}
+
+.SoftGray {
+	color: #ECEFF1;
+}
+
+.Gray {
+	color: #90A4AE;
+}
+
+.BoldGray {
+	color: #546E7A;
+}
+
+.SoftOrange {
+	color: #FFCC80;
+}
+
+.Orange {
+	color: #FB8C00;
+}
+
+.SoftGreen {
+	color: #A5D6A7;
+}
+
+.Green {
+	color: #43A047;
+}
+
+.LeadenGreen {
+	color: #26A69A;
+}
+
+.SoftRed {
+	color: #EF9A9A;
+}
+
+.Red {
+	color: #E53935;
+}
+
+.Pink {
+	color: #FF4081;
+}
+
+.SoftPurple {
+	color: #CE93D8;
+}
+
+.Purple {
+	color: #8E24AA;
+}
+
+.Yellow {
+	color: #F7D100;
+}
+
+.WhiteOpac {
+	color: rgba(255, 255, 255, 0.4);
+}
+
+.BlackOpac {
+	color: rgba(0, 0, 0, 0.4);
+}
+/* background colors */
+.WhiteBlueBack {
+	background-color: #E1F5FE;
+}
+
+.SoftBlueBack {
+	background-color: #03A9F4;
+}
+
+.BlueBack {
+	background-color: #0288D1;
+}
+
+.TurquoiseBack {
+	background-color: #26C6DA;
+}
+
+.SoftGrayBack {
+	background-color: #f5f5f5;
+}
+
+.GrayBack {
+	background-color: #90A4AE;
+}
+
+.BoldGrayBack {
+	background-color: #546E7A;
+}
+
+.SoftOrangeBack {
+	background-color: #FFCC80;
+}
+
+.OrangeBack {
+	background-color: #FB8C00;
+}
+
+.SoftGreenBack {
+	background-color: #A5D6A7;
+}
+
+.GreenBack {
+	background-color: #43A047;
+}
+
+.LeadenGreenBack {
+	background-color: #26A69A;
+}
+
+.SoftRedBack {
+	background-color: #EF9A9A;
+}
+
+.RedBack {
+	background-color: #E53935;
+}
+
+.PinkBack {
+	background-color: #FF4081;
+}
+
+.SoftPurpleBack {
+	background-color: #CE93D8;
+}
+
+.PurpleBack {
+	background-color: #8E24AA;
+}
+
+.YellowBack {
+	background-color: #F7D100;
+}
+
+/* Font Sizes */
+.Fs9 {
+	font-size: 9px !important;
+}
+
+.Fs10 {
+	font-size: 10px !important;
+}
+
+.Fs11 {
+	font-size: 11px !important;
+}
+
+.Fs12 {
+	font-size: 12px !important;
+}
+
+.Fs13 {
+	font-size: 13px !important;
+}
+
+.Fs14 {
+	font-size: 14px !important;
+}
+
+.Fs15 {
+	font-size: 15px !important;
+}
+
+.Fs16 {
+	font-size: 16px !important;
+}
+
+.Fs17 {
+	font-size: 17px !important;
+}
+
+.Fs18 {
+	font-size: 18px !important;
+}
+
+.Fs19 {
+	font-size: 19px !important;
+}
+
+.Fs20 {
+	font-size: 20px !important;
+}
+
+.Fs21 {
+	font-size: 21px !important;
+}
+
+.Fs22 {
+	font-size: 22px !important;
+}
+
+.Fs23 {
+	font-size: 23px !important;
+}
+
+.Fs24 {
+	font-size: 24px !important;
+}
+
+.Fs25 {
+	font-size: 25px !important;
+}
+
+.Fs26 {
+	font-size: 26px !important;
+}
+
+.Fs27 {
+	font-size: 27px !important;
+}
+
+.Fs28 {
+	font-size: 28px !important;
+}
+
+.Fs29 {
+	font-size: 29px !important;
+}
+
+.Fs30 {
+	font-size: 30px !important;
+}
+
+.Fs40 {
+	font-size: 40px !important;
+}
+
+.Fs50 {
+	font-size: 50px !important;
+}
+
+.Fs60 {
+	font-size: 60px !important;
+}
+
+.Fs100 {
+	font-size: 100px !important;
+}
+
+.Fs130 {
+	font-size: 130px !important;
+}
+
+/* Font Type */
+.FontBold {
+	font-weight: bold;
+}
+
+.FontLight {
+	font-weight: lighter;
+}
+
+.FontNormal {
+	font-weight: normal;
+}
+
+

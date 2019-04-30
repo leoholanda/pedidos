@@ -15,21 +15,12 @@
 		<div class="ui-g ui-fluid">
 			<div class="ui-g-12">
 				
-<!-- 				<p:breadCrumb> -->
-<!-- 				    <p:menuitem value="Unidade" url="#" /> -->
-<!-- 				    <p:menuitem value="Pesquisar Unidade" url="#" /> -->
-<!-- 				    <p:menuitem value="Cadastrar Unidade" url="#" /> -->
-<!-- 				</p:breadCrumb> -->
-				
 				<div class="card card-w-title">
 					<h:form>
 						<p:growl id="growl" />
 						<h1>
-							#{cadastroUnidadeController.titulo} Unidade
+							#{cadastroUnidadeController.unidade.titulo} Unidade
 							
-							<p:button outcome="cadastro-unidade.xhtml" value="CADASTRAR"
-							icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" rendered="#{cadastroUnidadeController.unidadeExistente}" />
-								
 							<p:button outcome="pesquisa-unidade.xhtml" value="PESQUISAR" 
 								icon="fa fa-search" styleClass="btn teal-btn" style="float:right" />
 								
@@ -39,26 +30,31 @@
 							styleClass="ui-panelgrid-blank form-group">
 
 							<h:panelGroup styleClass="md-inputfield">
-								<p:inputText value="#{cadastroUnidadeController.unidade.codigo}" styleClass="input">
-								</p:inputText>
+								<p:inputText value="#{cadastroUnidadeController.unidade.codigo}" styleClass="input" label="Código" />
 								<label>Código</label>
 							</h:panelGroup>
 
 							<h:panelGroup styleClass="md-inputfield">
-								<p:inputText id="nome" styleClass="input"
+								<p:inputText id="nome" styleClass="input" label="Nome"
 									value="#{cadastroUnidadeController.unidade.nome}" />
 								<label>Nome</label>
 							</h:panelGroup>
 							
-							<p:selectOneMenu id="area" required="true" value="#{cadastroUnidadeController.unidade.area}">
+							<p:selectOneMenu id="area" value="#{cadastroUnidadeController.unidade.area}" label="Área">
 								<f:selectItem itemLabel="Área" noSelectionOption="true" />
 	                            <f:selectItem itemLabel="Educação" itemValue="EDUCACAO" />
 	                            <f:selectItem itemLabel="Saúde" itemValue="SAUDE" />
                         	</p:selectOneMenu>
+                        	
+                        	<p:selectOneRadio id="status" required="true" value="#{cadastroUnidadeController.unidade.status}"
+                        		rendered="#{cadastroUnidadeController.unidade.codigo ne null}">
+	                            <f:selectItem itemLabel="Ativado" itemValue="ATIVADO" />
+	                            <f:selectItem itemLabel="Desativado" itemValue="DESATIVADO" />
+                        	</p:selectOneRadio>
 						</p:panelGrid>
 						
 						<div class="save">
-							<p:commandButton action="#{cadastroUnidadeController.salvar}" value="#{cadastroUnidadeController.titulo}" 
+							<p:commandButton action="#{cadastroUnidadeController.salvar}" value="#{cadastroUnidadeController.unidade.titulo}" 
 								update="@form" style="width: auto;"></p:commandButton>
 						</div>
 						

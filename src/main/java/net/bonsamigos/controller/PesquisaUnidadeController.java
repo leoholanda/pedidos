@@ -1,6 +1,7 @@
 package net.bonsamigos.controller;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +9,8 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import net.bonsamigos.enums.Area;
+import net.bonsamigos.enums.Status;
 import net.bonsamigos.model.Unidade;
 import net.bonsamigos.service.UnidadeService;
 import net.bonsamigos.util.FacesUtil;
@@ -37,18 +40,38 @@ public class PesquisaUnidadeController implements Serializable {
 	}
 
 	/**
-	 * Pesquisa unidade pelo nome
+	 * Pesquisa unidade pelo codigo
 	 * 
 	 * @throws NegocioException
 	 * @throws NumberFormatException
 	 */
 	public void pesquisar() {
-		unidades = unidadeService.findByCodigo(valorDePesquisa);
+//		unidades = unidadeService.findByCodigo(valorDePesquisa);
 	}
 
-	public void desativar(Unidade unidade) {
+	/**
+	 * Desativa unidade
+	 */
+	public void desativar() {
 		unidadeService.remove(unidade);
-		FacesUtil.info("Unidade desativada!");
+		FacesUtil.info("Unidade " + unidade.getNomeInicialMaiuscula() + " desativada!");
+	}
+	
+	/**
+	 * Lista de areas
+	 * @return
+	 */
+	public List<Area> getAreas() {
+		return Arrays.asList(Area.values());
+	}
+	
+	public List<Status> getListaStatus() {
+		return Arrays.asList(Status.ATIVADO, Status.DESATIVADO);
+	}
+	
+	@Override
+	public String toString() {
+		return unidade.getCodigo() + " | " + unidade.getNome();
 	}
 
 	/**
@@ -64,7 +87,7 @@ public class PesquisaUnidadeController implements Serializable {
 	}
 
 	public Unidade buscaPorCodigo(Long codigo) {
-		return unidadeService.findById(codigo);
+		return unidadeService.findByCodigo(codigo);
 	}
 
 	public Unidade getUnidade() {

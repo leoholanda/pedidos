@@ -5,7 +5,8 @@
 	version="3.1">
 	
 	<welcome-file-list>
-		<welcome-file>empty.xhtml</welcome-file>
+		<welcome-file>pages/unidade/pesquisa-unidade.xhtml</welcome-file>
+<!-- 		<welcome-file>empty.xhtml</welcome-file> -->
 	</welcome-file-list>
 	
 	<context-param>

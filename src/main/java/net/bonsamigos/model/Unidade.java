@@ -9,12 +9,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import net.bonsamigos.enums.Area;
 import net.bonsamigos.enums.Status;
+import net.bonsamigos.util.Estilo;
 import net.bonsamigos.util.NomeComInicialMaiscula;
 
 @Entity
@@ -42,9 +44,30 @@ public class Unidade implements Serializable {
 	@Column(length = 30)
 	@Enumerated(EnumType.STRING)
 	private Status status;
-
+	
 	public String getNomeInicialMaiuscula() {
 		return NomeComInicialMaiscula.iniciaisMaiuscula(nome);
+	}
+	
+	public boolean isAtivo() {
+		return status.equals(Status.ATIVADO);
+	}
+	
+	public boolean isUnidadeExistente() {
+		return codigo == null ? false : true;
+	}
+	
+	@Transient
+	public String getTitulo() {
+		return codigo == null ? "Cadastrar" : "Editar";
+	}
+	
+	public String getCorParaStatus() {
+		return Estilo.corParaStatus(status);
+	}
+	
+	public String getIconeParaStatus() {
+		return Estilo.iconeParaStatus(status);
 	}
 
 	public Long getId() {

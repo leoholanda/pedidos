@@ -18,6 +18,6 @@ public interface UnidadeRepository extends EntityRepository<Unidade, Long> {
 	@Query("SELECT u FROM Unidade u WHERE u.nome LIKE ?1 ORDER BY u.codigo ASC ")
 	List<Unidade> findByNome(String nome);
 
-	List<Unidade> findByCodigo(Long codigo);
+	Unidade findByCodigo(Long codigo);
     
 }

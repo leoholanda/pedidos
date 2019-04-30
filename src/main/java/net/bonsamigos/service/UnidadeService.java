@@ -24,25 +24,25 @@ public class UnidadeService implements Serializable {
 	 * @param codigo
 	 * @return
 	 */
-	public Unidade findById(Long codigo) {
-		return unidadeRepository.findBy(codigo);
+	public Unidade findByCodigo(Long codigo) {
+		return unidadeRepository.findByCodigo(codigo);
 	}
 
 	public List<Unidade> findAll() {
 		return unidadeRepository.findAllOrderByCodigo();
 	}
 	
-	public List<Unidade> findByCodigo(String codigo) {
-		List<Unidade> lista = new ArrayList<Unidade>();
-		
-		if (codigo == null || codigo == "") {
-			lista = this.findAll();
-		} else {
-			lista = unidadeRepository.findByCodigo(Long.valueOf(codigo));
-		}
-		
-		return lista;
-	}
+//	public List<Unidade> findByCodigo(String codigo) {
+//		List<Unidade> lista = new ArrayList<Unidade>();
+//		
+//		if (codigo == null || codigo == "") {
+//			lista = this.findAll();
+//		} else {
+//			lista = unidadeRepository.findByCodigo(Long.valueOf(codigo));
+//		}
+//		
+//		return lista;
+//	}
 
 	public List<Unidade> findByNomeLikeOrderByCodigo(String nome) {
 		List<Unidade> lista = new ArrayList<Unidade>();
@@ -73,7 +73,6 @@ public class UnidadeService implements Serializable {
 	}
 	
 	public void remove(Unidade unidade) {
-		System.out.println(">>> " + unidade.getCodigo());
 		unidade.setStatus(Status.DESATIVADO);
 		unidadeRepository.save(unidade);
 	}
