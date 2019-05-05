@@ -7,32 +7,32 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import net.bonsamigos.model.Unidade;
-import net.bonsamigos.service.UnidadeService;
+import net.bonsamigos.model.Produto;
+import net.bonsamigos.service.ProdutoService;
 import net.bonsamigos.util.FacesUtil;
 import net.bonsamigos.util.NegocioException;
 
 @Named
 @ViewScoped
-public class CadastroUnidadeController implements Serializable {
+public class CadastroProdutoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private UnidadeService unidadeService;
+	private ProdutoService produtoService;
 
-	private Unidade unidade;
+	private Produto produto;
 
 	@PostConstruct
 	public void init() {
-		unidade = new Unidade();
+		produto = new Produto();
 	}
 	
 	public void salvar() {
 		try {
-			unidadeService.save(unidade);
+			produtoService.save(produto);
 			
-			unidade = new Unidade();
+			produto = new Produto();
 			FacesUtil.info("Salvo com sucesso!");
 		} catch (NegocioException e) {
 			FacesUtil.error(e.getMessage());
@@ -40,15 +40,15 @@ public class CadastroUnidadeController implements Serializable {
 		
 	}
 	
-	public void carregarUnidade() {
-		unidade = unidadeService.findBy(unidade.getId());
+	public void carregarProduto() {
+		produto = produtoService.findBy(produto.getId());
 	}
 	
-	public Unidade getUnidade() {
-		return unidade;
+	public Produto getProduto() {
+		return produto;
 	}
 
-	public void setUnidade(Unidade unidade) {
-		this.unidade = unidade;
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 }

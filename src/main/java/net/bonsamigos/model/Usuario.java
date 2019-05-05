@@ -9,19 +9,21 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 
-import net.bonsamigos.enums.Area;
 import net.bonsamigos.enums.Status;
 import net.bonsamigos.util.Auditoria;
 import net.bonsamigos.util.Estilo;
 import net.bonsamigos.util.NomeComInicialMaiscula;
 
 @Entity
-public class Unidade extends Auditoria implements Serializable {
+public class Usuario extends Auditoria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,41 +31,43 @@ public class Unidade extends Auditoria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
-	private Long codigo;
+	@CPF
+	@NotBlank
+	private String cpf;
 
 	@NotBlank
-	@Column(length = 60, unique = true)
 	private String nome;
 
-	@NotNull
-	@Column(length = 30)
-	@Enumerated(EnumType.STRING)
-	private Area area;
+	@NotBlank
+	private String sobrenome;
+
+	@Email
+	private String email;
+
+	private String senha;
 
 	@NotNull
 	@Column(length = 30)
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	public Unidade() {
-		status = Status.ATIVADO;
+	@ManyToOne
+	private Perfil perfil;
+	
+	public Usuario() {
+		status = Status.AUTORIZADO;
 	}
 	
-	public String getNomeInicialMaiuscula() {
-		return NomeComInicialMaiscula.iniciaisMaiuscula(nome);
-	}
-	
-	public String getCodigoCompleto() {
-		String format = String.format ("%02d", codigo);
-		return format;
+	public String getNomeCompleto() {
+		String nomeCompleto = nome + " " + sobrenome;
+		return NomeComInicialMaiscula.iniciaisMaiuscula(nomeCompleto);
 	}
 	
 	public boolean isAtivo() {
-		return status.equals(Status.ATIVADO);
+		return Status.AUTORIZADO.equals(status);
 	}
 	
-	public boolean isUnidadeExistente() {
+	public boolean isUsuarioExistente() {
 		return id == null ? false : true;
 	}
 	
@@ -88,14 +92,14 @@ public class Unidade extends Auditoria implements Serializable {
 		this.id = id;
 	}
 
-	public Long getCodigo() {
-		return codigo;
+	public String getCpf() {
+		return cpf;
 	}
-
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
+	
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -104,12 +108,28 @@ public class Unidade extends Auditoria implements Serializable {
 		this.nome = nome.toUpperCase();
 	}
 
-	public Area getArea() {
-		return area;
+	public String getSobrenome() {
+		return sobrenome;
 	}
 
-	public void setArea(Area area) {
-		this.area = area;
+	public void setSobrenome(String sobrenome) {
+		this.sobrenome = sobrenome.toUpperCase();
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 
 	public Status getStatus() {
@@ -119,6 +139,15 @@ public class Unidade extends Auditoria implements Serializable {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
+	
+	public Perfil getPerfil() {
+		return perfil;
+	}
+	
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -136,7 +165,7 @@ public class Unidade extends Auditoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Unidade other = (Unidade) obj;
+		Usuario other = (Usuario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

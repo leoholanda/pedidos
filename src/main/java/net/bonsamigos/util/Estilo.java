@@ -15,6 +15,8 @@ public class Estilo {
 
 	public static final String corParaStatus(Status status) {
 		switch (status) {
+		case AUTORIZADO: 
+			return cor = "Green";
 		case ATIVADO:
 			return cor = "Green";
 		case DESATIVADO:
@@ -26,6 +28,8 @@ public class Estilo {
 
 	public static final String iconeParaStatus(Status status) {
 		switch (status) {
+		case AUTORIZADO:
+			return icon = "fa fa-check";
 		case ATIVADO:
 			return icon = "fa fa-check";
 		case DESATIVADO:

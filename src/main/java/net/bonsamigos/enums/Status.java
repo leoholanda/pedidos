@@ -6,7 +6,7 @@ public enum Status {
 	AUTORIZADO("Autorizado"),
 	ENTREGUE("Entregue"),
 	
-	// Para Usuario
+	// Para Unidade
 	SOLICITADO("Solicitado"),
 	DESATIVADO("Desativado"),
 	ATIVADO("Ativado");

@@ -5,10 +5,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.stereotype.Service;
+
 import net.bonsamigos.model.Produto;
 import net.bonsamigos.repository.ProdutoRepository;
 import net.bonsamigos.util.NegocioException;
 
+@Service
 public class ProdutoService implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -21,7 +24,7 @@ public class ProdutoService implements Serializable {
 	 * @param codigo
 	 * @return
 	 */
-	public Produto findById(Long codigo) {
+	public Produto findBy(Long codigo) {
 		return produtoRepository.findBy(codigo);
 	}
 	
@@ -35,9 +38,6 @@ public class ProdutoService implements Serializable {
 	 * @return
 	 */
 	public Produto save(Produto produto) throws NegocioException {
-//		Optional<Produto> existente = produtoRepository.findByCodigo(produto.getCodigo());
-		
-		System.out.println("Cadastro realizado com sucesso!");
 		return produtoRepository.save(produto);
 	}
 

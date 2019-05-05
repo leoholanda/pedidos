@@ -1,6 +1,7 @@
 package net.bonsamigos.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.deltaspike.data.api.EntityRepository;
 import org.apache.deltaspike.data.api.Query;
@@ -18,6 +19,6 @@ public interface UnidadeRepository extends EntityRepository<Unidade, Long> {
 	@Query("SELECT u FROM Unidade u WHERE u.nome LIKE ?1 ORDER BY u.codigo ASC ")
 	List<Unidade> findByNome(String nome);
 
-	Unidade findByCodigo(Long codigo);
+	Optional<Unidade> findByCodigo(Long codigo);
     
 }

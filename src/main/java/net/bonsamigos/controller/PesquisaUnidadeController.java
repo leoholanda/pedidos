@@ -14,7 +14,7 @@ import net.bonsamigos.enums.Status;
 import net.bonsamigos.model.Unidade;
 import net.bonsamigos.service.UnidadeService;
 import net.bonsamigos.util.FacesUtil;
-import net.bonsamigos.util.NegocioException;
+import net.bonsamigos.util.Paginacao;
 
 @Named
 @ViewScoped
@@ -31,22 +31,10 @@ public class PesquisaUnidadeController implements Serializable {
 
 	private String valorDePesquisa;
 
-	public final static int ROW = 10; // Quantidade de linhas para paginacao
-
 	@PostConstruct
 	public void init() {
 		unidade = new Unidade();
 		unidades = unidadeService.findAll();
-	}
-
-	/**
-	 * Pesquisa unidade pelo codigo
-	 * 
-	 * @throws NegocioException
-	 * @throws NumberFormatException
-	 */
-	public void pesquisar() {
-//		unidades = unidadeService.findByCodigo(valorDePesquisa);
 	}
 
 	/**
@@ -79,7 +67,7 @@ public class PesquisaUnidadeController implements Serializable {
 	 * 
 	 */
 	public boolean isPaginator() {
-		return unidades.size() > 10 ? true : false;
+		return unidades.size() > Paginacao.ROW ? true : false;
 	}
 
 	public List<Unidade> getListaTodos() {

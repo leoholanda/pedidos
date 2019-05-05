@@ -3,14 +3,18 @@ package net.bonsamigos.service;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
 
 import net.bonsamigos.enums.Status;
 import net.bonsamigos.model.Unidade;
 import net.bonsamigos.repository.UnidadeRepository;
 import net.bonsamigos.util.NegocioException;
 
+@Service
 public class UnidadeService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,25 +28,18 @@ public class UnidadeService implements Serializable {
 	 * @param codigo
 	 * @return
 	 */
-	public Unidade findByCodigo(Long codigo) {
-		return unidadeRepository.findByCodigo(codigo);
+	public Unidade findBy(Long id) {
+		return unidadeRepository.findBy(id);
 	}
 
 	public List<Unidade> findAll() {
 		return unidadeRepository.findAllOrderByCodigo();
 	}
 	
-//	public List<Unidade> findByCodigo(String codigo) {
-//		List<Unidade> lista = new ArrayList<Unidade>();
-//		
-//		if (codigo == null || codigo == "") {
-//			lista = this.findAll();
-//		} else {
-//			lista = unidadeRepository.findByCodigo(Long.valueOf(codigo));
-//		}
-//		
-//		return lista;
-//	}
+	public Unidade findByCodigo(Long codigo) {
+		Optional<Unidade> unidade = unidadeRepository.findByCodigo(Long.valueOf(codigo));
+		return unidade.get();
+	}
 
 	public List<Unidade> findByNomeLikeOrderByCodigo(String nome) {
 		List<Unidade> lista = new ArrayList<Unidade>();
@@ -63,18 +60,21 @@ public class UnidadeService implements Serializable {
 	 * @return
 	 */
 	public Unidade save(Unidade unidade) throws NegocioException {
-		Unidade unidadeExistente = unidadeRepository.findBy(unidade.getCodigo());
+		Optional<Unidade> unidadeExistente = unidadeRepository.findByCodigo(unidade.getCodigo());
 
-		if (unidadeExistente != null && !unidadeExistente.equals(unidade)) {
+		if (unidadeExistente.isPresent() && !unidadeExistente.get().equals(unidade)) {
 			throw new NegocioException("O código da unidade já existe!");
 		}
 
 		return unidadeRepository.save(unidade);
 	}
 	
+	/**
+	 * Muda status para Desativado
+	 * @param unidade
+	 */
 	public void remove(Unidade unidade) {
 		unidade.setStatus(Status.DESATIVADO);
 		unidadeRepository.save(unidade);
 	}
-
 }

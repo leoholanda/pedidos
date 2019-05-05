@@ -1,21 +1,24 @@
 package net.bonsamigos.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import net.bonsamigos.util.Auditoria;
-import net.bonsamigos.util.NomeComInicialMaiscula;
+import net.bonsamigos.enums.Modulos;
 
 @Entity
-public class Produto extends Auditoria implements Serializable {
+public class Modulo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,37 +26,49 @@ public class Produto extends Auditoria implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
+	@Column(length = 40)
+	@Enumerated(EnumType.STRING)
+	private Modulos nome;
+
 	@NotBlank
-	@Column(length = 60, unique = true)
-	private String nome;
-	
-	public String getNomeInicialMaiuscula() {
-		return NomeComInicialMaiscula.iniciaisMaiuscula(nome);
-	}
-	
-	public boolean isUnidadeExistente() {
-		return id == null ? false : true;
-	}
-	
-	@Transient
-	public String getTitulo() {
-		return id == null ? "Cadastrar" : "Editar";
-	}
+	@Column(length = 40)
+	private String descricao;
+
+	@ManyToMany(mappedBy = "modulos")
+	@Column(name = "perfil")
+	private Set<Perfil> perfis;
 
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getNome() {
+	public Modulos getNome() {
 		return nome;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome.toUpperCase();
+	public void setNome(Modulos nome) {
+		this.nome = nome;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Set<Perfil> getPerfis() {
+		return perfis;
+	}
+
+	public void setPerfis(Set<Perfil> perfis) {
+		this.perfis = perfis;
 	}
 
 	@Override
@@ -72,7 +87,7 @@ public class Produto extends Auditoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		Modulo other = (Modulo) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
