@@ -14,6 +14,7 @@
             <meta name="theme-color" content="#{guestPreferences.themeColors[guestPreferences.theme]}" />
         </f:facet>
         <title>Beta Clean</title>
+        <h:outputScript name="produto.js" library="js" />
         <h:outputScript name="js/nanoscroller.js" library="ultima-layout" />
         <h:outputScript name="js/layout.js" library="ultima-layout" />
         <h:outputScript name="js/ripple.js" library="ultima-layout" />
@@ -30,7 +31,7 @@
             <div class="layout-main">
                 <ui:insert name="content"/>
                 
-                <ui:include src="./footer.xhtml" />
+<!--                 <ui:include src="./footer.xhtml" /> -->
             </div>
         </div>
         

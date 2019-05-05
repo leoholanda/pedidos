@@ -5,18 +5,18 @@
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="codigo"
-			value="#{cadastroUnidadeController.unidade.codigo}" />
+		<f:viewParam name="id"
+			value="#{cadastroUnidadeController.unidade.id}" />
 		<f:viewAction action="#{cadastroUnidadeController.carregarUnidade}"
-			if="#{param.codigo ne null}" />
+			if="#{param.id ne null}" />
 	</f:metadata>
 
 	<ui:define name="content">
 		<div class="ui-g ui-fluid">
 			<div class="ui-g-12">
 				
-				<div class="card card-w-title">
-					<h:form>
+				<h:form>
+					<div class="card card-w-title shadow-box ui-shadow-4">
 						<p:growl id="growl" />
 						<h1>
 							#{cadastroUnidadeController.unidade.titulo} Unidade
@@ -26,40 +26,48 @@
 								
 						</h1>
 
-						<p:panelGrid columns="1" layout="grid"
-							styleClass="ui-panelgrid-blank form-group">
-
-							<h:panelGroup styleClass="md-inputfield">
-								<p:inputText value="#{cadastroUnidadeController.unidade.codigo}" styleClass="input" label="Código" />
-								<label>Código</label>
-							</h:panelGroup>
-
-							<h:panelGroup styleClass="md-inputfield">
-								<p:inputText id="nome" styleClass="input" label="Nome"
-									value="#{cadastroUnidadeController.unidade.nome}" />
-								<label>Nome</label>
-							</h:panelGroup>
+						<div class="ui-g MarTop50">
+				
+							<div class="ui-g-12">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText value="#{cadastroUnidadeController.unidade.codigo}" styleClass="input" label="Código" />
+									<label>Código</label>
+								</h:panelGroup>
+							</div>
 							
-							<p:selectOneMenu id="area" value="#{cadastroUnidadeController.unidade.area}" label="Área">
-								<f:selectItem itemLabel="Área" noSelectionOption="true" />
-	                            <f:selectItem itemLabel="Educação" itemValue="EDUCACAO" />
-	                            <f:selectItem itemLabel="Saúde" itemValue="SAUDE" />
-                        	</p:selectOneMenu>
+							<div class="ui-g-12">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText id="nome" styleClass="input" label="Nome"
+										value="#{cadastroUnidadeController.unidade.nome}" />
+									<label>Nome</label>
+								</h:panelGroup>
+							</div>
+							
+							<div class="ui-g-12">
+								<p:selectOneMenu id="area" value="#{cadastroUnidadeController.unidade.area}" label="Área">
+									<f:selectItem itemLabel="Área" noSelectionOption="true" />
+		                            <f:selectItem itemLabel="Educação" itemValue="EDUCACAO" />
+		                            <f:selectItem itemLabel="Saúde" itemValue="SAUDE" />
+	                        	</p:selectOneMenu>
+                        	</div>
                         	
-                        	<p:selectOneRadio id="status" required="true" value="#{cadastroUnidadeController.unidade.status}"
-                        		rendered="#{cadastroUnidadeController.unidade.codigo ne null}">
-	                            <f:selectItem itemLabel="Ativado" itemValue="ATIVADO" />
-	                            <f:selectItem itemLabel="Desativado" itemValue="DESATIVADO" />
-                        	</p:selectOneRadio>
-						</p:panelGrid>
-						
+                        	<div class="ui-g-12">
+	                        	<p:selectOneRadio id="status" required="true" value="#{cadastroUnidadeController.unidade.status}"
+	                        		rendered="#{cadastroUnidadeController.unidade.unidadeExistente}">
+		                            <f:selectItem itemLabel="Ativado" itemValue="ATIVADO" />
+		                            <f:selectItem itemLabel="Desativado" itemValue="DESATIVADO" />
+	                        	</p:selectOneRadio>
+                        	</div>	
+						</div>
+					</div>
+					
+					<div class="card card-w-title shadow-box ui-shadow-4">
 						<div class="save">
 							<p:commandButton action="#{cadastroUnidadeController.salvar}" value="#{cadastroUnidadeController.unidade.titulo}" 
-								update="@form" style="width: auto;"></p:commandButton>
+								update="@form" style="width: auto;" />
 						</div>
-						
-					</h:form>
-				</div>
+					</div>
+				</h:form>
 
 
 			</div>

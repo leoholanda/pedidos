@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{cadastroPerfilController.perfil}" />
+		<f:viewAction action="#{cadastroPerfilController.inicializar}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+
+				<h:form>
+					<div class="card card-w-title shadow-box ui-shadow-4">
+						<p:growl id="growl" />
+						<h1>
+							#{cadastroPerfilController.perfil.titulo} Perfil
+
+							<p:button outcome="pesquisa-perfil.xhtml" value="PESQUISAR"
+								icon="fa fa-search" styleClass="btn teal-btn"
+								style="float:right" />
+						</h1>
+
+						<div class="ui-g MarTop50">
+							<div class="ui-g-12 ui-lg-6">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText id="nome" styleClass="input" label="Nome"
+										value="#{cadastroPerfilController.perfil.nome}" />	
+									<label>Nome</label>
+								</h:panelGroup>
+							</div>
+
+							<div class="ui-g-12 ui-lg-6">
+								<p:pickList value="#{cadastroPerfilController.listaModulos}"
+									var="grupo" itemValue="#{grupo}" itemLabel=" #{grupo.descricao}"
+									showCheckbox="true" responsive="true" converter="moduloConverter"
+									addLabel="Adicionar" addAllLabel="Adicionar Todos"
+									removeLabel="Retirar" removeAllLabel="Remover Todos">
+									<f:facet name="sourceCaption">Módulos do Sistema</f:facet>
+									<f:facet name="targetCaption">Adicionados ao Perfil</f:facet>
+								</p:pickList>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="card card-w-title shadow-box ui-shadow-4">
+						<div class="save">
+							<p:commandButton action="#{cadastroPerfilController.salvar}"
+								value="#{cadastroPerfilController.perfil.titulo}" update="@form"
+								style="width: auto;" />
+						</div>
+					</div>
+
+				</h:form>
+
+
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

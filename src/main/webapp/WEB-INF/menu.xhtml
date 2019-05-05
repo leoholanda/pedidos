@@ -46,6 +46,13 @@
                     <pu:menu widgetVar="me">
                         <p:menuitem id="um_unidade" value="Unidade" icon="fa fa-home" outcome="/pages/unidade/pesquisa-unidade" />
                         
+                        <p:menuitem id="um_produto" value="Produto" icon="fa fa-cube" outcome="/pages/produto/pesquisa-produto" />
+                        
+                        <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" outcome="/pages/usuario/pesquisa-usuario" />
+                        
+                        <p:menuitem id="um_perfil" value="Perfil" icon="fa fa-columns" outcome="/pages/perfil/pesquisa-perfil" />
+                        
+                        
                         <p:submenu id="themes" label="Temas" icon="&#xE40A;">
                             <p:menuitem id="theme1" value="Indigo - Pink" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('indigo')}" ajax="false" />
                             <p:menuitem id="theme2" value="Brown - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('brown')}" ajax="false" />
@@ -60,6 +67,8 @@
                             <p:menuitem id="theme11" value="Cyan - Amber" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('cyan')}" ajax="false" />
                             <p:menuitem id="theme12" value="Grey - Deep Orange" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('grey')}" ajax="false" />
                         </p:submenu>
+                        
+                        <p:menuitem id="um_logout" value="Logout" icon="fa fa-power-off" outcome="/login" />
                     </pu:menu>
                 </div>
             </div>

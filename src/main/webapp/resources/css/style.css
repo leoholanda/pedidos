@@ -1,6 +1,6 @@
 .save {
-	margin-top: 12px;
-	padding: 16px; 
+	margin-top: 10px;
+/* 	padding: 8px;  */
 }
 
 .btn {
@@ -18,7 +18,7 @@
 }
 
 .input {
-	margin-bottom: 10px;
+	margin-bottom: 30px;
 }
 
 .footer {
@@ -28,18 +28,33 @@
   	height: 40px;
 	background-color: white;
  	width: 100%;
+ 	clear: both;
 }
 
 
+.ui-datatable .ui-paginator {
+    background-color: #87CEEB;
+    border-color: #ccc;
+    color: #000;
+    column-rule-color: #000;
+}
+
+.ui-datatable .Modulo {
+	padding: 4px;
+	color: #228B22; 
+	background-color: #A5D6A7;
+	border-radius: 3px;
+}
 
 
-
-
-
-.AlignRight {
+.TextAlignRight {
 	text-align: right;
 	alignment-adjust: central;
 	float: right;
+}
+
+.TextAlignCenter {
+	text-align: center;
 }
 
 /* Width */

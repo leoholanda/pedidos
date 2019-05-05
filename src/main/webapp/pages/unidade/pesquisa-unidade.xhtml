@@ -4,24 +4,19 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
-	<f:metadata>
-		<f:viewParam name="codigo"
-			value="#{cadastroUnidadeController.unidade.codigo}" />
-		<f:viewAction action="#{cadastroUnidadeController.carregarUnidade}"
-			if="#{param.codigo ne null}" />
-	</f:metadata>
-
 	<ui:define name="content">
 		<div class="ui-g">
 
-			<div class="card card-w-title">
+			<div class="card card-w-title shadow-box ui-shadow-4">
 				<p:growl id="growl" />
-
-				<h1>
-					Pesquisar Unidade
-					<p:button outcome="cadastro-unidade.xhtml" value="CADASTRAR"
-						icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" />
-				</h1>
+				
+				<div class="ui-g-12">
+					<h1>
+						Pesquisar Unidade
+						<p:button outcome="cadastro-unidade.xhtml" value="CADASTRAR"
+							icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" />
+					</h1>
+				</div>
 
 				<h:form id="form">
 					
@@ -32,15 +27,17 @@
 							emptyMessage="Nenhuma unidade encontrada!"
 							paginatorPosition="bottom" reflow="true">
 
-							<p:column headerText="Código" filterBy="#{unidade.codigo}" filterMatchMode="exact">
-								<h:outputText value="#{unidade.codigo}" />
+							<p:column headerText="Código" 
+								filterBy="#{unidade.codigoCompleto}" filterStyleClass="TextAlignCenter" 
+								filterMatchMode="contains" styleClass="TextAlignCenter">
+								<h:outputText value="#{unidade.codigoCompleto}" />
 							</p:column>
 
 							<p:column headerText="Nome" filterBy="#{unidade.nome}" filterMatchMode="contains">
 								<h:outputText value="#{unidade.nomeInicialMaiuscula}" />
 							</p:column>
 
-							<p:column headerText="Área" filterBy="#{unidade.area}" filterMatchMode="exact">
+							<p:column headerText="Área" filterBy="#{unidade.area}" filterMatchMode="exact" styleClass="TextAlignCenter">
 								<f:facet name="filter">
 					                <p:selectOneMenu onchange="PF('unidadeTable').filter()" styleClass="custom-filter">
 					                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
@@ -50,7 +47,8 @@
 								<h:outputText value="#{unidade.area.descricao}" />
 							</p:column>
 
-							<p:column headerText="Status" styleClass="#{unidade.corParaStatus}" filterBy="#{unidade.status}" filterMatchMode="exact">
+							<p:column headerText="Status" styleClass="#{unidade.corParaStatus} TextAlignCenter" 
+								filterBy="#{unidade.status}" filterMatchMode="exact">
 								<f:facet name="filter">
 					                <p:selectOneMenu onchange="PF('unidadeTable').filter()" styleClass="custom-filter">
 					                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
@@ -65,15 +63,22 @@
 								<p:button
 									outcome="cadastro-unidade"
 									value="Editar" styleClass="btn cyan-btn">
-									<f:param name="codigo" value="#{unidade.codigo}" />
+									<f:param name="id" value="#{unidade.id}" />
 								</p:button>	
 
 								<p:commandButton styleClass="btn red-btn" value="Desativar" disabled="#{!unidade.ativo}"
 									update="unidades growl" action="#{pesquisaUnidadeController.desativar}">
+									<p:confirm header="#{unidade.nomeInicialMaiuscula}" message="Deseja desativar unidade?" icon="ui-icon-warning" />
 									<f:setPropertyActionListener
 										value="#{unidade}"
 										target="#{pesquisaUnidadeController.unidade}" />
 								</p:commandButton>
+								
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="250">
+		                            <p:commandButton value="Sim" 
+		                            	styleClass="ui-confirmdialog-yes GreenButton" icon="ui-icon-check" update="unidades" />
+		                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no RedButton" icon="ui-icon-close" />
+		                        </p:confirmDialog>
 							</p:column>
 						</p:dataTable>
 					</div>

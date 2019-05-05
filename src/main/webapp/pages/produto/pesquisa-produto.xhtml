@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<div class="ui-g">
+
+			<div class="card card-w-title shadow-box ui-shadow-4">
+				<p:growl id="growl" />
+				
+				<div class="ui-g-12">
+					<h1>
+						Pesquisar Produto
+						<p:button outcome="cadastro-produto" value="CADASTRAR"
+							icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" />
+					</h1>
+				</div>
+
+				<h:form id="form">
+					
+					<div class="ui-g-12">
+						<p:dataTable value="#{pesquisaProdutoController.produtos}"
+							id="produtos" widgetVar="produtoTable" var="produto" rows="10"
+							paginator="#{pesquisaProdutoController.paginator}"
+							emptyMessage="Nenhum produto encontrado!"
+							paginatorPosition="bottom" reflow="true">
+							
+							<p:column headerText="Nome" filterBy="#{produto.nome}"
+								filterMatchMode="contains" filterStyle="width: 50%">
+								<h:outputText value="#{produto.nomeInicialMaiuscula}" />
+							</p:column>
+
+							<p:column width="150">
+								<p:button
+									outcome="cadastro-produto"
+									value="Editar" styleClass="btn cyan-btn">
+									<f:param name="id" value="#{produto.id}" />
+								</p:button>	
+							</p:column>
+						</p:dataTable>
+					</div>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

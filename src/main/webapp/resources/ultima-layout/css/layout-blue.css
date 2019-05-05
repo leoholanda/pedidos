@@ -325,17 +325,17 @@
   -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12); }
 
 .login-body {
-  background: url("#{resource['ultima-layout:images/login/login.png']}") top left no-repeat #f7f7f7;
+  background: url("#{resource['ultima-layout:images/profile-bg.svg']}") top left no-repeat #f7f7f7;
   background-size: 100% auto; }
 
 .login-panel {
   text-align: center;
   width: 350px;
   min-height: 440px;
-  padding: 50px 20px;
+  padding: 20px 20px;
   margin: 100px auto 0 auto; }
   .login-panel .ui-g .ui-g-12 {
-    padding: 25px 40px; }
+    padding: 15px 20px; }
     .login-panel .ui-g .ui-g-12 .ui-button {
       margin-bottom: 20px; }
 

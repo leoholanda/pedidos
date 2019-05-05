@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<div class="ui-g">
+
+			<div class="card card-w-title shadow-box ui-shadow-4">
+				<p:growl id="growl" />
+				
+				<div class="ui-g-12">
+					<h1>
+						Pesquisar Usuário
+						<p:button outcome="cadastro-usuario.xhtml" value="CADASTRAR"
+							icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" />
+					</h1>
+				</div>
+
+				<h:form id="form">
+					
+					<div class="ui-g-12">
+						<p:dataTable value="#{pesquisaUsuarioController.usuarios}"
+							id="usuarios" widgetVar="usuarioTable" var="usuario" rows="10"
+							paginator="#{pesquisaUsuarioController.paginator}"
+							emptyMessage="Nenhum usuário encontrada!"
+							paginatorPosition="bottom" reflow="true">
+							
+							<p:column headerText="Nome" filterBy="#{usuario.nomeCompleto}" filterMatchMode="contains">
+								<h:outputText value="#{usuario.nomeCompleto}" />
+							</p:column>
+
+							<p:column headerText="CPF" 
+								filterBy="#{usuario.cpf}" filterStyleClass="TextAlignCenter" 
+								filterMatchMode="startsWith" styleClass="TextAlignCenter">
+								<h:outputText value="#{usuario.cpf}" />
+							</p:column>
+							
+							<p:column headerText="Perfil" 
+								filterBy="#{usuario.perfil.nome}" filterMatchMode="contains" 
+								filterStyleClass="TextAlignCenter" styleClass="TextAlignCenter">
+								
+								<h:outputText value="#{usuario.perfil.nome}" />
+							</p:column>
+
+							<p:column headerText="Status" styleClass="#{usuario.corParaStatus} TextAlignCenter" 
+								filterBy="#{usuario.status.descricao}" filterMatchMode="exact">
+								<f:facet name="filter">
+					                <p:selectOneMenu onchange="PF('usuarioTable').filter()" styleClass="custom-filter">
+					                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
+					                    <f:selectItems value="#{pesquisaUsuarioController.listaStatus}" />
+					                </p:selectOneMenu>
+					            </f:facet>
+								<i class="#{usuario.iconeParaStatus} MarRight5" />
+								<h:outputText value="#{usuario.status.descricao}" />
+							</p:column>
+
+							<p:column>
+								<p:button
+									outcome="cadastro-usuario"
+									value="Editar" styleClass="btn cyan-btn">
+									<f:param name="id" value="#{usuario.id}" />
+								</p:button>	
+
+								<p:commandButton styleClass="btn red-btn" value="Desativar" action="#{pesquisaUsuarioController.desativar}" 
+									update="usuarios growl" disabled="#{!usuario.ativo}">
+									<p:confirm header="#{usuario.nomeCompleto}" message="Deseja desativar usuário?" icon="ui-icon-warning" />
+									<f:setPropertyActionListener
+										value="#{usuario}"
+										target="#{pesquisaUsuarioController.usuario}" />
+								</p:commandButton>
+								
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="250">
+		                            <p:commandButton value="Sim" 
+		                            	styleClass="ui-confirmdialog-yes GreenButton" icon="ui-icon-check" update="usuarios" />
+		                            <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no RedButton" icon="ui-icon-close" />
+		                        </p:confirmDialog>
+		                        
+							</p:column>
+						</p:dataTable>
+					</div>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

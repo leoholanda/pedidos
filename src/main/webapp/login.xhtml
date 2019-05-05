@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Beta Clean</title>
+        <h:outputScript name="js/ripple.js" library="ultima-layout" />
+        <h:outputScript name="js/layout.js" library="ultima-layout" />
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <div class="card login-panel ui-fluid shadow-box ui-shadow-4">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:graphicImage name="images/login/logo.png" library="ultima-layout" width="200" />
+                </div>
+                <div class="ui-g-12">
+                    <h:panelGroup styleClass="md-inputfield">
+                        <p:inputText />
+                        <label>CPF</label>
+                    </h:panelGroup>
+                </div>
+                <div class="ui-g-12 MarBot20">
+                    <h:panelGroup styleClass="md-inputfield">
+                        <p:password />
+                        <label>Senha</label>
+                    </h:panelGroup>
+                </div>
+                <div class="ui-g-12">
+                    <p:button value="Entrar" outcome="pages/unidade/pesquisa-unidade" icon="ui-icon-person" style="background-color: #03A9F4;" />
+<!--                     <p:button value="Resgatar Senha" icon="ui-icon-help" styleClass="secondary"/> -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="login-footer">Beta Clean</div>
+        
+        <h:outputStylesheet name="style.css" library="css" />
+        <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />
+        <h:outputStylesheet name="css/layout-#{guestPreferences.theme}.css" library="ultima-layout" />
+    </h:body>
+
+</html>

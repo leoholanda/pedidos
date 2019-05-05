@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id"
+			value="#{cadastroUsuarioController.usuario.id}" />
+		<f:viewAction action="#{cadastroUsuarioController.carregarUsuario}"
+			if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+				
+				<h:form>
+					<div class="card card-w-title shadow-box ui-shadow-4">
+							<p:growl id="growl" />
+							<h1>
+								#{cadastroUsuarioController.usuario.titulo} Usuário
+								<p:button outcome="pesquisa-usuario.xhtml" value="PESQUISAR" 
+									icon="fa fa-search" styleClass="btn teal-btn" style="float:right" />
+							</h1>
+				
+							<div class="ui-g MarTop50">
+						
+									<div class="ui-g-12 ui-lg-6">
+										<h:panelGroup styleClass="md-inputfield">
+											<p:inputText id="nome" styleClass="input" label="Nome" autocomplete="off"
+												value="#{cadastroUsuarioController.usuario.nome}" />
+											<label>Nome</label>
+										</h:panelGroup>
+									</div>
+									
+									<div class="ui-g-12 ui-lg-6">
+										<h:panelGroup styleClass="md-inputfield">
+											<p:inputText id="sobrenome" styleClass="input" label="Sobrenome" autocomplete="off"
+												value="#{cadastroUsuarioController.usuario.sobrenome}" />
+											<label>Sobrenome</label>
+										</h:panelGroup>
+									</div>
+								
+								<div class="ui-g-12 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText value="#{cadastroUsuarioController.usuario.cpf}" styleClass="input" label="CPF" autocomplete="off" />
+										<label>CPF</label>
+									</h:panelGroup>
+								</div>
+								
+								<div class="ui-g-12 ui-lg-6">
+									<h:panelGroup styleClass="md-inputfield">
+										<p:inputText value="#{cadastroUsuarioController.usuario.email}" styleClass="input" label="Email" />
+										<label>Email</label>
+									</h:panelGroup>
+								</div>
+								
+								<div class="ui-g-12 ui-lg-6">
+									<p:selectOneMenu id="tipo" value="#{cadastroUsuarioController.usuario.perfil}"
+										converter="omnifaces.SelectItemsConverter">
+										<f:selectItem itemLabel="Perfil" itemValue="" noSelectionOption="true" />
+										<f:selectItems value="#{cadastroUsuarioController.perfils}" var="perfil"
+											itemValue="#{perfil}" itemLabel="#{perfil.nome}" />
+									</p:selectOneMenu>
+								</div>
+	                        	
+	                        	<div class="ui-g-12 ui-lg-6">
+		                        	<p:selectOneRadio id="status" required="true" styleClass="input" value="#{cadastroUsuarioController.usuario.status}"
+		                        		rendered="#{cadastroUsuarioController.usuario.usuarioExistente}">
+			                            <f:selectItem itemLabel="Autorizado" itemValue="AUTORIZADO" />
+			                            <f:selectItem itemLabel="Desativado" itemValue="DESATIVADO" />
+		                        	</p:selectOneRadio>
+	                        	</div>
+							
+							</div>
+						</div>
+							
+						<div class="card card-w-title shadow-box ui-shadow-4">
+							<div class="save">
+								<p:commandButton action="#{cadastroUsuarioController.salvar}" value="#{cadastroUsuarioController.usuario.titulo}" 
+									update="@form" style="width: auto;" />
+							</div>
+						</div>
+							
+				</h:form>
+
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<div class="ui-g">
+
+			<div class="card card-w-title shadow-box ui-shadow-4">
+				<p:growl id="growl" />
+				
+				<div class="ui-g-12">
+					<h1>
+						Pesquisar Perfil
+						<p:button outcome="cadastro-perfil" value="CADASTRAR"
+							icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" />
+					</h1>
+				</div>
+
+				<h:form id="form">
+					
+					<div class="ui-g-12">
+						<p:dataTable value="#{pesquisaPerfilController.perfils}"
+							id="perfil" widgetVar="perfilTable" var="perfil" rows="10"
+							paginator="#{pesquisaPerfilController.paginator}"
+							emptyMessage="Nenhum perfil encontrado!"
+							paginatorPosition="bottom" reflow="true">
+							
+							<p:column headerText="Perfil">
+								<h:outputText value="#{perfil.nomeInicialMaiuscula}" />
+							</p:column>
+							
+							<p:column headerText="Módulos">
+								<p:repeat var="modulo" value="#{perfil.modulos}">
+									<h:outputText value="#{modulo.nome.descricao}" styleClass="Modulo MarRight5" />
+								</p:repeat>
+							</p:column>
+							
+							<p:column width="150">
+								<p:button
+									outcome="cadastro-perfil"
+									value="Editar" styleClass="btn cyan-btn">
+									<f:param name="id" value="#{perfil.id}" />
+								</p:button>	
+							</p:column>
+						</p:dataTable>
+					</div>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>
