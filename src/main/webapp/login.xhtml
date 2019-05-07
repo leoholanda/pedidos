@@ -19,27 +19,34 @@
 
     <h:body styleClass="login-body">
         <div class="card login-panel ui-fluid shadow-box ui-shadow-4">
-            <div class="ui-g">
-                <div class="ui-g-12">
-                    <p:graphicImage name="images/login/logo.png" library="ultima-layout" width="200" />
-                </div>
-                <div class="ui-g-12">
-                    <h:panelGroup styleClass="md-inputfield">
-                        <p:inputText />
-                        <label>CPF</label>
-                    </h:panelGroup>
-                </div>
-                <div class="ui-g-12 MarBot20">
-                    <h:panelGroup styleClass="md-inputfield">
-                        <p:password />
-                        <label>Senha</label>
-                    </h:panelGroup>
-                </div>
-                <div class="ui-g-12">
-                    <p:button value="Entrar" outcome="pages/unidade/pesquisa-unidade" icon="ui-icon-person" style="background-color: #03A9F4;" />
-<!--                     <p:button value="Resgatar Senha" icon="ui-icon-help" styleClass="secondary"/> -->
-                </div>
-            </div>
+        	<h:form id="frm" prependId="false">
+	            <div class="ui-g">
+	                <div class="ui-g-12">
+	                    <p:graphicImage name="images/login/logo.png" library="ultima-layout" width="200" />
+	                </div>
+	                
+	                <div class="ui-g-12">
+	                    <h:panelGroup styleClass="md-inputfield">
+	                        <p:inputText id="username" value="#{loginController.cpf}" />
+	                        <label>CPF</label>
+	                    </h:panelGroup>
+	                </div>
+	                
+	                <div class="ui-g-12 MarBot20">
+	                    <h:panelGroup styleClass="md-inputfield">
+	                        <p:password id="password" />
+	                        <label>Senha</label>
+	                    </h:panelGroup>
+	                </div>
+	                
+	                <div class="ui-g-12">
+	                    <p:commandButton value="Entrar" ajax="false" action="#{loginController.login}"
+	                    	icon="ui-icon-person" style="background-color: #03A9F4;" />
+	<!--                     <p:button value="Resgatar Senha" icon="ui-icon-help" styleClass="secondary"/> -->
+	                </div>
+	                <p:messages id="messages" closable="true" />
+	            </div>
+	         </h:form>   
         </div>
         
         <div class="login-footer">Beta Clean</div>

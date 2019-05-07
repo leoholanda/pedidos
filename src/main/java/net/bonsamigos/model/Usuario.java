@@ -44,6 +44,7 @@ public class Usuario extends Auditoria implements Serializable {
 	@Email
 	private String email;
 
+	@NotBlank
 	private String senha;
 
 	@NotNull

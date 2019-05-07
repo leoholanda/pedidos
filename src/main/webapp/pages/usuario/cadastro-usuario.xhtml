@@ -72,6 +72,28 @@
 			                            <f:selectItem itemLabel="Desativado" itemValue="DESATIVADO" />
 		                        	</p:selectOneRadio>
 	                        	</div>
+	                        	
+	                        	<div class="ui-g-12" />
+	                        	
+	                        	<div class="ui-g-12">
+		                        	<p:fieldset legend="Senha de Acesso">
+			                        	<div class="ui-g-12 ui-lg-6 MarTop10">
+			                        		<h:panelGroup styleClass="md-inputfield">
+												<p:password value="#{cadastroUsuarioController.usuario.senha}" label="Senha" 
+													match="repete" validatorMessage="Senhas precisam ser iguais"/>
+												<label>Senha</label>
+											</h:panelGroup>
+			                        	</div>
+			                        	
+			                        	<div class="ui-g-12 ui-lg-6 MarTop10">
+			                        		<h:panelGroup styleClass="md-inputfield">
+												<p:password value="#{cadastroUsuarioController.usuario.senha}" id="repete" match="repete"
+													styleClass="input" label="Repete Senha" />
+												<label>Repete Senha</label>
+											</h:panelGroup>
+			                        	</div>
+		                        	</p:fieldset>
+	                        	</div>
 							
 							</div>
 						</div>

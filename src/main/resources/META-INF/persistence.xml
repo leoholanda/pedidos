@@ -11,15 +11,16 @@
             <!-- Postgresql Local -->
               <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
               
-<!--               <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/beta_clean" /> -->
-<!--               <property name="javax.persistence.jdbc.user" value="postgres" /> -->
-<!--               <property name="javax.persistence.jdbc.password" value="postgres" /> -->
+              <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/beta_clean" />
+              <property name="javax.persistence.jdbc.user" value="postgres" />
+              <property name="javax.persistence.jdbc.password" value="postgres" />
               
-              <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/aeerora_beta_clean" />
-            <property name="javax.persistence.jdbc.user" value="aeerora_admin" />
-            <property name="javax.persistence.jdbc.password" value="dHH0mFUBV15Z" />
+<!--               <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/aeerora_beta_clean" /> -->
+<!--             <property name="javax.persistence.jdbc.user" value="aeerora_admin" /> -->
+<!--             <property name="javax.persistence.jdbc.password" value="dHH0mFUBV15Z" /> -->
 
-            <property name="javax.persistence.schema-generation.database.action" value="create-drop" />
+			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
+            <property name="javax.persistence.schema-generation.database.action" value="update" />
             <property name="javax.persistence.schema-generation.create-source" value="metadata" />
       		
             <property name="hibernate.show_sql" value="false" />

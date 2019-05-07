@@ -25,7 +25,7 @@
 						<p:dataTable value="#{pesquisaUsuarioController.usuarios}"
 							id="usuarios" widgetVar="usuarioTable" var="usuario" rows="10"
 							paginator="#{pesquisaUsuarioController.paginator}"
-							emptyMessage="Nenhum usuário encontrada!"
+							emptyMessage="Nenhum usuário encontrado!"
 							paginatorPosition="bottom" reflow="true">
 							
 							<p:column headerText="Nome" filterBy="#{usuario.nomeCompleto}" filterMatchMode="contains">
