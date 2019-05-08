@@ -39,7 +39,7 @@ public class Seguranca {
 
 		return perfil;
 	}
-	
+
 	public Usuario usuarioLogado() {
 		UsuarioSistema usuarioLogado = getUsuarioLogado();
 		return usuarioLogado.getUsuario();
@@ -70,7 +70,23 @@ public class Seguranca {
 		return externalContext.isUserInRole("DEVELOPER");
 	}
 
-	public boolean isGerente() {
-		return externalContext.isUserInRole("GERENTE");
+	public boolean isUsuario() {
+		return externalContext.isUserInRole("USUARIO");
+	}
+
+	public boolean isProduto() {
+		return externalContext.isUserInRole("PRODUTO");
+	}
+	
+	public boolean isUnidade() {
+		return externalContext.isUserInRole("UNIDADE");
+	}
+	
+	public boolean isPesquisaPedido() {
+		return externalContext.isUserInRole("CONSULTA_PEDIDO");
+	}
+	
+	public boolean isCadastroPedido() {
+		return externalContext.isUserInRole("CADASTRO_PEDIDO");
 	}
 }

@@ -18,7 +18,14 @@
     </h:head>
 
     <h:body styleClass="login-body">
-        <div class="card login-panel ui-fluid shadow-box ui-shadow-4">
+    
+    	<f:metadata>
+			<f:viewParam name="dummy" />
+			<f:event listener="#{loginController.preRender()}" type="preRenderView" />
+		</f:metadata>
+    	
+		<p:growl life="7000" id="growl" closable="true" />
+        <div class="card login-panel ui-fluid shadow-box ui-shadow-4" style="margin-top: 130px;">
         	<h:form id="frm" prependId="false">
 	            <div class="ui-g">
 	                <div class="ui-g-12">
@@ -27,25 +34,29 @@
 	                
 	                <div class="ui-g-12">
 	                    <h:panelGroup styleClass="md-inputfield">
-	                        <p:inputText id="username" value="#{loginController.cpf}" />
+	                        <p:inputText id="j_username" value="#{loginController.cpf}" />
 	                        <label>CPF</label>
 	                    </h:panelGroup>
 	                </div>
 	                
 	                <div class="ui-g-12 MarBot20">
 	                    <h:panelGroup styleClass="md-inputfield">
-	                        <p:password id="password" />
+	                        <p:password id="j_password" />
 	                        <label>Senha</label>
 	                    </h:panelGroup>
 	                </div>
 	                
 	                <div class="ui-g-12">
 	                    <p:commandButton value="Entrar" ajax="false" action="#{loginController.login}"
-	                    	icon="ui-icon-person" style="background-color: #03A9F4;" />
+	                    	icon="ui-icon-person" style="background-color: #03A9F4;" onstart="PF('status').show()" oncomplete="PF('status').hide()" />
 	<!--                     <p:button value="Resgatar Senha" icon="ui-icon-help" styleClass="secondary"/> -->
 	                </div>
-	                <p:messages id="messages" closable="true" />
+	                
 	            </div>
+	            
+	            <p:dialog widgetVar="status" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+				    <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true">Carregando...</i>
+				</p:dialog>
 	         </h:form>   
         </div>
         

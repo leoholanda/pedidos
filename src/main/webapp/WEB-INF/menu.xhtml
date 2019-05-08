@@ -44,31 +44,15 @@
                     </ui:fragment>
                     
                     <pu:menu widgetVar="me">
-                        <p:menuitem id="um_unidade" value="Unidade" icon="fa fa-home" outcome="/pages/unidade/pesquisa-unidade" />
+                        <p:menuitem id="um_unidade" value="Unidade" icon="fa fa-home" outcome="/pages/unidade/pesquisa-unidade" rendered="#{seguranca.unidade}" />
                         
-                        <p:menuitem id="um_produto" value="Produto" icon="fa fa-cube" outcome="/pages/produto/pesquisa-produto" />
+                        <p:menuitem id="um_produto" value="Produto" icon="fa fa-cube" outcome="/pages/produto/pesquisa-produto" rendered="#{seguranca.produto}"/>
                         
-                        <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" outcome="/pages/usuario/pesquisa-usuario" />
+                        <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" outcome="/pages/usuario/pesquisa-usuario" rendered="#{seguranca.usuario}"/>
                         
-                        <p:menuitem id="um_perfil" value="Perfil" icon="fa fa-columns" outcome="/pages/perfil/pesquisa-perfil" />
+                        <p:menuitem id="um_perfil" value="Perfil" icon="fa fa-columns" outcome="/pages/perfil/pesquisa-perfil" rendered="#{seguranca.pesquisaPedido}"/>
                         
-                        
-                        <p:submenu id="themes" label="Temas" icon="&#xE40A;">
-                            <p:menuitem id="theme1" value="Indigo - Pink" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('indigo')}" ajax="false" />
-                            <p:menuitem id="theme2" value="Brown - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('brown')}" ajax="false" />
-                            <p:menuitem id="theme3" value="Blue - Amber" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('blue')}" ajax="false" />
-                            <p:menuitem id="theme4" value="Blue Grey - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('blue-grey')}" ajax="false" />
-                            <p:menuitem id="theme5" value="Dark - Blue" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('dark-blue')}" ajax="false" />
-                            <p:menuitem id="theme6" value="Dark - Green" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('dark-green')}" ajax="false" />
-                            <p:menuitem id="theme7" value="Green - Yellow" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('green')}" ajax="false" />
-                            <p:menuitem id="theme8" value="Purple - Cyan" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('purple-cyan')}" ajax="false" />
-                            <p:menuitem id="theme9" value="Purple - Amber" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('purple-amber')}" ajax="false" />
-                            <p:menuitem id="theme10" value="Teal - Lime" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('teal')}" ajax="false" />
-                            <p:menuitem id="theme11" value="Cyan - Amber" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('cyan')}" ajax="false" />
-                            <p:menuitem id="theme12" value="Grey - Deep Orange" icon="&#xE3AE;" actionListener="#{guestPreferences.setTheme('grey')}" ajax="false" />
-                        </p:submenu>
-                        
-                        <p:menuitem id="um_logout" value="Logout" icon="fa fa-power-off" outcome="/login" />
+                        <p:menuitem id="um_logout" value="Logout" icon="fa fa-power-off" outcome="/login"></p:menuitem>
                     </pu:menu>
                 </div>
             </div>

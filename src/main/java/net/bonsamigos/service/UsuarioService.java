@@ -52,6 +52,10 @@ public class UsuarioService implements Serializable {
 		return usuario.get();
 	}
 	
+	public Usuario loadUsuarioAutorizado(String cpf) {
+		return usuarioRepository.loadUsuarioAutorizado(cpf);
+	}
+	
 	/**
 	 * Busca cpf
 	 * @param cpf
@@ -104,8 +108,8 @@ public class UsuarioService implements Serializable {
 		}
 		
 		// Gera um hash utilizando o BCrypt.
-		BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder();
-		usuario.setSenha(bCryptEncoder.encode(usuario.getSenha()));
+//		BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder();
+//		usuario.setSenha(bCryptEncoder.encode(usuario.getSenha()));
 		
 		return usuarioRepository.save(usuario);
 	}

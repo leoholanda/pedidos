@@ -31,17 +31,17 @@ public class LoginController implements Serializable {
 
 	private String cpf;
 
-	public void preRender() {
-		if ("true".equals(request.getParameter("invalid"))) {
-			FacesUtil.error("Usuário ou Senha Inválido!");
-		}
-	}
-
 	public void login() throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/login");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/j_spring_security_check");
 		dispatcher.forward(request, response);
 
 		facesContext.responseComplete();
+	}
+
+	public void preRender() {
+		if ("true".equals(request.getParameter("invalid"))) {
+			FacesUtil.error("Autenticação inválida!");
+		}
 	}
 
 	public String getCpf() {

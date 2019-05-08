@@ -14,7 +14,7 @@ public class UsuarioSistema extends User {
 	private Usuario usuario;
 	
 	public UsuarioSistema(Usuario usuario, Collection<? extends GrantedAuthority> authorities) {
-		super(usuario.getNome(), usuario.getSenha(), authorities);
+		super(usuario.getCpf(), usuario.getSenha(), authorities);
 		this.usuario = usuario;
 	}
 

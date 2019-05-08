@@ -24,4 +24,7 @@ public interface UsuarioRepository extends EntityRepository<Usuario, Long> {
 	
 	@Query("SELECT u FROM Usuario u JOIN FETCH u.perfil p WHERE u.id = ?1")
 	Usuario load(Long id);
+	
+	@Query("SELECT u FROM Usuario u WHERE u.cpf = ?1 AND u.status = 'AUTORIZADO'")
+    Usuario loadUsuarioAutorizado(String cpf);
 }

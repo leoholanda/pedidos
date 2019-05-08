@@ -22,10 +22,11 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
 import net.bonsamigos.enums.Status;
+import net.bonsamigos.util.Auditoria;
 import net.bonsamigos.util.NomeComInicialMaiscula;
 
 @Entity
-public class Perfil implements Serializable {
+public class Perfil extends Auditoria implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 

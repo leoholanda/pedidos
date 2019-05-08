@@ -5,8 +5,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,8 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
-
-import net.bonsamigos.enums.Modulos;
 
 @Entity
 public class Modulo implements Serializable {
@@ -28,8 +24,7 @@ public class Modulo implements Serializable {
 
 	@NotNull
 	@Column(length = 40)
-	@Enumerated(EnumType.STRING)
-	private Modulos nome;
+	private String nome;
 
 	@NotBlank
 	@Column(length = 40)
@@ -47,12 +42,12 @@ public class Modulo implements Serializable {
 		this.id = id;
 	}
 
-	public Modulos getNome() {
+	public String getNome() {
 		return nome;
 	}
-
-	public void setNome(Modulos nome) {
-		this.nome = nome;
+	
+	public void setNome(String nome) {
+		this.nome = nome.toUpperCase();
 	}
 
 	public String getDescricao() {

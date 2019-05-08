@@ -20,6 +20,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import net.bonsamigos.enums.Status;
 import net.bonsamigos.util.Auditoria;
 import net.bonsamigos.util.Estilo;
+import net.bonsamigos.util.MD5;
 import net.bonsamigos.util.NomeComInicialMaiscula;
 
 @Entity
@@ -130,7 +131,7 @@ public class Usuario extends Auditoria implements Serializable {
 	}
 
 	public void setSenha(String senha) {
-		this.senha = senha;
+		this.senha = MD5.toMD5(senha);
 	}
 
 	public Status getStatus() {

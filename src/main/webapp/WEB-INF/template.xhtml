@@ -43,6 +43,16 @@
                <h:outputText value="" />
            </f:facet>
        </p:ajaxStatus>
+       
+       <p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+
+		<p:dialog width="200" widgetVar="statusDialog" modal="true" draggable="false"
+			position="center" closable="false"
+			resizable="false" showHeader="fade" hideEffect="clip">
+			<i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+			<strong class="MarLeft20 MarBot10 Fs16">Carregando...</strong>
+		</p:dialog>
         
 
         <h:outputStylesheet name="style.css" library="css" />
