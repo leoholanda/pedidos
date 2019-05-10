@@ -31,17 +31,25 @@ public class PesquisaProdutoController implements Serializable {
 		produtos = produtoService.findAll();
 	}
 
-	@Override
-	public String toString() {
-		return produto.getId() + " | " + produto.getNome();
+	/**
+	 * Quantidade total de produtos
+	 * @return
+	 */
+	public Long getContaTodos() {
+		return produtoService.countAll();
 	}
-
+	
 	/**
 	 * Verifica necessidade de paginação
 	 * 
 	 */
 	public boolean isPaginator() {
 		return produtos.size() > Paginacao.ROW ? true : false;
+	}
+	
+	@Override
+	public String toString() {
+		return produto.getId() + " | " + produto.getNome();
 	}
 
 	public Produto getProduto() {

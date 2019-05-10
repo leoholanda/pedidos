@@ -28,6 +28,7 @@
 	<http pattern="/javax.faces.resource/**" security="none" />
 	<http pattern="/error/**" security="none" />
 	<http pattern="/login.xhtml" security="none" />
+	<http pattern="/logout.xhtml" security="none" />
 
 	<!-- Configura pagina de login -->
 	<http auto-config="true" use-expressions="true">
@@ -47,7 +48,8 @@
 		<form-login login-page="/login.xhtml" authentication-failure-url="/login.xhtml?invalid=true" 
 			default-target-url="/pages/produto/pesquisa-produto.xhtml" always-use-default-target="true"/>
 			
-		<logout logout-url="/j_spring_security_logout" invalidate-session="true" />
+<!-- 		<logout logout-url="/logout" invalidate-session="true" /> -->
+		<logout logout-url="/logout" logout-success-url="/login.xhtml" invalidate-session="true" delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE" />
 		
 	</http>
 

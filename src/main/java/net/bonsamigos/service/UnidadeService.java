@@ -77,4 +77,12 @@ public class UnidadeService implements Serializable {
 		unidade.setStatus(Status.DESATIVADO);
 		unidadeRepository.save(unidade);
 	}
+	
+	/**
+	 * Quantidade total de registro
+	 * @return
+	 */
+	public Long countAll() {
+		return unidadeRepository.count();
+	}
 }

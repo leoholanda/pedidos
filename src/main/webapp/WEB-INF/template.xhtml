@@ -34,24 +34,25 @@
             </div>
         </div>
         
-        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
-           <f:facet name="start">
-               <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
-           </f:facet>
+<!--         <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px"> -->
+<!--            <f:facet name="start"> -->
+<!--                <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i> -->
+<!--            </f:facet> -->
 
-           <f:facet name="complete">
-               <h:outputText value="" />
-           </f:facet>
-       </p:ajaxStatus>
+<!--            <f:facet name="complete"> -->
+<!--                <h:outputText value="" /> -->
+<!--            </f:facet> -->
+<!--        </p:ajaxStatus> -->
        
-       <p:ajaxStatus onstart="PF('statusDialog').show()"
-		onsuccess="PF('statusDialog').hide()" />
+       <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 
-		<p:dialog width="200" widgetVar="statusDialog" modal="true" draggable="false"
+		<p:dialog width="200" height="50" widgetVar="statusDialog" modal="true" draggable="false"
 			position="center" closable="false"
-			resizable="false" showHeader="fade" hideEffect="clip">
-			<i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
-			<strong class="MarLeft20 MarBot10 Fs16">Carregando...</strong>
+			resizable="false" showHeader="fade" hideEffect="fade">
+			<div style="padding: 8px;">
+				<i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+				<strong class="MarLeft20 MarBot20 Fs15">Carregando...</strong>
+			</div>
 		</p:dialog>
         
 

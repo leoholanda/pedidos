@@ -2,6 +2,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<f:metadata>
@@ -75,7 +76,7 @@
 	                        	
 	                        	<div class="ui-g-12" />
 	                        	
-	                        	<div class="ui-g-12">
+	                        	<div class="ui-g-12" jsf:rendered="#{!cadastroUsuarioController.usuario.usuarioExistente}">
 		                        	<p:fieldset legend="Senha de Acesso">
 			                        	<div class="ui-g-12 ui-lg-6 MarTop10">
 			                        		<h:panelGroup styleClass="md-inputfield">

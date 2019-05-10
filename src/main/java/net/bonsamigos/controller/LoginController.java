@@ -43,6 +43,16 @@ public class LoginController implements Serializable {
 			FacesUtil.error("Autenticação inválida!");
 		}
 	}
+	
+	public void logout() {
+		try {
+			String context = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+			FacesContext.getCurrentInstance().getExternalContext().redirect(context + "/logout");
+		} catch (IOException e) {
+			e.printStackTrace();
+			FacesUtil.error("Ops! Não planejamos isso.");
+		}
+	}
 
 	public String getCpf() {
 		return cpf;

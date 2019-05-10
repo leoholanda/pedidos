@@ -41,5 +41,12 @@ public class ProdutoService implements Serializable {
 		return produtoRepository.save(produto);
 	}
 
+	/**
+	 * Quantidade total de registro
+	 * @return
+	 */
+	public Long countAll() {
+		return produtoRepository.count();
+	}
 
 }

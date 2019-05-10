@@ -36,6 +36,14 @@ public class PesquisaUnidadeController implements Serializable {
 		unidade = new Unidade();
 		unidades = unidadeService.findAll();
 	}
+	
+	/**
+	 * Quantidade total de unidades
+	 * @return
+	 */
+	public Long getContaTodos() {
+		return unidadeService.countAll();
+	}
 
 	/**
 	 * Desativa unidade

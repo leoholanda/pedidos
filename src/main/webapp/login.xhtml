@@ -15,6 +15,23 @@
         <title>Beta Clean</title>
         <h:outputScript name="js/ripple.js" library="ultima-layout" />
         <h:outputScript name="js/layout.js" library="ultima-layout" />
+        
+        <script type="text/javascript">
+        	function ba() {
+        		document.getElementById('j_username').value = 'bons-amigos';
+        		document.getElementById('j_password').value = '123';
+  			}
+        	
+        	function bc() {
+        		document.getElementById('j_username').value = 'beta-clean';
+        		document.getElementById('j_password').value = '123';
+  			}
+        	
+        	function ad() {
+        		document.getElementById('j_username').value = 'admin';
+        		document.getElementById('j_password').value = '123';
+  			}
+        </script>
     </h:head>
 
     <h:body styleClass="login-body">
@@ -34,21 +51,29 @@
 	                
 	                <div class="ui-g-12">
 	                    <h:panelGroup styleClass="md-inputfield">
-	                        <p:inputText id="j_username" value="#{loginController.cpf}" />
+	                        <p:inputText id="j_username" label="j_username" value="#{loginController.cpf}" />
 	                        <label>CPF</label>
 	                    </h:panelGroup>
 	                </div>
 	                
 	                <div class="ui-g-12 MarBot20">
 	                    <h:panelGroup styleClass="md-inputfield">
-	                        <p:password id="j_password" />
+	                        <p:password id="j_password" label="j_password" />
 	                        <label>Senha</label>
 	                    </h:panelGroup>
 	                </div>
 	                
 	                <div class="ui-g-12">
-	                    <p:commandButton value="Entrar" ajax="false" action="#{loginController.login}"
-	                    	icon="ui-icon-person" style="background-color: #03A9F4;" onstart="PF('status').show()" oncomplete="PF('status').hide()" />
+	                    	
+	                    <p:commandButton value="Perfil Bons Amigos" ajax="false" onclick="ba()" action="#{loginController.login}"
+	                    	icon="ui-icon-person" />
+	                    	
+	                    <p:commandButton value="Perfil Beta Clean" ajax="false" onclick="bc()" action="#{loginController.login}"
+	                    	icon="ui-icon-person" />
+	                    	
+	                    <p:commandButton value="Perfil Administrador" ajax="false" onclick="ad()" action="#{loginController.login}"
+	                    	icon="ui-icon-person" />
+	                    	
 	<!--                     <p:button value="Resgatar Senha" icon="ui-icon-help" styleClass="secondary"/> -->
 	                </div>
 	                
@@ -60,7 +85,7 @@
 	         </h:form>   
         </div>
         
-        <div class="login-footer">Beta Clean</div>
+<!--         <div class="login-footer">Beta Clean</div> -->
         
         <h:outputStylesheet name="style.css" library="css" />
         <h:outputStylesheet name="css/ripple.css" library="ultima-layout" />

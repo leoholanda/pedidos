@@ -73,6 +73,10 @@ public class Seguranca {
 	public boolean isUsuario() {
 		return externalContext.isUserInRole("USUARIO");
 	}
+	
+	public boolean isPerfil() {
+		return externalContext.isUserInRole("PERFIL");
+	}
 
 	public boolean isProduto() {
 		return externalContext.isUserInRole("PRODUTO");

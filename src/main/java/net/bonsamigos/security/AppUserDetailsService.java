@@ -27,10 +27,24 @@ public class AppUserDetailsService implements UserDetailsService {
 		if (usuario != null) {
 			user = new UsuarioSistema(usuario, getNivelDeAcesso(usuario));
 		} else {
-			throw new UsernameNotFoundException("Usuário não encontrado.");
+			throw new UsernameNotFoundException("Usuário não encontrado!");
 		}
 		return user;
 	}
+	
+//	public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
+//		UsuarioService service = CDIServiceLocator.getBean(UsuarioService.class);
+//		Usuario usuario = service.loadUsuarioAutorizado(cpf);
+//
+//		UsuarioSistema user = null;
+//
+//		if (usuario != null) {
+//			user = new UsuarioSistema(usuario, getNivelDeAcesso(usuario));
+//		} else {
+//			throw new UsernameNotFoundException("Usuário não encontrado.");
+//		}
+//		return user;
+//	}
 
 	private Collection<? extends GrantedAuthority> getNivelDeAcesso(Usuario usuario) {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();

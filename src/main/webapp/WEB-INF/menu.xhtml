@@ -44,15 +44,17 @@
                     </ui:fragment>
                     
                     <pu:menu widgetVar="me">
-                        <p:menuitem id="um_unidade" value="Unidade" icon="fa fa-home" outcome="/pages/unidade/pesquisa-unidade" rendered="#{seguranca.unidade}" />
+                        <p:menuitem id="um_unidade" value="Unidade" icon="fa fa-home" outcome="/pages/unidade/pesquisa-unidade" rendered="#{seguranca.unidade}"/>
                         
                         <p:menuitem id="um_produto" value="Produto" icon="fa fa-cube" outcome="/pages/produto/pesquisa-produto" rendered="#{seguranca.produto}"/>
                         
                         <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" outcome="/pages/usuario/pesquisa-usuario" rendered="#{seguranca.usuario}"/>
                         
-                        <p:menuitem id="um_perfil" value="Perfil" icon="fa fa-columns" outcome="/pages/perfil/pesquisa-perfil" rendered="#{seguranca.pesquisaPedido}"/>
+                        <p:menuitem id="um_perfil" value="Perfil" icon="fa fa-columns" outcome="/pages/perfil/pesquisa-perfil" rendered="#{seguranca.perfil}"/>
                         
-                        <p:menuitem id="um_logout" value="Logout" icon="fa fa-power-off" outcome="/login"></p:menuitem>
+                        <p:menuitem id="um_logout" value="Logout" icon="fa fa-sign-out" action="#{loginController.logout}"/>
+                        
+                        
                     </pu:menu>
                 </div>
             </div>
