@@ -9,9 +9,11 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import net.bonsamigos.enums.Area;
 import net.bonsamigos.enums.Status;
 import net.bonsamigos.model.Unidade;
 import net.bonsamigos.repository.UnidadeRepository;
+import net.bonsamigos.security.Seguranca;
 import net.bonsamigos.util.NegocioException;
 
 @Service
@@ -21,6 +23,9 @@ public class UnidadeService implements Serializable {
 
 	@Inject
 	private UnidadeRepository unidadeRepository;
+	
+	@Inject
+	private Seguranca seguranca;
 
 	/**
 	 * Busca pelo codigo
@@ -36,11 +41,15 @@ public class UnidadeService implements Serializable {
 		return unidadeRepository.findAllOrderByCodigo();
 	}
 	
-	public Unidade findByCodigo(Long codigo) {
-		Optional<Unidade> unidade = unidadeRepository.findByCodigo(Long.valueOf(codigo));
-		return unidade.get();
+	/**
+	 * Lista unidades por area
+	 * @param area
+	 * @return
+	 */
+	public List<Unidade> findByArea(Area area) {
+		return unidadeRepository.findByArea(area);
 	}
-
+	
 	public List<Unidade> findByNomeLikeOrderByCodigo(String nome) {
 		List<Unidade> lista = new ArrayList<Unidade>();
 		
@@ -60,7 +69,7 @@ public class UnidadeService implements Serializable {
 	 * @return
 	 */
 	public Unidade save(Unidade unidade) throws NegocioException {
-		Optional<Unidade> unidadeExistente = unidadeRepository.findByCodigo(unidade.getCodigo());
+		Optional<Unidade> unidadeExistente = unidadeRepository.findByCodigo(unidade.getCodigo(), unidade.getArea());
 
 		if (unidadeExistente.isPresent() && !unidadeExistente.get().equals(unidade)) {
 			throw new NegocioException("O código da unidade já existe!");
@@ -84,5 +93,13 @@ public class UnidadeService implements Serializable {
 	 */
 	public Long countAll() {
 		return unidadeRepository.count();
+	}
+	
+	/**
+	 * Quantidade total d registro por área(Educacao ou Saude)
+	 * @return
+	 */
+	public Long countByArea() {
+		return unidadeRepository.countByArea(seguranca.getUsuarioLogado().getUsuario().getArea());
 	}
 }

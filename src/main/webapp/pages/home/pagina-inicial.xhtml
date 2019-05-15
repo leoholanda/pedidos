@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="head">
+		<style type="text/css">
+@media ( min-width : 600px) {
+	body {
+		overflow-x: hidden;
+		overflow-y: hidden;
+		background: white !important;
+	}
+	div.ui-g-12 {
+		padding: 22px;
+	}
+	.card {
+		background-color: #fff;
+		color: #5B52A7;
+	}
+	.card:hover {
+		-webkit-transition: all 0.3s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		-ms-transition: all 0.2s ease-in-out;
+		-o-transition: all 0.2s ease-in-out;
+		-webkit-box-shadow: 12px 12px 16px #999;
+		-moz-box-shadow: 12px 12px 16px #999;
+		box-shadow: 12px 12px 16px #999;
+		
+		background-color: #3F51B5;
+		color: #fff;
+	}
+	.ba {
+		opacity: 0.8;
+		background: url("#{resource['ultima-layout:images/BA.jpg']}") top
+			no-repeat;
+		background-size: 80% auto;
+		height: 500px;
+	}
+}
+</style>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="ui-g-12 TextAlignCenter">
+
+			<h:form>
+				<p:growl id="growl" />
+
+				<div class="ui-g-12 ui-lg-3">
+					<p:commandLink
+						action="#{menuController.selecionarEducacao}"
+						update="@all" onstart="PF('statusDialog').show()"
+						onsuccess="PF('statusDialog').hide()">
+						<div class="item">
+							<div class="card card-w-title TextAlignCenter">
+								<h1 class="Fs30">EDUCAÇÃO</h1>
+								<i class="fa fa-graduation-cap Fs130 FontBold" />
+							</div>
+						</div>
+					</p:commandLink>
+				</div>
+
+				<div class="ui-g-12 ui-lg-3">
+					<p:commandLink action="#{menuController.selecionarSaude}"
+						update="@all" onstart="PF('statusDialog').show()"
+						onsuccess="PF('statusDialog').hide()">
+						<div class="item">
+							<div class="card card-w-title">
+								<h1 class="Fs30">SAÚDE</h1>
+								<i class="fa fa-stethoscope Fs130" />
+							</div>
+						</div>
+					</p:commandLink>
+				</div>
+
+				<div class="ui-g-12 ui-lg-6 ba" />
+
+			</h:form>
+
+
+		</div>
+
+	</ui:define>
+
+</ui:composition>

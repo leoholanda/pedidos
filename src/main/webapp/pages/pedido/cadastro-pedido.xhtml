@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id"
+			value="#{cadastroPedidoController.pedido.id}" />
+		<f:viewAction action="#{cadastroPedidoController.carregarPedido}"
+			if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+				
+				<h:form>
+					<div class="card card-w-title shadow-box ui-shadow-4">
+						<p:growl id="growl" />
+						<h1>
+							#{cadastroPedidoController.pedido.titulo} Pedido
+							
+							<p:button value="PESQUISAR" 
+								icon="fa fa-search" styleClass="btn teal-btn" style="float:right" />
+								
+						</h1>
+
+						<div class="ui-g MarTop50">
+						
+							<div class="ui-g-12 ui-lg-6">
+								<label class="label">Unidade: </label>
+							</div>
+							
+							<div class="ui-g-12 ui-lg-6">
+								<label class="label">Código: </label>
+							</div>
+				
+							<div class="ui-g-12 ui-lg-6">
+								<p:selectOneMenu id="tipo" value="#{cadastroPedidoController.pedido.unidade}"
+									converter="omnifaces.SelectItemsConverter" var="u">
+									<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
+									<f:selectItems value="#{cadastroPedidoController.unidades}" var="unidade"
+										itemValue="#{unidade}" itemLabel="#{unidade.nomeInicialMaiuscula}" />
+										<p:column headerText="Código">
+							                <h:outputText value="#{u.codigo}" />
+							            </p:column>
+							            
+										<p:column headerText="Nome">
+							                <h:outputText value="#{u.nome}" />
+							            </p:column>
+								</p:selectOneMenu>
+							</div>
+						</div>
+					</div>
+					
+					<div class="card card-w-title shadow-box ui-shadow-4">
+						<div class="save">
+							<p:commandButton action="#{cadastroPedidoController.salvar}" value="Finalizar" 
+								update="@form" style="width: auto;" />
+						</div>
+					</div>
+				</h:form>
+
+
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

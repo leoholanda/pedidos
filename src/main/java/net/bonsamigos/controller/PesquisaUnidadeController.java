@@ -82,10 +82,6 @@ public class PesquisaUnidadeController implements Serializable {
 		return unidadeService.findAll();
 	}
 
-	public Unidade buscaPorCodigo(Long codigo) {
-		return unidadeService.findByCodigo(codigo);
-	}
-
 	public Unidade getUnidade() {
 		return unidade;
 	}

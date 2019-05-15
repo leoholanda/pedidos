@@ -326,7 +326,9 @@
 
 .login-body {
   background: url("#{resource['ultima-layout:images/profile-bg.svg']}") top left no-repeat #f7f7f7;
-  background-size: 100% auto; }
+/*   background: url("#{resource['ultima-layout:images/BA.jpg']}") top left no-repeat; */
+  background-size: 100% auto; 
+  }
 
 .login-panel {
   text-align: center;

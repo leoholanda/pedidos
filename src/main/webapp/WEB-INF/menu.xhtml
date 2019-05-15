@@ -44,15 +44,26 @@
                     </ui:fragment>
                     
                     <pu:menu widgetVar="me">
-                        <p:menuitem id="um_unidade" value="Unidade" icon="fa fa-home" outcome="/pages/unidade/pesquisa-unidade" rendered="#{seguranca.unidade}"/>
+                    	<p:menuitem id="um_inicial" value="Inicial" icon="fa fa-desktop" action="#{menuController.inicial}" 
+                        	onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                        	
+                        <p:menuitem id="um_unidade" value="Unidade" icon="fa fa-home" action="#{menuController.unidade}" 
+                        	rendered="#{seguranca.unidade and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
                         
-                        <p:menuitem id="um_produto" value="Produto" icon="fa fa-cube" outcome="/pages/produto/pesquisa-produto" rendered="#{seguranca.produto}"/>
+                        <p:menuitem id="um_produto" value="Produto" icon="fa fa-cube" action="#{menuController.produto}" 
+                        	rendered="#{seguranca.produto and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+                        	
+                       	<p:menuitem id="um_pedido" value="Pedidos" icon="fa fa-clipboard" action="#{menuController.pedido}" 
+                       	rendered="#{seguranca.pedido and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         
-                        <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" outcome="/pages/usuario/pesquisa-usuario" rendered="#{seguranca.usuario}"/>
+                        <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" action="#{menuController.usuario}" 
+                        	rendered="#{seguranca.usuario and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         
-                        <p:menuitem id="um_perfil" value="Perfil" icon="fa fa-columns" outcome="/pages/perfil/pesquisa-perfil" rendered="#{seguranca.perfil}"/>
-                        
-                        <p:menuitem id="um_logout" value="Logout" icon="fa fa-sign-out" action="#{loginController.logout}"/>
+                        <p:menuitem id="um_perfil" value="Perfil" icon="fa fa-columns" action="#{menuController.perfil}" 
+                        	rendered="#{seguranca.perfil and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+                        	
+                        <p:menuitem id="um_logout" value="Logout" icon="fa fa-sign-out" action="#{menuController.logout}"
+                        	onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         
                         
                     </pu:menu>

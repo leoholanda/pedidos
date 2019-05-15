@@ -17,6 +17,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
+import net.bonsamigos.enums.Area;
 import net.bonsamigos.enums.Status;
 import net.bonsamigos.util.Auditoria;
 import net.bonsamigos.util.Estilo;
@@ -52,6 +53,10 @@ public class Usuario extends Auditoria implements Serializable {
 	@Column(length = 30)
 	@Enumerated(EnumType.STRING)
 	private Status status;
+
+	@Column(length = 30)
+	@Enumerated(EnumType.STRING)
+	private Area area; 
 	
 	@ManyToOne
 	private Perfil perfil;
@@ -150,7 +155,14 @@ public class Usuario extends Auditoria implements Serializable {
 		this.perfil = perfil;
 	}
 	
-
+	public Area getArea() {
+		return area;
+	}
+	
+	public void setArea(Area area) {
+		this.area = area;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

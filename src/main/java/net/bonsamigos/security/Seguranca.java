@@ -65,6 +65,14 @@ public class Seguranca {
 		FacesContext context = FacesContext.getCurrentInstance();
 		return context.getExternalContext();
 	}
+	
+	/**
+	 * Verifica se tem area selecionada
+	 * @return
+	 */
+	public boolean isArea() {
+		return this.getUsuarioLogado().getUsuario().getArea() != null;
+	}
 
 	public boolean isDeveloper() {
 		return externalContext.isUserInRole("DEVELOPER");
@@ -76,6 +84,10 @@ public class Seguranca {
 	
 	public boolean isPerfil() {
 		return externalContext.isUserInRole("PERFIL");
+	}
+	
+	public boolean isPedido() {
+		return externalContext.isUserInRole("FAZER_PEDIDO");
 	}
 
 	public boolean isProduto() {
