@@ -91,8 +91,8 @@ public class UnidadeService implements Serializable {
 	 * Quantidade total de registro
 	 * @return
 	 */
-	public Long countAll() {
-		return unidadeRepository.count();
+	public Long countAll(Area area) {
+		return unidadeRepository.countByArea(area);
 	}
 	
 	/**

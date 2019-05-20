@@ -5,6 +5,7 @@ public enum Status {
 	ABERTO("Aberto"),
 	AUTORIZADO("Autorizado"),
 	ENTREGUE("Entregue"),
+	CANCELADO("Cancelado"),
 	
 	// Para Unidade
 	SOLICITADO("Solicitado"),

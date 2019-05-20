@@ -2,11 +2,11 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
 
 	<f:metadata>
-		<f:viewParam name="id"
-			value="#{cadastroPedidoController.pedido.id}" />
+		<f:viewParam name="id" value="#{cadastroPedidoController.pedido.id}" />
 		<f:viewAction action="#{cadastroPedidoController.carregarPedido}"
 			if="#{param.id ne null}" />
 	</f:metadata>
@@ -14,55 +14,172 @@
 	<ui:define name="content">
 		<div class="ui-g ui-fluid">
 			<div class="ui-g-12">
-				
-				<h:form>
+
+				<h:form id="form">
 					<div class="card card-w-title shadow-box ui-shadow-4">
 						<p:growl id="growl" />
 						<h1>
-							#{cadastroPedidoController.pedido.titulo} Pedido
-							
-							<p:button value="PESQUISAR" 
-								icon="fa fa-search" styleClass="btn teal-btn" style="float:right" />
-								
+							Fazer Pedido
+
+							<p:button outcome="pesquisa-pedido" value="PESQUISAR" icon="fa fa-search"
+								styleClass="btn teal-btn" style="float:right" />
+
 						</h1>
 
-						<div class="ui-g MarTop50">
-						
-							<div class="ui-g-12 ui-lg-6">
-								<label class="label">Unidade: </label>
-							</div>
-							
-							<div class="ui-g-12 ui-lg-6">
-								<label class="label">Código: </label>
-							</div>
-				
-							<div class="ui-g-12 ui-lg-6">
-								<p:selectOneMenu id="tipo" value="#{cadastroPedidoController.pedido.unidade}"
+						<div class="ui-g MarTop30">
+
+							<div class="ui-g-12 ui-lg-4" jsf:rendered="#{!cadastroPedidoController.pedido.pedidoExistente}">
+								<p:selectOneMenu id="tipo" label="Unidade"
+									value="#{cadastroPedidoController.pedido.unidade}"
 									converter="omnifaces.SelectItemsConverter" var="u">
-									<f:selectItem itemLabel="" itemValue="" noSelectionOption="true" />
-									<f:selectItems value="#{cadastroPedidoController.unidades}" var="unidade"
-										itemValue="#{unidade}" itemLabel="#{unidade.nomeInicialMaiuscula}" />
-										<p:column headerText="Código">
-							                <h:outputText value="#{u.codigo}" />
-							            </p:column>
-							            
-										<p:column headerText="Nome">
-							                <h:outputText value="#{u.nome}" />
-							            </p:column>
+									<f:selectItem itemLabel="Unidade" itemValue=""
+										noSelectionOption="true" />
+									<f:selectItems value="#{cadastroPedidoController.unidades}"
+										var="unidade" itemValue="#{unidade}"
+										itemLabel="#{unidade.nomeInicialMaiuscula}" />
+									<p:column headerText="Código">
+										<h:outputText value="#{u.codigo}" />
+									</p:column>
+
+									<p:column headerText="Nome">
+										<h:outputText value="#{u.nome}" />
+									</p:column>
+
+									<p:ajax event="change" update="@form" process="@this" />
 								</p:selectOneMenu>
 							</div>
+							
+							<div class="ui-g-12 ui-lg-6 SoftPurple" jsf:rendered="#{cadastroPedidoController.pedido.pedidoExistente}">
+								<p:outputLabel styleClass="MarRight20 Fs18"
+									value="#{cadastroPedidoController.pedido.unidade.nomeInicialMaiuscula}" />
+								<p:outputLabel styleClass="Fs18"
+									value="Código: #{cadastroPedidoController.pedido.unidade.codigoCompleto}" />	
+							</div>
+
+							<div class="ui-g-12 ui-lg-2 Gray" jsf:rendered="#{!cadastroPedidoController.pedido.pedidoExistente}">
+								<p:outputLabel id="codigo" class="label"
+									value="Código: #{cadastroPedidoController.pedido.unidade.codigoCompleto}" />
+							</div>
+							
+							<div class="ui-g-12 ui-lg-6" jsf:rendered="#{cadastroPedidoController.pedido.pedidoExistente}" />
+							
+							<div class="ui-g-12 ui-lg-6" jsf:rendered="#{!cadastroPedidoController.pedido.pedidoExistente}">
+								<p:fieldset legend="Últimos Pedidos">
+									<p:repeat var="ultimoPedido" value="#{cadastroPedidoController.listaUltimosPedidos}" 
+										rendered="#{cadastroPedidoController.pedido.unidade ne null}">
+										<p:commandLink value="#{ultimoPedido.unidade.codigoCompleto}/#{ultimoPedido.mes}" 
+											oncomplete="PF('ultimoPedido').show()" update=":form:ultimoPedido :form:ultimosProdutos">
+											<f:setPropertyActionListener value="#{ultimoPedido}" target="#{cadastroPedidoController.ultimoPedido}" />
+										</p:commandLink>	
+									</p:repeat>						
+								</p:fieldset>
+							</div>
+
+							<div class="ui-g-12 ui-lg-5 MarTop20">
+								<p:dataTable value="#{cadastroPedidoController.produtos}"
+									id="produtos" widgetVar="produtoTable" var="produto" rows="10"
+									reflow="true" selectionMode="single"
+									selection="#{cadastroPedidoController.produto}"
+									rowKey="#{produto.id}" lazy="true" loadingMessage="Carregando...">
+
+									<p:ajax event="rowSelect" listener="#{cadastroPedidoController.eventoSeleciona}" 
+										oncomplete="PF('quantidade').show()" update=":form:quantidade" />
+
+									<p:column headerText="Produto">
+										<h:outputText value="#{produto.nomeInicialMaiuscula}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+
+							<div class="ui-g-12 ui-lg-1" />
+
+							<div class="ui-g-12 ui-lg-6 MarTop20">
+								<p:panel id="panel" rendered="#{empty cadastroPedidoController.pedido.itens}">
+									<div class="TextAlignCenter">
+										<h1 class="Fs30 Gray">Nenhum produto adicionado!</h1>
+										<i class="fa fa-shopping-cart Fs130 Gray" />
+									</div>
+								</p:panel>
+								
+								<p:dataTable value="#{cadastroPedidoController.pedido.itens}" rendered="#{not empty cadastroPedidoController.pedido.itens}"
+									id="add-produtos" var="item" emptyMessage="Nenhum produto adicionado!" reflow="true" loadingMessage="Carregando...">
+									
+									<p:column headerText="Ordem" styleClass="TextAlignCenter" width="100">
+										<h:outputText  value="#{item.ordem}"/>
+									</p:column>
+
+									<p:column headerText="Produto">
+										<h:outputText value="#{item.produto.nomeInicialMaiuscula}" />
+									</p:column>
+
+									<p:column headerText="Quantidade" styleClass="TextAlignCenter" width="100">
+										<h:outputText value="#{item.quantidade}" />
+									</p:column>
+									
+									<p:column width="120">
+										<p:commandButton icon="fa fa-trash" value="Excluir" styleClass="btn red-btn"
+											update="@form" action="#{cadastroPedidoController.removeItem}">
+											<f:setPropertyActionListener value="#{item}" target="#{cadastroPedidoController.item}" />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</div>
+							
+							<div class="ui-g-12" jsf:rendered="#{cadastroPedidoController.pedido.pedidoExistente}">
+								<p:outputLabel id="usuario" class="label"
+									value="Criado por: #{cadastroPedidoController.pedido.usuario.nomeCompleto}" />
+							</div>
 						</div>
 					</div>
-					
-					<div class="card card-w-title shadow-box ui-shadow-4">
-						<div class="save">
-							<p:commandButton action="#{cadastroPedidoController.salvar}" value="Finalizar" 
-								update="@form" style="width: auto;" />
+
+					<p:dialog header="#{cadastroPedidoController.produto.nome}" id="quantidade" widgetVar="quantidade"
+						minHeight="50" width="300" modal="true">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12">
+								<div class="ui-g-12">
+									<label class="label">Quantidade: </label>
+								</div>
+								
+								<div class="ui-g-12">
+									<p:spinner id="qtd" min="1" required="true" validatorMessage="Informe a quantidade" value="#{cadastroPedidoController.item.quantidade}" />
+								</div>
+								
+								<div class="ui-g-12 ui-lg-6">
+									<p:commandButton value="Adicionar" action="#{cadastroPedidoController.addItem}" 
+									update="@this growl produtos add-produtos @form" process="qtd @this" onclick="PF('quantidade').hide()" styleClass="MarTop50" />
+								</div>		
+							</div>
 						</div>
+					</p:dialog>
+					
+					<p:dialog header="#{ultimoPedido.unidade.codigoCompleto}/#{ultimoPedido.mes}" id="ultimoPedido" widgetVar="ultimoPedido"
+						minHeight="50" width="300" modal="true">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12">
+								<div class="ui-g-12">
+									<p:commandButton value="Quero Esses Produtos!" onclick="PF('ultimoPedido').hide()" styleClass="MarTop10" />
+								</div>
+							
+								<div class="ui-g-12">
+									<p:dataTable value="#{cadastroPedidoController.ultimoPedido.itens}"
+										id="ultimosProdutos" var="item"
+										reflow="true" scrollable="true" scrollHeight="150"
+										loadingMessage="Carregando..." styleClass="MarTop10">
+	
+										<p:column headerText="Produtos">
+											<h:outputText value="#{item.produto.nomeInicialMaiuscula}" />
+										</p:column>
+									</p:dataTable>
+								</div>
+							</div>
+						</div>
+					</p:dialog>
+
+					<div class="card card-w-title shadow-box ui-shadow-4" style="height: 60px;">
+							<p:commandButton action="#{cadastroPedidoController.salvar}"
+								value="Finalizar" update="@form" style="width: auto;" />
 					</div>
 				</h:form>
-
-
 			</div>
 		</div>
 

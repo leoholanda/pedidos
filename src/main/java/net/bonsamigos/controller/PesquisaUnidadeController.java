@@ -12,6 +12,7 @@ import javax.inject.Named;
 import net.bonsamigos.enums.Area;
 import net.bonsamigos.enums.Status;
 import net.bonsamigos.model.Unidade;
+import net.bonsamigos.security.Seguranca;
 import net.bonsamigos.service.UnidadeService;
 import net.bonsamigos.util.FacesUtil;
 import net.bonsamigos.util.Paginacao;
@@ -21,9 +22,12 @@ import net.bonsamigos.util.Paginacao;
 public class PesquisaUnidadeController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	@Inject
 	private UnidadeService unidadeService;
+	
+	@Inject
+	private Seguranca seguranca;
 
 	private Unidade unidade;
 
@@ -34,7 +38,7 @@ public class PesquisaUnidadeController implements Serializable {
 	@PostConstruct
 	public void init() {
 		unidade = new Unidade();
-		unidades = unidadeService.findAll();
+		unidades = unidadeService.findByArea(seguranca.getUsuarioLogado().getUsuario().getArea());
 	}
 	
 	/**
@@ -42,7 +46,7 @@ public class PesquisaUnidadeController implements Serializable {
 	 * @return
 	 */
 	public Long getContaTodos() {
-		return unidadeService.countAll();
+		return unidadeService.countAll(seguranca.getUsuarioLogado().getUsuario().getArea());
 	}
 
 	/**
@@ -61,8 +65,8 @@ public class PesquisaUnidadeController implements Serializable {
 		return Arrays.asList(Area.values());
 	}
 	
-	public List<Status> getListaStatus() {
-		return Arrays.asList(Status.ATIVADO, Status.DESATIVADO);
+	public List<String> getListaStatus() {
+		return Arrays.asList(Status.ATIVADO.getDescricao(), Status.DESATIVADO.getDescricao());
 	}
 	
 	@Override

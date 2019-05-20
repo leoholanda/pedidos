@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import net.bonsamigos.model.Unidade;
+import net.bonsamigos.security.Seguranca;
 import net.bonsamigos.service.UnidadeService;
 import net.bonsamigos.util.FacesUtil;
 import net.bonsamigos.util.NegocioException;
@@ -21,8 +22,11 @@ public class CadastroUnidadeController implements Serializable {
 	@Inject
 	private UnidadeService unidadeService;
 
+	@Inject
+	private Seguranca seguranca;
+	
 	private Unidade unidade;
-
+	
 	@PostConstruct
 	public void init() {
 		unidade = new Unidade();
@@ -30,6 +34,7 @@ public class CadastroUnidadeController implements Serializable {
 	
 	public void salvar() {
 		try {
+			unidade.setArea(seguranca.getUsuarioLogado().getUsuario().getArea());
 			unidadeService.save(unidade);
 			
 			unidade = new Unidade();

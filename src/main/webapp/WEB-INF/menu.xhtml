@@ -45,7 +45,7 @@
                     
                     <pu:menu widgetVar="me">
                     	<p:menuitem id="um_inicial" value="Inicial" icon="fa fa-desktop" action="#{menuController.inicial}" 
-                        	onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+                        	rendered="#{seguranca.unidade and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
                         	
                         <p:menuitem id="um_unidade" value="Unidade" icon="fa fa-home" action="#{menuController.unidade}" 
                         	rendered="#{seguranca.unidade and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
@@ -54,7 +54,7 @@
                         	rendered="#{seguranca.produto and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         	
                        	<p:menuitem id="um_pedido" value="Pedidos" icon="fa fa-clipboard" action="#{menuController.pedido}" 
-                       	rendered="#{seguranca.pedido and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+                       		rendered="#{seguranca.pedido and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         
                         <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" action="#{menuController.usuario}" 
                         	rendered="#{seguranca.usuario and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
@@ -64,7 +64,6 @@
                         	
                         <p:menuitem id="um_logout" value="Logout" icon="fa fa-sign-out" action="#{menuController.logout}"
                         	onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
-                        
                         
                     </pu:menu>
                 </div>

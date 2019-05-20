@@ -43,14 +43,6 @@
 								</h:panelGroup>
 							</div>
 							
-							<div class="ui-g-12">
-								<p:selectOneMenu id="area" value="#{cadastroUnidadeController.unidade.area}" label="Área">
-									<f:selectItem itemLabel="Área" noSelectionOption="true" />
-		                            <f:selectItem itemLabel="Educação" itemValue="EDUCACAO" />
-		                            <f:selectItem itemLabel="Saúde" itemValue="SAUDE" />
-	                        	</p:selectOneMenu>
-                        	</div>
-                        	
                         	<div class="ui-g-12">
 	                        	<p:selectOneRadio id="status" required="true" value="#{cadastroUnidadeController.unidade.status}"
 	                        		rendered="#{cadastroUnidadeController.unidade.unidadeExistente}">

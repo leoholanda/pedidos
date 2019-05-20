@@ -4,11 +4,11 @@
 }
 
 label {
-	font: 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif !important;
+/* 	font: 18px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif !important; */
 }
 
 .label {
-	font-size: 20px !important;
+	font-size: 16px !important;
 	font-weight: bold; 
 }
 
@@ -345,7 +345,7 @@ label {
 }
 
 .SoftPurple {
-	color: #CE93D8;
+	color: #293B93;
 }
 
 .Purple {
@@ -559,3 +559,24 @@ label {
 }
 
 
+/* Status */
+
+.Aberto, .Autorizado, .Entregue {
+	padding: 5px;
+	cursor: text; 
+	background-color: #FFF !important;
+	text-transform: uppercase;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    border: 1px;
+	border-radius: 2px; 
+    border-style: solid; }.Aberto {
+		border-color: #293B93 !important;
+		color: #293B93 !important; 
+		background-color: #FFF !important;}.Autorizado {
+			border-color: #03A9F4 !important;
+			color: #03A9F4 !important;}.Entregue {
+			border-color: #43A047 !important;
+			color: #43A047 !important; 
+		}
+}

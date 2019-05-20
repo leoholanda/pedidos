@@ -37,18 +37,12 @@
 								<h:outputText value="#{unidade.nomeInicialMaiuscula}" />
 							</p:column>
 
-							<p:column headerText="Área" filterBy="#{unidade.area}" filterMatchMode="exact" styleClass="TextAlignCenter">
-								<f:facet name="filter">
-					                <p:selectOneMenu onchange="PF('unidadeTable').filter()" styleClass="custom-filter">
-					                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
-					                    <f:selectItems value="#{pesquisaUnidadeController.areas}" />
-					                </p:selectOneMenu>
-					            </f:facet>
+							<p:column headerText="Área" styleClass="TextAlignCenter">
 								<h:outputText value="#{unidade.area.descricao}" />
 							</p:column>
 
 							<p:column headerText="Status" styleClass="#{unidade.corParaStatus} TextAlignCenter" 
-								filterBy="#{unidade.status}" filterMatchMode="exact">
+								filterBy="#{unidade.status.descricao}" filterMatchMode="exact">
 								<f:facet name="filter">
 					                <p:selectOneMenu onchange="PF('unidadeTable').filter()" styleClass="custom-filter">
 					                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />

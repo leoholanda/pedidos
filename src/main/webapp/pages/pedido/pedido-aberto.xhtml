@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="content">
+		<div class="ui-g">
+
+			<div class="card card-w-title shadow-box ui-shadow-4">
+				<p:growl id="growl" />
+				
+				<div class="ui-g-12">
+					<h1>
+						Pesquisar Pedido
+						<p:button outcome="cadastro-pedido" value="Fazer Pedido" icon="fa fa-plus" styleClass="btn teal-btn" style="float:right" />
+					</h1>
+				</div>
+
+				<h:form id="form">
+					
+					<div class="ui-g-12">
+						<p:dataTable value="#{pesquisaPedidoController.pedidos}"
+							id="pedidos" widgetVar="pedidoTable" var="pedido" rows="10"
+							paginator="#{pesquisaPedidoController.paginator}"
+							emptyMessage="Nenhum pedido encontrado!"
+							paginatorPosition="bottom" reflow="true">
+							
+							<p:column width="100" headerText="Código" filterBy="#{pedido.unidade.codigoCompleto}"
+								filterMatchMode="contains" filterStyle="width: 50%" styleClass="TextAlignCenter">
+								<h:outputText value="#{pedido.unidade.codigoCompleto}" />
+							</p:column>
+							
+							<p:column headerText="Mês" styleClass="TextAlignCenter">
+								<h:outputText value="#{pedido.mes}" />
+							</p:column>
+							
+							<p:column headerText="Unidade" filterBy="#{pedido.unidade.nomeInicialMaiuscula}"
+								filterMatchMode="contains" filterStyle="width: 50%">
+								<h:outputText value="#{pedido.unidade.nomeInicialMaiuscula}" />
+							</p:column>
+							
+							<p:column headerText="Data" styleClass="TextAlignCenter">
+								<h:outputText value="#{pedido.dataCriacao.time}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+							
+							<p:column headerText="Status" styleClass="TextAlignCenter">
+								<h:outputText value="#{pedido.status.descricao}" />
+							</p:column>
+
+							<p:column width="150">
+								<p:button
+									outcome="cadastro-pedido"
+									value="Detalhar" styleClass="btn cyan-btn">
+									<f:param name="id" value="#{pedido.id}" />
+								</p:button>	
+							</p:column>
+						</p:dataTable>
+					</div>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>
