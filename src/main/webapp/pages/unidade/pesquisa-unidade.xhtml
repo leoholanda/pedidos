@@ -2,6 +2,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
 	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
 
 	<ui:define name="content">
@@ -19,7 +20,7 @@
 				</div>
 
 				<h:form id="form">
-					
+				
 					<div class="ui-g-12">
 						<p:dataTable value="#{pesquisaUnidadeController.unidades}"
 							id="unidades" widgetVar="unidadeTable" var="unidade" rows="10"
@@ -35,8 +36,11 @@
 
 							<p:column headerText="Nome" filterBy="#{unidade.nome}" filterMatchMode="contains">
 								<h:outputText value="#{unidade.nomeInicialMaiuscula}" />
+								
+								<i class="fa fa-map-marker Fright" id="endereco" title="Endereço: #{unidade.endereco}" 
+								jsf:rendered="#{unidade.endereco ne null}" />
 							</p:column>
-
+							
 							<p:column headerText="Área" styleClass="TextAlignCenter">
 								<h:outputText value="#{unidade.area.descricao}" />
 							</p:column>

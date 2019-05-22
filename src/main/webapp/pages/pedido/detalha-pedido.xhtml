@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{cadastroPedidoController.pedido.id}" />
+		<f:viewAction action="#{cadastroPedidoController.carregarPedido}"
+			if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+
+				<h:form id="form">
+					<div class="card card-w-title shadow-box ui-shadow-4">
+						<p:growl id="growl" />
+						<h1>
+							Pedido #{cadastroPedidoController.pedido.codigoMes}
+							
+							<h:outputText value="#{cadastroPedidoController.pedido.status.descricao}" 
+								styleClass="#{cadastroPedidoController.pedido.status.descricao} MarLeft10 Fs16" />
+
+							<p:button outcome="pesquisa-pedido" value="PESQUISAR" icon="fa fa-search"
+								styleClass="btn teal-btn Fright" />
+
+						</h1>
+
+						<div class="ui-g MarTop30">
+
+							<div class="ui-g-12 ui-lg-6 SoftPurple">
+								<p:outputLabel styleClass="MarRight20 Fs18"
+									value="#{cadastroPedidoController.pedido.unidade.nomeInicialMaiuscula}" />
+							</div>
+
+							<div class="ui-g-12 MarTop20">
+								
+								<p:dataTable value="#{cadastroPedidoController.listaItensDoPedido}" rendered="#{not empty cadastroPedidoController.pedido.itens}"
+									id="add-produtos" var="item" emptyMessage="Nenhum produto adicionado!" reflow="true" loadingMessage="Carregando...">
+									
+									<p:column headerText="Ordem" styleClass="TextAlignCenter" width="100">
+										<h:outputText  value="#{item.ordem}"/>
+									</p:column>
+
+									<p:column headerText="Produto">
+										<h:outputText value="#{item.produto.nomeInicialMaiuscula}" />
+									</p:column>
+
+									<p:column headerText="Quantidade" styleClass="TextAlignCenter" width="100">
+										<h:outputText value="#{item.quantidade}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+							
+							<div class="ui-g-12 MarTop20">
+								<p:outputLabel id="usuario" class="label"
+									value="Criado por: #{cadastroPedidoController.pedido.usuario.nomeCompleto}" />
+							</div>
+							
+							<div class="ui-g-12 MarTop20" jsf:rendered="#{cadastroPedidoController.pedido.autorizadoPor ne null}">
+								<p:outputLabel id="autorizadoPor" class="label"
+									value="Autorizado por: #{cadastroPedidoController.pedido.autorizadoPor.nomeCompleto}" />
+							</div>
+						</div>
+					</div>
+
+					<div class="card card-w-title shadow-box ui-shadow-4" style="height: 60px;" jsf:rendered="#{seguranca.autorizarPedido}">
+						<p:commandButton action="#{cadastroPedidoController.autorizarPedido}"
+							value="Autorizar" icon="fa fa-check" update="@form" style="width: auto;" styleClass="btn green-btn" />
+							
+						<p:button outcome="cadastro-pedido"
+							value="Editar" icon="fa fa-edit" styleClass="btn cyan-btn MarLeft10">
+							<f:param name="id" value="#{cadastroPedidoController.pedido.id}" />
+						</p:button>		
+							
+						<p:commandButton action="#{cadastroPedidoController.cancelarPedido}"
+						value="Cancelar Pedido" icon="fa fa-remove" update="@form" style="width: auto;" styleClass="btn red-btn MarLeft10" />
+					</div>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

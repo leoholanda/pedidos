@@ -43,6 +43,14 @@
 								</h:panelGroup>
 							</div>
 							
+							<div class="ui-g-12">
+								<h:panelGroup styleClass="md-inputfield">
+									<p:inputText id="end" styleClass="input" label="Endereço"
+										value="#{cadastroUnidadeController.unidade.endereco}" />
+									<label>Endereço</label>
+								</h:panelGroup>
+							</div>
+							
                         	<div class="ui-g-12">
 	                        	<p:selectOneRadio id="status" required="true" value="#{cadastroUnidadeController.unidade.status}"
 	                        		rendered="#{cadastroUnidadeController.unidade.unidadeExistente}">

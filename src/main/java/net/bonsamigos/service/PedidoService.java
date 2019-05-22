@@ -53,11 +53,11 @@ public class PedidoService implements Serializable {
 	}
 	
 	/**
-	 * Muda status para Desativado
+	 * Cancela pedido
 	 * @param pedido
 	 */
-	public void remove(Pedido pedido) {
-		pedido.setStatus(Status.DESATIVADO);
+	public void cancel(Pedido pedido) {
+		pedido.setStatus(Status.CANCELADO);
 		pedidoRepository.save(pedido);
 	}
 	

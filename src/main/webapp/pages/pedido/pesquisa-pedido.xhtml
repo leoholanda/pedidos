@@ -14,7 +14,7 @@
 				<div class="ui-g-12">
 					<h1>
 						Pedidos
-						<p:button outcome="cadastro-pedido" value="Fazer Pedido" styleClass="btn teal-btn" style="float:right" />
+						<p:button outcome="cadastro-pedido" value="Fazer Pedido" styleClass="btn teal-btn Fright" rendered="#{seguranca.fazerPedido}" />
 					</h1>
 				</div>
 
@@ -27,9 +27,9 @@
 							emptyMessage="Nenhum pedido encontrado!"
 							paginatorPosition="bottom" reflow="true">
 							
-							<p:column width="100" headerText="Código" filterBy="#{pedido.unidade.codigoCompleto}"
+							<p:column width="100" headerText="Código" filterBy="#{pedido.codigoCompleto}"
 								filterMatchMode="contains" filterStyle="width: 50%" styleClass="TextAlignCenter">
-								<h:outputText value="#{pedido.unidade.codigoCompleto}" />
+								<h:outputText value="#{pedido.codigoCompleto}" />
 							</p:column>
 							
 							<p:column headerText="Mês" styleClass="TextAlignCenter" filterBy="#{pedido.mes}" filterMatchMode="exact">
@@ -66,7 +66,7 @@
 
 							<p:column width="150">
 								<p:button
-									outcome="cadastro-pedido"
+									outcome="detalha-pedido"
 									value="Detalhar" styleClass="btn cyan-btn">
 									<f:param name="id" value="#{pedido.id}" />
 								</p:button>	

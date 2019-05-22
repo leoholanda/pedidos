@@ -16,6 +16,7 @@ import net.bonsamigos.model.Pedido;
 import net.bonsamigos.model.Produto;
 import net.bonsamigos.model.Unidade;
 import net.bonsamigos.security.Seguranca;
+import net.bonsamigos.service.ItemService;
 import net.bonsamigos.service.PedidoService;
 import net.bonsamigos.service.ProdutoService;
 import net.bonsamigos.service.UnidadeService;
@@ -36,6 +37,9 @@ public class CadastroPedidoController implements Serializable {
 
 	@Inject
 	private ProdutoService produtoService;
+	
+	@Inject
+	private ItemService itemService;
 
 	@Inject
 	private Seguranca seguranca;
@@ -66,6 +70,7 @@ public class CadastroPedidoController implements Serializable {
 		try {
 			pedido.setUsuario(seguranca.getUsuarioLogado().getUsuario());
 			pedido.setStatus(Status.ABERTO);
+			pedido.setCodigo(pedido.getUnidade().getCodigo());
 			
 			pedidoService.save(pedido);
 
@@ -75,14 +80,36 @@ public class CadastroPedidoController implements Serializable {
 			FacesUtil.error(e.getMessage());
 		}
 	}
+	
+	public void autorizarPedido() {
+		try {
+			pedido.setAutorizadoPor(seguranca.getUsuarioLogado().getUsuario());
+			pedido.setStatus(Status.AUTORIZADO);
+			
+			pedidoService.save(pedido);
+
+			FacesUtil.info("Pedido autorizado com sucesso!");
+		} catch (NegocioException e) {
+			FacesUtil.error(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Cancela pedido
+	 */
+	public void cancelarPedido() {
+		pedidoService.cancel(pedido);
+		FacesUtil.info("Pedido cancelado!");
+	}
 
 	/**
 	 * Adiciona item
 	 */
 	public void addItem() {
+		
 		item.setPedido(pedido);
 		item.setProduto(produto);
-		item.setOrdem(pedido.getItens().size() + 1);
+//		item.setOrdem();
 		pedido.getItens().add(item);
 		item = new Item();
 	}
@@ -101,6 +128,14 @@ public class CadastroPedidoController implements Serializable {
 	 */
 	public List<Pedido> getListaUltimosPedidos() {
 		return pedidoService.findLastPedido(pedido.getUnidade());
+	}
+	
+	/**
+	 * Lista os itens do pedido
+	 * @return
+	 */
+	public List<Item> getListaItensDoPedido() {
+		return itemService.findByPedido(pedido);
 	}
 	
 	/**

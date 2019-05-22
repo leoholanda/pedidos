@@ -86,10 +86,6 @@ public class Seguranca {
 		return externalContext.isUserInRole("PERFIL");
 	}
 	
-	public boolean isPedido() {
-		return externalContext.isUserInRole("FAZER_PEDIDO");
-	}
-
 	public boolean isProduto() {
 		return externalContext.isUserInRole("PRODUTO");
 	}
@@ -98,11 +94,15 @@ public class Seguranca {
 		return externalContext.isUserInRole("UNIDADE");
 	}
 	
-	public boolean isPesquisaPedido() {
-		return externalContext.isUserInRole("CONSULTA_PEDIDO");
+	public boolean isFazerPedido() {
+		return externalContext.isUserInRole("FAZER_PEDIDO");
 	}
 	
-	public boolean isCadastroPedido() {
-		return externalContext.isUserInRole("CADASTRO_PEDIDO");
+	public boolean isPesquisarPedido() {
+		return externalContext.isUserInRole("CONSULTAR_PEDIDO");
+	}
+	
+	public boolean isAutorizarPedido() {
+		return externalContext.isUserInRole("AUTORIZAR_PEDIDO");
 	}
 }

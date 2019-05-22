@@ -77,10 +77,12 @@
 
 							<div class="ui-g-12 ui-lg-5 MarTop20">
 								<p:dataTable value="#{cadastroPedidoController.produtos}"
-									id="produtos" widgetVar="produtoTable" var="produto" rows="10"
+									id="produtos" widgetVar="produtoTable" var="produto"
 									reflow="true" selectionMode="single"
 									selection="#{cadastroPedidoController.produto}"
-									rowKey="#{produto.id}" lazy="true" loadingMessage="Carregando...">
+									rowKey="#{produto.id}"
+									scrollable="true" scrollHeight="200" lazy="true" scrollRows="10"
+									loadingMessage="Carregando...">
 
 									<p:ajax event="rowSelect" listener="#{cadastroPedidoController.eventoSeleciona}" 
 										oncomplete="PF('quantidade').show()" update=":form:quantidade" />
@@ -101,11 +103,15 @@
 									</div>
 								</p:panel>
 								
-								<p:dataTable value="#{cadastroPedidoController.pedido.itens}" rendered="#{not empty cadastroPedidoController.pedido.itens}"
-									id="add-produtos" var="item" emptyMessage="Nenhum produto adicionado!" reflow="true" loadingMessage="Carregando...">
+								<p:dataTable value="#{cadastroPedidoController.pedido.itens}" 
+									rendered="#{not empty cadastroPedidoController.pedido.itens}"
+									id="add-produtos" var="item"  
+									reflow="true" rowIndexVar="rowIndex"
+									scrollable="true" scrollHeight="200"
+									emptyMessage="Nenhum produto adicionado!" loadingMessage="Carregando...">
 									
 									<p:column headerText="Ordem" styleClass="TextAlignCenter" width="100">
-										<h:outputText  value="#{item.ordem}"/>
+										<h:outputText value="#{rowIndex + 1}" />
 									</p:column>
 
 									<p:column headerText="Produto">
@@ -116,7 +122,7 @@
 										<h:outputText value="#{item.quantidade}" />
 									</p:column>
 									
-									<p:column width="120">
+									<p:column width="120" headerText="">
 										<p:commandButton icon="fa fa-trash" value="Excluir" styleClass="btn red-btn"
 											update="@form" action="#{cadastroPedidoController.removeItem}">
 											<f:setPropertyActionListener value="#{item}" target="#{cadastroPedidoController.item}" />
@@ -176,7 +182,7 @@
 					</p:dialog>
 
 					<div class="card card-w-title shadow-box ui-shadow-4" style="height: 60px;">
-							<p:commandButton action="#{cadastroPedidoController.salvar}"
+							<p:commandButton action="#{cadastroPedidoController.salvar}" styleClass="btn"
 								value="Finalizar" update="@form" style="width: auto;" />
 					</div>
 				</h:form>

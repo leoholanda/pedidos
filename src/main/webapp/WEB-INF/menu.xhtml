@@ -54,7 +54,7 @@
                         	rendered="#{seguranca.produto and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         	
                        	<p:menuitem id="um_pedido" value="Pedidos" icon="fa fa-clipboard" action="#{menuController.pedido}" 
-                       		rendered="#{seguranca.pedido and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+                       		rendered="#{seguranca.fazerPedido and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         
                         <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" action="#{menuController.usuario}" 
                         	rendered="#{seguranca.usuario and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>

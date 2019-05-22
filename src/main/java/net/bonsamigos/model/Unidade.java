@@ -35,6 +35,8 @@ public class Unidade extends Auditoria implements Serializable {
 	@NotBlank
 	@Column(length = 60, unique = true)
 	private String nome;
+	
+	private String endereco;
 
 	@NotNull
 	@Column(length = 30)
@@ -118,6 +120,14 @@ public class Unidade extends Auditoria implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+	
+	public String getEndereco() {
+		return endereco;
+	}
+	
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package net.bonsamigos.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import net.bonsamigos.enums.Status;
 import net.bonsamigos.util.Auditoria;
 import net.bonsamigos.util.Mes;
+import net.bonsamigos.util.NomeComInicialMaiscula;
 
 @Entity
 public class Pedido extends Auditoria implements Serializable {
@@ -33,6 +33,9 @@ public class Pedido extends Auditoria implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotNull
+	private Long codigo;
 
 	@NotNull
 	@Column(length = 30)
@@ -43,6 +46,10 @@ public class Pedido extends Auditoria implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "usuario", foreignKey = @ForeignKey(name = "usuario"))
 	private Usuario usuario;
+	
+	@ManyToOne
+	@JoinColumn(name = "autorizado_por", foreignKey = @ForeignKey(name = "autorizado_por"))
+	private Usuario autorizadoPor;
 
 	@NotNull
 	@ManyToOne
@@ -54,7 +61,7 @@ public class Pedido extends Auditoria implements Serializable {
 
 	private String entregador; // Nome do entregador
 
-	private String responsavel; // Responsável pelo recebimento dos produtos
+	private String nomeResponsavel; // Responsável da unidade que recebeu os produtos
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
 	private List<Item> itens = new ArrayList<Item>();
@@ -62,6 +69,11 @@ public class Pedido extends Auditoria implements Serializable {
 	@Transient
 	public String getTitulo() {
 		return id == null ? "Fazer" : "Editar";
+	}
+	
+	public String getCodigoCompleto() {
+		String format = String.format ("%02d", codigo);
+		return format;
 	}
 	
 	public boolean isPedidoExistente() {
@@ -76,18 +88,16 @@ public class Pedido extends Auditoria implements Serializable {
 		return Mes.mesPorExtenso(this.getDataCriacao());
 	}
 	
-	public String getMesDoPedido() {
-		if (getDataCriacao() != null) {
-			GregorianCalendar dataCal = new GregorianCalendar();
-			dataCal.setTime(getDataCriacao().getTime());
-			int mes = dataCal.get(Calendar.MONTH);
-			String meses[] = { "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro",
-					"Outubro", "Novembro", "Dezembro" };
-
-			return (meses[mes]);
-		} else {
-			return null;
-		}
+	/**
+	 * Codigo e mes do pedido
+	 * @return
+	 */
+	public String getCodigoMes() {
+		return this.getCodigoCompleto() + "/" + this.getMes(); 
+	}
+	
+	public String getNomeResponsavelMaiuscula() {
+		return NomeComInicialMaiscula.iniciaisMaiuscula(nomeResponsavel);
 	}
 
 	public Long getId() {
@@ -138,12 +148,20 @@ public class Pedido extends Auditoria implements Serializable {
 		this.itens = itens;
 	}
 
-	public String getResponsavel() {
-		return responsavel;
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
 	}
-
-	public void setResponsavel(String responsavel) {
-		this.responsavel = responsavel;
+	
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel.toUpperCase();
+	}
+	
+	public Usuario getAutorizadoPor() {
+		return autorizadoPor;
+	}
+	
+	public void setAutorizadoPor(Usuario autorizadoPor) {
+		this.autorizadoPor = autorizadoPor;
 	}
 
 	public Unidade getUnidade() {
@@ -152,6 +170,14 @@ public class Pedido extends Auditoria implements Serializable {
 
 	public void setUnidade(Unidade unidade) {
 		this.unidade = unidade;
+	}
+	
+	public Long getCodigo() {
+		return codigo;
+	}
+	
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	@Override

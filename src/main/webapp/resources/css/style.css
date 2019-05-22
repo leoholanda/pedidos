@@ -561,7 +561,7 @@ label {
 
 /* Status */
 
-.Aberto, .Autorizado, .Entregue {
+.Aberto, .Autorizado, .Entregue, .Cancelado {
 	padding: 5px;
 	cursor: text; 
 	background-color: #FFF !important;
@@ -574,9 +574,11 @@ label {
 		border-color: #293B93 !important;
 		color: #293B93 !important; 
 		background-color: #FFF !important;}.Autorizado {
-			border-color: #03A9F4 !important;
-			color: #03A9F4 !important;}.Entregue {
 			border-color: #43A047 !important;
-			color: #43A047 !important; 
+			color: #43A047 !important;}.Entregue {
+				border-color: #03A9F4 !important;
+				color: #03A9F4 !important;}.Cancelado {
+					border-color: #E53935 !important;
+					color: #E53935 !important;} 
 		}
 }
