@@ -23,6 +23,8 @@ public class Item implements Serializable {
 
 	private Integer quantidade;
 
+	private Boolean ativo = true;
+
 	@ManyToOne
 	@JoinColumn(name = "produto", foreignKey = @ForeignKey(name = "produto"))
 	private Produto produto;
@@ -63,12 +65,19 @@ public class Item implements Serializable {
 		this.produto = produto;
 	}
 
+	public Boolean getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
 		result = prime * result + ((produto == null) ? 0 : produto.hashCode());
 		return result;
 	}
@@ -86,11 +95,6 @@ public class Item implements Serializable {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (ordem == null) {
-			if (other.ordem != null)
-				return false;
-		} else if (!ordem.equals(other.ordem))
 			return false;
 		if (produto == null) {
 			if (other.produto != null)

@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -50,6 +52,18 @@ public class Pedido extends Auditoria implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "autorizado_por", foreignKey = @ForeignKey(name = "autorizado_por"))
 	private Usuario autorizadoPor;
+	
+	@Column(name = "data_autorizacao")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar dataAutorizacao;
+	
+	@ManyToOne
+	@JoinColumn(name = "editado_por", foreignKey = @ForeignKey(name = "editado_por"))
+	private Usuario editadoPor;
+	
+	@Column(name = "data_edicao")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar dataEdicao = Calendar.getInstance();
 
 	@NotNull
 	@ManyToOne
@@ -57,13 +71,14 @@ public class Pedido extends Auditoria implements Serializable {
 	private Unidade unidade;
 
 	@Column(name = "data_entrega")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar dataEntrega = Calendar.getInstance();
 
 	private String entregador; // Nome do entregador
 
 	private String nomeResponsavel; // Responsável da unidade que recebeu os produtos
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido")
+	@OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, mappedBy = "pedido")
 	private List<Item> itens = new ArrayList<Item>();
 
 	@Transient
@@ -96,8 +111,28 @@ public class Pedido extends Auditoria implements Serializable {
 		return this.getCodigoCompleto() + "/" + this.getMes(); 
 	}
 	
+	public String getNomeEntregadorMaiuscula() {
+		return entregador == null ? "" : NomeComInicialMaiscula.iniciaisMaiuscula(entregador);
+	}
+	
 	public String getNomeResponsavelMaiuscula() {
-		return NomeComInicialMaiscula.iniciaisMaiuscula(nomeResponsavel);
+		return nomeResponsavel == null ? "" : NomeComInicialMaiscula.iniciaisMaiuscula(nomeResponsavel);
+	}
+	
+	public boolean isAberto() {
+		return Status.ABERTO.equals(status);
+	}
+	
+	public boolean isAutorizado() {
+		return Status.AUTORIZADO.equals(status);
+	}
+	
+	public boolean isCancelado() {
+		return Status.CANCELADO.equals(status);
+	}
+	
+	public boolean isEntregue() {
+		return Status.ENTREGUE.equals(status);
 	}
 
 	public Long getId() {
@@ -129,7 +164,7 @@ public class Pedido extends Auditoria implements Serializable {
 	}
 
 	public void setEntregador(String entregador) {
-		this.entregador = entregador;
+		this.entregador = entregador.toUpperCase();
 	}
 
 	public Usuario getUsuario() {
@@ -178,6 +213,30 @@ public class Pedido extends Auditoria implements Serializable {
 	
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
+	}
+	
+	public Usuario getEditadoPor() {
+		return editadoPor;
+	}
+	
+	public void setEditadoPor(Usuario editadoPor) {
+		this.editadoPor = editadoPor;
+	}
+	
+	public Calendar getDataAutorizacao() {
+		return dataAutorizacao;
+	}
+	
+	public void setDataAutorizacao(Calendar dataAutorizacao) {
+		this.dataAutorizacao = dataAutorizacao;
+	}
+	
+	public Calendar getDataEdicao() {
+		return dataEdicao;
+	}
+	
+	public void setDataEdicao(Calendar dataEdicao) {
+		this.dataEdicao = dataEdicao;
 	}
 
 	@Override

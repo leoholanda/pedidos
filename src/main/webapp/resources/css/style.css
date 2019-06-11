@@ -58,7 +58,7 @@ label {
 }
 
 .ui-datatable .ui-paginator {
-    background-color: #87CEEB;
+    background-color: #ccc;
     border-color: #ccc;
     color: #000;
     column-rule-color: #000;

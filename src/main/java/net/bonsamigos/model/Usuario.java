@@ -70,6 +70,10 @@ public class Usuario extends Auditoria implements Serializable {
 		return NomeComInicialMaiscula.iniciaisMaiuscula(nomeCompleto);
 	}
 	
+	public String getPrimeiroNome() {
+		return NomeComInicialMaiscula.iniciaisMaiuscula(nome);
+	}
+	
 	public boolean isAtivo() {
 		return Status.AUTORIZADO.equals(status);
 	}

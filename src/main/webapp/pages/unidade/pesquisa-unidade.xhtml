@@ -38,7 +38,7 @@
 								<h:outputText value="#{unidade.nomeInicialMaiuscula}" />
 								
 								<i class="fa fa-map-marker Fright" id="endereco" title="Endereço: #{unidade.endereco}" 
-								jsf:rendered="#{unidade.endereco ne null}" />
+								jsf:rendered="#{not empty unidade.endereco}" />
 							</p:column>
 							
 							<p:column headerText="Área" styleClass="TextAlignCenter">

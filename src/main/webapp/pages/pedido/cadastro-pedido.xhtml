@@ -22,8 +22,12 @@
 							Fazer Pedido
 
 							<p:button outcome="pesquisa-pedido" value="PESQUISAR" icon="fa fa-search"
-								styleClass="btn teal-btn" style="float:right" />
-
+								styleClass="btn teal-btn" style="float:right" rendered="#{!cadastroPedidoController.pedido.pedidoExistente}"/>
+								
+							<p:button outcome="detalha-pedido" value="PESQUISAR" icon="fa fa-search"
+								styleClass="btn teal-btn" style="float:right" rendered="#{cadastroPedidoController.pedido.pedidoExistente}">
+								<f:param name="id" value="#{cadastroPedidoController.pedido.id}" />
+							</p:button>		
 						</h1>
 
 						<div class="ui-g MarTop30">
@@ -66,11 +70,11 @@
 							<div class="ui-g-12 ui-lg-6" jsf:rendered="#{!cadastroPedidoController.pedido.pedidoExistente}">
 								<p:fieldset legend="Últimos Pedidos">
 									<p:repeat var="ultimoPedido" value="#{cadastroPedidoController.listaUltimosPedidos}" 
-										rendered="#{cadastroPedidoController.pedido.unidade ne null}">
-										<p:commandLink value="#{ultimoPedido.unidade.codigoCompleto}/#{ultimoPedido.mes}" 
+										rendered="#{cadastroPedidoController.pedido.unidade ne null}" size="1">
+										<p:commandLink value="#{ultimoPedido.codigoMes}" styleClass="MarLeft10" 
 											oncomplete="PF('ultimoPedido').show()" update=":form:ultimoPedido :form:ultimosProdutos">
 											<f:setPropertyActionListener value="#{ultimoPedido}" target="#{cadastroPedidoController.ultimoPedido}" />
-										</p:commandLink>	
+										</p:commandLink><br />
 									</p:repeat>						
 								</p:fieldset>
 							</div>
@@ -81,8 +85,9 @@
 									reflow="true" selectionMode="single"
 									selection="#{cadastroPedidoController.produto}"
 									rowKey="#{produto.id}"
-									scrollable="true" scrollHeight="200" lazy="true" scrollRows="10"
-									loadingMessage="Carregando...">
+									scrollable="true" scrollHeight="300" lazy="true" scrollRows="10"
+									loadingMessage="Carregando..." tableStyle="table-layout:auto"
+									filterBy="#{produto.nome}">
 
 									<p:ajax event="rowSelect" listener="#{cadastroPedidoController.eventoSeleciona}" 
 										oncomplete="PF('quantidade').show()" update=":form:quantidade" />
@@ -98,20 +103,24 @@
 							<div class="ui-g-12 ui-lg-6 MarTop20">
 								<p:panel id="panel" rendered="#{empty cadastroPedidoController.pedido.itens}">
 									<div class="TextAlignCenter">
-										<h1 class="Fs30 Gray">Nenhum produto adicionado!</h1>
+										<h1 class="Fs30 Gray">Adicione os produtos!</h1>
 										<i class="fa fa-shopping-cart Fs130 Gray" />
 									</div>
 								</p:panel>
 								
-								<p:dataTable value="#{cadastroPedidoController.pedido.itens}" 
+								<p:dataTable 
+									value="#{cadastroPedidoController.pedido.itens}" 
+									styleClass="ui-g-12"
 									rendered="#{not empty cadastroPedidoController.pedido.itens}"
 									id="add-produtos" var="item"  
-									reflow="true" rowIndexVar="rowIndex"
-									scrollable="true" scrollHeight="200"
+									reflow="true" rowIndexVar="rowIndex" draggableRows="true"
+									scrollable="true" scrollHeight="300" tableStyle="table-layout:auto"
 									emptyMessage="Nenhum produto adicionado!" loadingMessage="Carregando...">
 									
+									<p:ajax event="rowReorder" update=":form:add-produtos"  />
+									
 									<p:column headerText="Ordem" styleClass="TextAlignCenter" width="100">
-										<h:outputText value="#{rowIndex + 1}" />
+										<h:outputText value="#{rowIndex + 1}" styleClass="Blue" style="cursor: pointer;" />
 									</p:column>
 
 									<p:column headerText="Produto">
@@ -124,16 +133,11 @@
 									
 									<p:column width="120" headerText="">
 										<p:commandButton icon="fa fa-trash" value="Excluir" styleClass="btn red-btn"
-											update="@form" action="#{cadastroPedidoController.removeItem}">
+											update="@form" process="@this" action="#{cadastroPedidoController.removeItem}">
 											<f:setPropertyActionListener value="#{item}" target="#{cadastroPedidoController.item}" />
 										</p:commandButton>
 									</p:column>
 								</p:dataTable>
-							</div>
-							
-							<div class="ui-g-12" jsf:rendered="#{cadastroPedidoController.pedido.pedidoExistente}">
-								<p:outputLabel id="usuario" class="label"
-									value="Criado por: #{cadastroPedidoController.pedido.usuario.nomeCompleto}" />
 							</div>
 						</div>
 					</div>
@@ -152,28 +156,37 @@
 								
 								<div class="ui-g-12 ui-lg-6">
 									<p:commandButton value="Adicionar" action="#{cadastroPedidoController.addItem}" 
-									update="@this growl produtos add-produtos @form" process="qtd @this" onclick="PF('quantidade').hide()" styleClass="MarTop50" />
+									update="@form" process="qtd @this" onclick="PF('quantidade').hide()" styleClass="MarTop50" />
 								</div>		
 							</div>
 						</div>
 					</p:dialog>
 					
 					<p:dialog header="#{ultimoPedido.unidade.codigoCompleto}/#{ultimoPedido.mes}" id="ultimoPedido" widgetVar="ultimoPedido"
-						minHeight="50" width="300" modal="true">
+						minheight="50" width="350" modal="true">
 						<div class="ui-g ui-fluid">
 							<div class="ui-g-12">
-								<div class="ui-g-12">
-									<p:commandButton value="Quero Esses Produtos!" onclick="PF('ultimoPedido').hide()" styleClass="MarTop10" />
+								<div class="ui-g-12 ui-lg-8">
+									<p:commandButton value="Escolher estes Produtos!" action="#{cadastroPedidoController.escolherItensDoUltimoPedido}" 
+									update="@form" styleClass="MarTop10" />
 								</div>
 							
 								<div class="ui-g-12">
 									<p:dataTable value="#{cadastroPedidoController.ultimoPedido.itens}"
-										id="ultimosProdutos" var="item"
-										reflow="true" scrollable="true" scrollHeight="150"
+										id="ultimosProdutos" var="item" tableStyle="table-layout:auto"
+										reflow="true" scrollable="true" scrollHeight="300" rowIndexVar="rowIndex"
 										loadingMessage="Carregando..." styleClass="MarTop10">
+										
+										<p:column headerText="Ordem" styleClass="TextAlignCenter">
+											<h:outputText value="#{rowIndex + 1}" />
+										</p:column>
 	
-										<p:column headerText="Produtos">
+										<p:column headerText="Produto">
 											<h:outputText value="#{item.produto.nomeInicialMaiuscula}" />
+										</p:column>
+	
+										<p:column headerText="Quantidade" styleClass="TextAlignCenter">
+											<h:outputText value="#{item.quantidade}" />
 										</p:column>
 									</p:dataTable>
 								</div>
@@ -182,8 +195,8 @@
 					</p:dialog>
 
 					<div class="card card-w-title shadow-box ui-shadow-4" style="height: 60px;">
-							<p:commandButton action="#{cadastroPedidoController.salvar}" styleClass="btn"
-								value="Finalizar" update="@form" style="width: auto;" />
+						<p:commandButton action="#{cadastroPedidoController.salvar}" styleClass="btn"
+							value="Finalizar" update="@form" style="width: auto;"/>
 					</div>
 				</h:form>
 			</div>

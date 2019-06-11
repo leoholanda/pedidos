@@ -35,14 +35,17 @@
 	
 		<custom-filter ref="exceptionTranslationFilter" before="FILTER_SECURITY_INTERCEPTOR" />
 		
-		<intercept-url pattern="/pages/home/**" 						access="isAuthenticated()" />
-		<intercept-url pattern="/pages/unidade/**" 						access="hasAnyRole('UNIDADE')" />
-		<intercept-url pattern="/pages/produto/**" 						access="hasAnyRole('PRODUTO')" />
-		<intercept-url pattern="/pages/usuario/**"						access="hasAnyRole('USUARIO')"/>
-		<intercept-url pattern="/pages/perfil/**" 						access="hasAnyRole('PERFIL')"/>
-		<intercept-url pattern="/pages/pedido/detalha-pedido.xhtml" 	access="hasAnyRole('CONSULTAR_PEDIDO')"/>
-		<intercept-url pattern="/pages/pedido/pesquisa-pedido.xhtml" 	access="hasAnyRole('CONSULTAR_PEDIDO')"/>
-		<intercept-url pattern="/pages/pedido/cadastro-pedido.xhtml" 	access="hasAnyRole('FAZER_PEDIDO')"/>
+		<intercept-url pattern="/pages/home/**" 							access="isAuthenticated()" />
+		<intercept-url pattern="/pages/unidade/**" 							access="hasAnyRole('UNIDADE')" />
+		<intercept-url pattern="/pages/produto/**" 							access="hasAnyRole('PRODUTO')" />
+		<intercept-url pattern="/pages/usuario/**"							access="hasAnyRole('USUARIO')"/>
+		<intercept-url pattern="/pages/perfil/**" 							access="hasAnyRole('PERFIL')"/>
+		<intercept-url pattern="/pages/pedido/detalha-pedido.xhtml" 		access="hasAnyRole('DETALHAR_PEDIDO')"/>
+		<intercept-url pattern="/pages/pedido/pesquisa-pedido.xhtml" 		access="hasAnyRole('CONSULTAR_PEDIDO')"/>
+		<intercept-url pattern="/pages/pedido/pedidos-autorizados.xhtml"	access="hasAnyRole('ENTREGAR_PEDIDO')"/>
+		<intercept-url pattern="/pages/pedido/pedidos-entregues.xhtml"		access="hasAnyRole('ENTREGAR_PEDIDO')"/>
+		<intercept-url pattern="/pages/pedido/cadastro-pedido.xhtml" 		access="hasAnyRole('FAZER_PEDIDO')"/>
+		<intercept-url pattern="/pages/pedido/edita-pedido.xhtml" 			access="hasAnyRole('AUTORIZAR_PEDIDO')"/>
 		
 		<!-- Intercepta url -->
 		<intercept-url pattern="/**" access="denyAll" />

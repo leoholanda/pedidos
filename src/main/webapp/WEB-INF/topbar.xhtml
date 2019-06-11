@@ -9,6 +9,12 @@
     <div class="topbar clearfix">
         <div class="topbar-left">            
 <!--             <div class="logo"></div> -->
+
+			<p:commandButton styleClass="Fs18" style="width: 200px; 
+				margin-top:13px;" value="#{seguranca.usuarioLogado.usuario.primeiroNome}" icon="ui-icon-assignment-ind" />
+			<p:commandButton styleClass="Fs18" style="width: 200px; 
+				margin-left:10px;" value="Área: #{seguranca.usuarioLogado.usuario.area.descricao}" icon="ui-icon-beenhere"
+				action="#{menuController.inicial}" />
         </div>
         
         <div class="topbar-right">
@@ -50,112 +56,6 @@
                         </ul>
                     </li>
                 </ui:fragment>
-                
-<!--                 <li> -->
-<!--                     <a href="#"> -->
-<!--                         <i class="topbar-icon material-icons">&#xE8B8;</i> -->
-<!--                         <span class="topbar-item-name">Settings</span> -->
-<!--                     </a> -->
-<!--                     <ul class="ultima-menu animated"> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#"> -->
-<!--                                 <i class="material-icons">&#xE40A;</i> -->
-<!--                                 <span>Change Theme</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#"> -->
-<!--                                 <i class="material-icons">&#xE87E;</i> -->
-<!--                                 <span>Favorites</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#"> -->
-<!--                                 <i class="material-icons">&#xE897;</i> -->
-<!--                                 <span>Lock Screen</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#"> -->
-<!--                                 <i class="material-icons">&#xE1BC;</i> -->
-<!--                                 <span>Wallpaper</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                 </li> -->
-<!--                 <li> -->
-<!--                     <a href="#"> -->
-<!--                         <i class="topbar-icon material-icons animated swing">&#xE0C9;</i> -->
-<!--                         <span class="topbar-badge animated rubberBand">5</span> -->
-<!--                         <span class="topbar-item-name">Messages</span> -->
-<!--                     </a> -->
-<!--                     <ul class="ultima-menu animated"> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#" class="topbar-message"> -->
-<!--                                 <p:graphicImage name="images/avatar1.png" library="ultima-layout" width="35"/> -->
-<!--                                 <span>Give me a call</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#" class="topbar-message"> -->
-<!--                                 <p:graphicImage name="images/avatar2.png" library="ultima-layout" width="35"/> -->
-<!--                                 <span>Sales reports attached</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#" class="topbar-message"> -->
-<!--                                 <p:graphicImage name="images/avatar3.png" library="ultima-layout" width="35"/> -->
-<!--                                 <span>About your invoice</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#" class="topbar-message"> -->
-<!--                                 <p:graphicImage name="images/avatar2.png" library="ultima-layout" width="35"/> -->
-<!--                                 <span>Meeting today at 10pm</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#" class="topbar-message"> -->
-<!--                                 <p:graphicImage name="images/avatar4.png" library="ultima-layout" width="35"/> -->
-<!--                                 <span>Out of office</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                 </li> -->
-
-<!--                 <li> -->
-<!--                     <a href="#"> -->
-<!--                         <i class="topbar-icon material-icons">&#xE425;</i> -->
-<!--                         <span class="topbar-badge animated rubberBand">4</span> -->
-<!--                         <span class="topbar-item-name">Notifications</span> -->
-<!--                     </a> -->
-<!--                     <ul class="ultima-menu animated"> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#"> -->
-<!--                                 <i class="material-icons">&#xE868;</i> -->
-<!--                                 <span>Pending tasks</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#"> -->
-<!--                                 <i class="material-icons">&#xE878;</i> -->
-<!--                                 <span>Meeting today at 3pm</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#"> -->
-<!--                                 <i class="material-icons">&#xE2C4;</i> -->
-<!--                                 <span>Download documents</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                         <li role="menuitem"> -->
-<!--                             <a href="#"> -->
-<!--                                 <i class="material-icons">&#xE539;</i> -->
-<!--                                 <span>Book flight</span> -->
-<!--                             </a> -->
-<!--                         </li> -->
-<!--                     </ul> -->
-<!--                 </li> -->
             </ul>
         </div>
     </div>

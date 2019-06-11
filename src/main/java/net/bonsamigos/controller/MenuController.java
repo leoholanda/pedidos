@@ -69,6 +69,24 @@ public class MenuController implements Serializable {
 		}
 	}
 	
+	public void pesquisaPedido() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(CONTEXT + "/pages/pedido/pesquisa-pedido.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+			FacesUtil.error("Não foi possível atender sua solicitação. Tente novamente!");
+		}
+	}
+	
+	public void pedidoAutorizado() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().redirect(CONTEXT + "/pages/pedido/pedidos-autorizados.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+			FacesUtil.error("Não foi possível atender sua solicitação. Tente novamente!");
+		}
+	}
+	
 	public void perfil() {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().redirect(CONTEXT + "/pages/perfil/pesquisa-perfil.xhtml");
@@ -112,7 +130,13 @@ public class MenuController implements Serializable {
 		usuarioService.save(usuario);
 		logger.debug("### Usuário ### " + usuario.getNomeCompleto());
 		
-		this.pedido();
+		if(seguranca.isAutorizarPedido()) {
+			this.pesquisaPedido();
+		} else if(seguranca.isFazerPedido()) {
+			this.pedido();
+		} else if(seguranca.isEntregarPedido()) {
+			this.pedidoAutorizado();
+		}
 	}
 	
 	/**
@@ -127,7 +151,13 @@ public class MenuController implements Serializable {
 		usuarioService.save(usuario);
 		logger.debug("### Usuário ### " + usuario.getNomeCompleto());
 		
-		this.pedido();
+		if(seguranca.isAutorizarPedido()) {
+			this.pesquisaPedido();
+		} else if(seguranca.isFazerPedido()) {
+			this.pedido();
+		} else if(seguranca.isEntregarPedido()) {
+			this.pedidoAutorizado();
+		}
 	}
 
 }

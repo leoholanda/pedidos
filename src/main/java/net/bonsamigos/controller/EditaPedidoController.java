@@ -1,6 +1,7 @@
 package net.bonsamigos.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -11,7 +12,6 @@ import javax.inject.Named;
 
 import org.primefaces.event.SelectEvent;
 
-import net.bonsamigos.enums.Status;
 import net.bonsamigos.model.Item;
 import net.bonsamigos.model.Pedido;
 import net.bonsamigos.model.Produto;
@@ -26,7 +26,7 @@ import net.bonsamigos.util.NegocioException;
 
 @Named
 @ViewScoped
-public class CadastroPedidoController implements Serializable {
+public class EditaPedidoController implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,7 @@ public class CadastroPedidoController implements Serializable {
 
 	private List<Produto> produtos;
 
-	private List<Item> itensParaRemover;
+	private List<Item> itens;
 
 	@PostConstruct
 	public void init() {
@@ -67,55 +67,20 @@ public class CadastroPedidoController implements Serializable {
 		item = new Item();
 		unidades = unidadeService.findByArea(seguranca.getUsuarioLogado().getUsuario().getArea());
 		produtos = produtoService.findAll();
+		itens = new ArrayList<Item>();
 	}
 
 	public void salvar() {
 		try {
-			pedido.setUsuario(seguranca.getUsuarioLogado().getUsuario());
-			pedido.setStatus(Status.ABERTO);
-			pedido.setCodigo(pedido.getUnidade().getCodigo());
+			pedido.setEditadoPor(seguranca.usuarioLogado());
+			pedido.setDataEdicao(Calendar.getInstance());
 
 			pedidoService.save(pedido);
 
-			pedido = new Pedido();
-			FacesUtil.info("Pedido aberto com sucesso!");
+			FacesUtil.info("Pedido atualizado!");
 		} catch (NegocioException e) {
 			FacesUtil.error(e.getMessage());
 		}
-	}
-
-	public void autorizarPedido() {
-		try {
-			pedido.setAutorizadoPor(seguranca.getUsuarioLogado().getUsuario());
-			pedido.setStatus(Status.AUTORIZADO);
-			pedido.setDataAutorizacao(Calendar.getInstance());
-
-			pedidoService.save(pedido);
-
-			FacesUtil.info("Pedido autorizado com sucesso!");
-		} catch (NegocioException e) {
-			FacesUtil.error(e.getMessage());
-		}
-	}
-
-	public void entregarPedido() {
-		try {
-			pedido.setStatus(Status.ENTREGUE);
-
-			pedidoService.save(pedido);
-
-			FacesUtil.info("Pedido entregue com sucesso!");
-		} catch (NegocioException e) {
-			FacesUtil.error(e.getMessage());
-		}
-	}
-
-	/**
-	 * Cancela pedido
-	 */
-	public void cancelarPedido() {
-		pedidoService.cancel(pedido);
-		FacesUtil.info("Pedido cancelado!");
 	}
 
 	/**
@@ -124,69 +89,30 @@ public class CadastroPedidoController implements Serializable {
 	public void addItem() {
 		item.setPedido(pedido);
 		item.setProduto(produto);
+		itens.add(item);
 		pedido.getItens().add(item);
 		item = new Item();
 	}
 
 	/**
-	 * Escolhe a lista do pedido anterior
-	 */
-	public void escolherItensDoUltimoPedido() {
-		pedido.getItens().clear();
-		ultimoPedido.getItens().forEach(ultimo -> {
-			item.setPedido(pedido);
-			item.setProduto(ultimo.getProduto());
-			item.setQuantidade(ultimo.getQuantidade());
-			pedido.getItens().add(item);
-			System.out.println(">>> Adicionou " + ultimo.getProduto().getNome());
-			item = new Item();
-		});
-	}
-
-	/**
-	 * Remove item
-	 */
-	public void removeItem() {
-		pedido.getItens().remove(item);
-		item = new Item();
-	}
-	
-	/**
 	 * Remove item
 	 * @throws NegocioException 
 	 */
-	public void removeItemExistente() throws NegocioException {
+	public void removeItem() throws NegocioException {
 		item.setAtivo(false);
 		itemService.save(item);
-		pedido.getItens().remove(item);
+		itens.remove(item);
+		
+		FacesUtil.info("Produto '" + item.getProduto().getNomeInicialMaiuscula() + "' retirado da lista");
 		item = new Item();
 	}
 	
-	/**
-	 * Remove item da lista
-	 * @param item
-	 * @throws NegocioException 
-	 */
-	public void removeItem(Item item) throws NegocioException {
-		itensParaRemover.add(item);
-		item.setAtivo(false);
-		itemService.save(item);
-	}
-	
-	/**
-	 * Lista o ultimo pedido realizado
-	 * @return
-	 */
-	public List<Pedido> getListaUltimosPedidos() {
-		return pedidoService.findLastPedido(pedido.getUnidade());
-	}
-
 	/**
 	 * Lista os itens do pedido
 	 * @return
 	 */
-	public List<Item> getListaItensDoPedido() {
-		return itemService.findByPedido(pedido);
+	public List<Item> getItens() {
+		return itens;
 	}
 
 	/**
@@ -213,6 +139,7 @@ public class CadastroPedidoController implements Serializable {
 
 	public void carregarPedido() {
 		pedido = pedidoService.findBy(pedido.getId());
+		itens = itemService.findByPedido(pedido);
 	}
 
 	public List<Unidade> getUnidades() {

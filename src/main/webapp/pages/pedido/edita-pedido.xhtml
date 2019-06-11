@@ -1,0 +1,135 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{editaPedidoController.pedido.id}" />
+		<f:viewAction action="#{editaPedidoController.carregarPedido}"
+			if="#{param.id ne null}" />
+	</f:metadata>
+
+	<ui:define name="content">
+		<div class="ui-g ui-fluid">
+			<div class="ui-g-12">
+
+				<h:form id="form">
+					<div class="card card-w-title shadow-box ui-shadow-4">
+						<p:growl id="growl" />
+						<h1>
+							Editar Pedido
+
+							<p:button outcome="detalha-pedido" value="VOLTAR" icon="fa fa-mail-reply"
+								styleClass="btn teal-btn" style="float:right">
+								<f:param name="id" value="#{editaPedidoController.pedido.id}" />
+							</p:button>		
+						</h1>
+
+						<div class="ui-g MarTop30">
+
+							<div class="ui-g-12 ui-lg-6 SoftPurple">
+								<p:outputLabel styleClass="MarRight20 Fs18"
+									value="#{editaPedidoController.pedido.unidade.nomeInicialMaiuscula}" />
+								<p:outputLabel styleClass="Fs18"
+									value="Código: #{editaPedidoController.pedido.unidade.codigoCompleto}" />	
+							</div>
+
+							<div class="ui-g-12 ui-lg-6" />
+							
+							<div class="ui-g-12 ui-lg-5 MarTop20">
+								<p:dataTable value="#{editaPedidoController.produtos}"
+									id="produtos" widgetVar="produtoTable" var="produto"
+									reflow="true" selectionMode="single"
+									selection="#{editaPedidoController.produto}"
+									rowKey="#{produto.id}"
+									scrollable="true" scrollHeight="300" lazy="true" scrollRows="10"
+									loadingMessage="Carregando..." tableStyle="table-layout:auto"
+									filterBy="#{produto.nome}">
+
+									<p:ajax event="rowSelect" listener="#{editaPedidoController.eventoSeleciona}" 
+										oncomplete="PF('quantidade').show()" update=":form:quantidade" />
+
+									<p:column headerText="Produto">
+										<h:outputText value="#{produto.nomeInicialMaiuscula}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+
+							<div class="ui-g-12 ui-lg-1" />
+
+							<div class="ui-g-12 ui-lg-6 MarTop20">
+								<p:panel id="panel" rendered="#{empty editaPedidoController.pedido.itens}">
+									<div class="TextAlignCenter">
+										<h1 class="Fs30 Gray">Adicione os produtos!</h1>
+										<i class="fa fa-shopping-cart Fs130 Gray" />
+									</div>
+								</p:panel>
+								
+								<p:dataTable 
+									value="#{editaPedidoController.itens}" 
+									styleClass="ui-g-12"
+									rendered="#{not empty editaPedidoController.pedido.itens}"
+									id="add-produtos" var="item"  
+									reflow="true" rowIndexVar="rowIndex" draggableRows="true"
+									scrollable="true" scrollHeight="300" tableStyle="table-layout:auto"
+									emptyMessage="Nenhum produto adicionado!" loadingMessage="Carregando...">
+									
+									<p:ajax event="rowReorder" update=":form:add-produtos"  />
+									
+									<p:column headerText="Ordem" styleClass="TextAlignCenter" width="100">
+										<h:outputText value="#{rowIndex + 1}" styleClass="Blue" style="cursor: pointer;" />
+									</p:column>
+
+									<p:column headerText="Produto">
+										<h:outputText value="#{item.produto.nomeInicialMaiuscula}" />
+									</p:column>
+
+									<p:column headerText="Quantidade" styleClass="TextAlignCenter" width="100">
+										<h:outputText value="#{item.quantidade}" />
+									</p:column>
+									
+									<p:column width="120" headerText="">
+										<p:commandButton icon="fa fa-trash" value="Excluir" styleClass="btn red-btn"
+											update="@form" process="@this" action="#{editaPedidoController.removeItem}"
+											rendered="#{editaPedidoController.pedido.pedidoExistente}">
+											<f:setPropertyActionListener value="#{item}" target="#{editaPedidoController.item}" />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+					</div>
+
+					<p:dialog header="#{editaPedidoController.produto.nome}" id="quantidade" widgetVar="quantidade"
+						minHeight="50" width="300" modal="true">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12">
+								<div class="ui-g-12">
+									<label class="label">Quantidade: </label>
+								</div>
+								
+								<div class="ui-g-12">
+									<p:spinner id="qtd" min="1" required="true" validatorMessage="Informe a quantidade" value="#{editaPedidoController.item.quantidade}" />
+								</div>
+								
+								<div class="ui-g-12 ui-lg-6">
+									<p:commandButton value="Adicionar" action="#{editaPedidoController.addItem}" 
+									update="@form" process="qtd @this" onclick="PF('quantidade').hide()" styleClass="MarTop50" />
+								</div>		
+							</div>
+						</div>
+					</p:dialog>
+					
+					<div class="card card-w-title shadow-box ui-shadow-4" style="height: 60px;">
+						<p:commandButton action="#{editaPedidoController.salvar}" styleClass="btn"
+							value="Finalizar" update="@form" style="width: auto;"/>
+					</div>
+				</h:form>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

@@ -24,8 +24,8 @@
 							<h:outputText value="#{cadastroPedidoController.pedido.status.descricao}" 
 								styleClass="#{cadastroPedidoController.pedido.status.descricao} MarLeft10 Fs16" />
 
-							<p:button outcome="pesquisa-pedido" value="PESQUISAR" icon="fa fa-search"
-								styleClass="btn teal-btn Fright" />
+							<p:commandButton value="PESQUISAR" icon="fa fa-search"
+								styleClass="btn teal-btn Fright" onclick="javascript:history.back();" process="@this" />
 
 						</h1>
 
@@ -38,11 +38,15 @@
 
 							<div class="ui-g-12 MarTop20">
 								
-								<p:dataTable value="#{cadastroPedidoController.listaItensDoPedido}" rendered="#{not empty cadastroPedidoController.pedido.itens}"
-									id="add-produtos" var="item" emptyMessage="Nenhum produto adicionado!" reflow="true" loadingMessage="Carregando...">
+								<p:dataTable value="#{cadastroPedidoController.listaItensDoPedido}" 
+									rendered="#{not empty cadastroPedidoController.pedido.itens}" rowIndexVar="rowIndex"
+									id="add-produtos" var="item" emptyMessage="Nenhum produto adicionado!" 
+									reflow="true" loadingMessage="Carregando...">
 									
 									<p:column headerText="Ordem" styleClass="TextAlignCenter" width="100">
-										<h:outputText  value="#{item.ordem}"/>
+										<h:outputText value="#{rowIndex + 1}" />
+										
+										<h:outputText value="#{item.ordem}" />
 									</p:column>
 
 									<p:column headerText="Produto">
@@ -53,32 +57,121 @@
 										<h:outputText value="#{item.quantidade}" />
 									</p:column>
 								</p:dataTable>
-							</div>
 							
-							<div class="ui-g-12 MarTop20">
-								<p:outputLabel id="usuario" class="label"
-									value="Criado por: #{cadastroPedidoController.pedido.usuario.nomeCompleto}" />
-							</div>
+								<p:panelGrid columns="3" styleClass="ui-g-12 ui-lg-4 MarTop20">
+									<p:outputLabel class="label"
+										value="Criado por:" />
+										
+									<p:outputLabel id="usuario"
+										value="#{cadastroPedidoController.pedido.usuario.nomeCompleto}" />
+										
+									<p:outputLabel id="dataCriacao"
+										value="#{cadastroPedidoController.pedido.dataCriacao.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+									</p:outputLabel>
+									
+									<p:outputLabel styleClass="label" value="Editado por:" />
+										
+									<p:outputLabel id="editadoPor"
+										value="#{cadastroPedidoController.pedido.editadoPor.nomeCompleto}" />
+										
+									<p:outputLabel id="dataEdicao"
+										value="#{cadastroPedidoController.pedido.editadoPor eq null ? '' : cadastroPedidoController.pedido.dataAtualizacao.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+									</p:outputLabel>
 							
-							<div class="ui-g-12 MarTop20" jsf:rendered="#{cadastroPedidoController.pedido.autorizadoPor ne null}">
-								<p:outputLabel id="autorizadoPor" class="label"
-									value="Autorizado por: #{cadastroPedidoController.pedido.autorizadoPor.nomeCompleto}" />
+									<p:outputLabel class="label" value="Autorizado por:" />
+										
+									<p:outputLabel id="autorizadoPor" value="#{cadastroPedidoController.pedido.autorizadoPor.nomeCompleto}" />
+										
+									<p:outputLabel id="dataAutorizacao"
+										value="#{cadastroPedidoController.pedido.dataAutorizacao.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+									</p:outputLabel>
+								</p:panelGrid>	
+								
+								<div class="ui-g-4" />
+								
+								<p:panelGrid columns="3" styleClass="ui-g-12 ui-lg-4 MarTop20" rendered="#{cadastroPedidoController.pedido.entregue and seguranca.fazerPedido}">
+									<p:outputLabel class="label" value="Entregue por:" />
+									
+									<p:outputLabel id="entreguePor" value="#{cadastroPedidoController.pedido.nomeEntregadorMaiuscula}" />
+										
+									<p:outputLabel id="dataEntrega"
+										value="#{cadastroPedidoController.pedido.dataEntrega.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</p:outputLabel>
+									
+									<p:outputLabel class="label" value="Reponsável:" />
+									
+									<p:outputLabel id="responsavel" value="#{cadastroPedidoController.pedido.nomeResponsavelMaiuscula}" />
+										
+									<p:outputLabel value="" />
+								</p:panelGrid>
+							
 							</div>
 						</div>
 					</div>
 
-					<div class="card card-w-title shadow-box ui-shadow-4" style="height: 60px;" jsf:rendered="#{seguranca.autorizarPedido}">
-						<p:commandButton action="#{cadastroPedidoController.autorizarPedido}"
+					<div class="card card-w-title shadow-box ui-shadow-4" style="height: 60px;">
+						<p:commandButton action="#{cadastroPedidoController.autorizarPedido}" rendered="#{cadastroPedidoController.pedido.aberto and seguranca.autorizarPedido}"
 							value="Autorizar" icon="fa fa-check" update="@form" style="width: auto;" styleClass="btn green-btn" />
 							
-						<p:button outcome="cadastro-pedido"
+						<p:button outcome="edita-pedido" 
+							rendered="#{cadastroPedidoController.pedido.aberto or cadastroPedidoController.pedido.autorizado and (seguranca.autorizarPedido)}"
 							value="Editar" icon="fa fa-edit" styleClass="btn cyan-btn MarLeft10">
 							<f:param name="id" value="#{cadastroPedidoController.pedido.id}" />
 						</p:button>		
 							
-						<p:commandButton action="#{cadastroPedidoController.cancelarPedido}"
+						<p:commandButton action="#{cadastroPedidoController.cancelarPedido}" rendered="#{cadastroPedidoController.pedido.aberto or cadastroPedidoController.pedido.autorizado and (seguranca.autorizarPedido)}"
 						value="Cancelar Pedido" icon="fa fa-remove" update="@form" style="width: auto;" styleClass="btn red-btn MarLeft10" />
+						
+						<p:commandButton action="#{cadastroPedidoController.imprimirPedido}" rendered="#{cadastroPedidoController.pedido.autorizado and (seguranca.entregarPedido)}"
+						value="Imprimir" icon="fa fa-print" ajax="false" style="width: auto;" styleClass="btn MarLeft10" />
+						
+						<p:commandButton oncomplete="PF('entregar').show()" update="entrega" rendered="#{cadastroPedidoController.pedido.autorizado and seguranca.entregarPedido}"
+							value="Entregar" title="Informar dados de entrega" icon="fa fa-check" style="width: auto;" styleClass="btn green-btn MarLeft10" />
 					</div>
+					
+					<p:dialog header="Entregar Pedido" id="entrega" widgetVar="entregar"
+						minHeight="50" width="300" modal="true" hideEffect="fade" showEffect="fade">
+						<div class="ui-g ui-fluid">
+							<div class="ui-g-12">
+							
+								<div class="ui-g-12">
+									<p:outputLabel class="label" value="Data de Entrega:" />
+								</div>
+								
+								<div class="ui-g-12">
+									<p:inputText value="#{cadastroPedidoController.pedido.dataEntrega.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
+									</p:inputText>
+								</div>
+								
+								<div class="ui-g-12">
+									<p:outputLabel class="label">Nome do Entregador: </p:outputLabel>
+								</div>
+								
+								<div class="ui-g-12">
+									<p:inputText value="#{cadastroPedidoController.pedido.entregador}" />
+								</div>
+								
+								<div class="ui-g-12">
+									<p:outputLabel class="label">Responsável: </p:outputLabel>
+								</div>
+								
+								<div class="ui-g-12">
+									<p:inputText value="#{cadastroPedidoController.pedido.nomeResponsavel}" />
+								</div>
+								
+								<div class="ui-g-12 ui-lg-6">
+									<p:commandButton value="Finalizar" action="#{cadastroPedidoController.entregarPedido}" 
+									update="@form" 
+									process="entrega" onclick="PF('entrega').hide()" styleClass="MarTop50" />
+								</div>		
+							</div>
+						</div>
+					</p:dialog>
 				</h:form>
 			</div>
 		</div>

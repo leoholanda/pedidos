@@ -22,7 +22,7 @@ public class Estilo {
 		case DESATIVADO:
 			return cor = "Red";
 		default:
-			return cor = "";
+			return cor = "Red";
 		}
 	}
 
@@ -35,7 +35,7 @@ public class Estilo {
 		case DESATIVADO:
 			return icon = "fa fa-close";
 		default:
-			return icon = "";
+			return icon = "fa fa-close";
 		}
 	}
 

@@ -26,7 +26,7 @@ public class ItemService implements Serializable {
 	 * @return
 	 */
 	public List<Item> findByPedido(Pedido pedido) {
-		return itemRepository.findByPedidoOrderByOrdem(pedido);
+		return itemRepository.findByPedido(pedido);
 	}
 	
 	/**
@@ -36,5 +36,13 @@ public class ItemService implements Serializable {
 	 */
 	public Item save(Item item) throws NegocioException {
 		return itemRepository.save(item);
+	}
+
+	/**
+	 * Remove item
+	 * @param item
+	 */
+	public void remove(Item item) {
+		itemRepository.remove(item);
 	}
 }

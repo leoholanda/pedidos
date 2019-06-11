@@ -98,6 +98,10 @@ public class Seguranca {
 		return externalContext.isUserInRole("FAZER_PEDIDO");
 	}
 	
+	public boolean isEntregarPedido() {
+		return externalContext.isUserInRole("ENTREGAR_PEDIDO");
+	}
+	
 	public boolean isPesquisarPedido() {
 		return externalContext.isUserInRole("CONSULTAR_PEDIDO");
 	}

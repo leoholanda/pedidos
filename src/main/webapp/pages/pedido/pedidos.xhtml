@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template.xhtml">
+
+	<p:dataTable value="#{pesquisaPedidoController.pedidos}" id="pedidos"
+		widgetVar="pedidoTable" var="pedido" rows="10"
+		paginator="#{pesquisaPedidoController.paginator}"
+		emptyMessage="Nenhum pedido encontrado!" paginatorPosition="bottom"
+		reflow="true">
+
+		<p:column width="100" headerText="Código"
+			filterBy="#{pedido.codigoCompleto}" filterMatchMode="contains"
+			filterStyle="width: 50%" styleClass="TextAlignCenter">
+			<h:outputText value="#{pedido.codigoCompleto}" />
+		</p:column>
+
+		<p:column headerText="Mês" styleClass="TextAlignCenter"
+			filterBy="#{pedido.mes}" filterMatchMode="exact">
+			<f:facet name="filter">
+				<p:selectOneMenu onchange="PF('pedidoTable').filter()"
+					styleClass="custom-filter">
+					<f:selectItem itemLabel="" itemValue="#{null}"
+						noSelectionOption="true" />
+					<f:selectItems value="#{pesquisaPedidoController.listaMeses}" />
+				</p:selectOneMenu>
+			</f:facet>
+			<h:outputText value="#{pedido.mes}" />
+		</p:column>
+
+		<p:column headerText="Unidade"
+			filterBy="#{pedido.unidade.nomeInicialMaiuscula}"
+			filterMatchMode="contains" filterStyle="width: 50%">
+			<h:outputText value="#{pedido.unidade.nomeInicialMaiuscula}" />
+		</p:column>
+
+		<p:column headerText="Data" styleClass="TextAlignCenter">
+			<h:outputText value="#{pedido.dataCriacao.time}">
+				<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText="Status" styleClass="TextAlignCenter"
+			filterBy="#{pedido.status.descricao}" filterMatchMode="exact">
+			<f:facet name="filter">
+				<p:selectOneMenu onchange="PF('pedidoTable').filter()"
+					styleClass="custom-filter">
+					<f:selectItem itemLabel="" itemValue="#{null}"
+						noSelectionOption="true" />
+					<f:selectItems value="#{pesquisaPedidoController.listaStatus}" />
+				</p:selectOneMenu>
+			</f:facet>
+			<h:outputText value="#{pedido.status.descricao}"
+				styleClass="#{pedido.status.descricao}" />
+		</p:column>
+
+		<p:column width="150">
+			<p:button outcome="detalha-pedido" value="Detalhar"
+				styleClass="btn cyan-btn">
+				<f:param name="id" value="#{pedido.id}" />
+			</p:button>
+		</p:column>
+	</p:dataTable>
+
+</ui:composition>

@@ -53,8 +53,11 @@
                         <p:menuitem id="um_produto" value="Produto" icon="fa fa-cube" action="#{menuController.produto}" 
                         	rendered="#{seguranca.produto and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         	
-                       	<p:menuitem id="um_pedido" value="Pedidos" icon="fa fa-clipboard" action="#{menuController.pedido}" 
-                       		rendered="#{seguranca.fazerPedido and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+                        <p:menuitem id="um_pedido" value="Pedidos" icon="fa fa-clipboard" action="#{menuController.pedido}" 
+                       		rendered="#{seguranca.fazerPedido and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>	
+                        	
+                       	<p:menuitem id="um_pedido_autorizado" value="Pedidos Autorizados" icon="fa fa-check-square-o" action="#{menuController.pedidoAutorizado}" 
+                       		rendered="#{seguranca.entregarPedido and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
                         
                         <p:menuitem id="um_usuario" value="Usuário" icon="fa fa-user" action="#{menuController.usuario}" 
                         	rendered="#{seguranca.usuario and seguranca.area}" onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
@@ -64,7 +67,6 @@
                         	
                         <p:menuitem id="um_logout" value="Logout" icon="fa fa-sign-out" action="#{menuController.logout}"
                         	onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
-                        
                     </pu:menu>
                 </div>
             </div>

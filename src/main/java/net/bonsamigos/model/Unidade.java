@@ -33,7 +33,7 @@ public class Unidade extends Auditoria implements Serializable {
 	private Long codigo;
 
 	@NotBlank
-	@Column(length = 60, unique = true)
+	@Column(name = "nome_unidade", length = 60, unique = true)
 	private String nome;
 	
 	private String endereco;

@@ -13,16 +13,19 @@
 				
 				<div class="ui-g-12">
 					<h1>
-						Pedidos
-						<p:button outcome="cadastro-pedido" value="Fazer Pedido" styleClass="btn teal-btn Fright" rendered="#{seguranca.fazerPedido}" />
+						Pedidos Autorizados
+						
+						<p:button outcome="pedidos-entregues" value="pedidos entregues" icon="fa fa-search"
+								styleClass="btn teal-btn" style="float:right" />
 					</h1>
 				</div>
 
 				<h:form id="form">
 					
 					<div class="ui-g-12">
-						<p:dataTable value="#{pesquisaPedidoController.pedidos}"
-							id="pedidos" widgetVar="pedidoTable" var="pedido"
+						<p:dataTable value="#{pesquisaPedidoAutorizadoController.pedidos}"
+							id="pedidos" widgetVar="pedidoTable" var="pedido" rows="10"
+							paginator="#{pesquisaPedidoAutorizadoController.paginator}"
 							emptyMessage="Nenhum pedido encontrado!"
 							paginatorPosition="bottom" reflow="true">
 							
@@ -35,7 +38,7 @@
 								<f:facet name="filter">
 					                <p:selectOneMenu onchange="PF('pedidoTable').filter()" styleClass="custom-filter">
 					                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
-					                    <f:selectItems value="#{pesquisaPedidoController.listaMeses}" />
+					                    <f:selectItems value="#{pesquisaPedidoAutorizadoController.listaMeses}" />
 					                </p:selectOneMenu>
 					            </f:facet>
 								<h:outputText value="#{pedido.mes}" />
@@ -52,17 +55,6 @@
 								</h:outputText>
 							</p:column>
 							
-							<p:column headerText="Status" styleClass="TextAlignCenter" 
-								filterBy="#{pedido.status.descricao}" filterMatchMode="exact">
-								<f:facet name="filter">
-					                <p:selectOneMenu onchange="PF('pedidoTable').filter()" styleClass="custom-filter">
-					                    <f:selectItem itemLabel="" itemValue="#{null}" noSelectionOption="true" />
-					                    <f:selectItems value="#{pesquisaPedidoController.listaStatus}" />
-					                </p:selectOneMenu>
-					            </f:facet>
-								<h:outputText value="#{pedido.status.descricao}" styleClass="#{pedido.status.descricao}" />
-							</p:column>
-
 							<p:column width="150">
 								<p:button
 									outcome="detalha-pedido"
@@ -71,6 +63,10 @@
 								</p:button>	
 							</p:column>
 						</p:dataTable>
+						
+						<h2 class="MarTop20 BoldGray">
+							Pedidos Autorizados: <p:outputLabel value="#{pesquisaPedidoAutorizadoController.contaPedidosAutorizados}"/>
+						</h2>
 					</div>
 				</h:form>
 			</div>
