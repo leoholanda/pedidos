@@ -128,6 +128,12 @@ public class CadastroPedidoController implements Serializable {
 		item = new Item();
 	}
 
+	public Integer quantidadeTotalDeItensNaLista() {
+		Integer quantidadeTotalDeItens = 0;
+		quantidadeTotalDeItens = pedido.getItens().stream().mapToInt(Item::getQuantidade).sum();
+		return quantidadeTotalDeItens;
+	}
+
 	/**
 	 * Escolhe a lista do pedido anterior
 	 */
@@ -138,7 +144,6 @@ public class CadastroPedidoController implements Serializable {
 			item.setProduto(ultimo.getProduto());
 			item.setQuantidade(ultimo.getQuantidade());
 			pedido.getItens().add(item);
-			System.out.println(">>> Adicionou " + ultimo.getProduto().getNome());
 			item = new Item();
 		});
 	}

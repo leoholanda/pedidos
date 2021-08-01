@@ -95,6 +95,7 @@
 									<p:column headerText="Produto">
 										<h:outputText value="#{produto.nomeInicialMaiuscula}" />
 									</p:column>
+
 								</p:dataTable>
 							</div>
 
@@ -137,6 +138,8 @@
 											<f:setPropertyActionListener value="#{item}" target="#{cadastroPedidoController.item}" />
 										</p:commandButton>
 									</p:column>
+
+									<f:facet name="footer">Quantidade Total: #{cadastroPedidoController.quantidadeTotalDeItensNaLista()}</f:facet>
 								</p:dataTable>
 							</div>
 						</div>

@@ -36,8 +36,8 @@
 
 							<p:column headerText="Nome" filterBy="#{unidade.nome}" filterMatchMode="contains">
 								<h:outputText value="#{unidade.nomeInicialMaiuscula}" />
-								
-								<i class="fa fa-map-marker Fright" id="endereco" title="Endereço: #{unidade.endereco}" 
+
+								<i class="fa fa-map-marker Fright" id="endereco" title="Endereço: #{unidade.endereco}"
 								jsf:rendered="#{not empty unidade.endereco}" />
 							</p:column>
 							

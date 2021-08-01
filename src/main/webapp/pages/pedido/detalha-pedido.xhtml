@@ -7,7 +7,7 @@
 
 	<f:metadata>
 		<f:viewParam name="id" value="#{cadastroPedidoController.pedido.id}" />
-		<f:viewAction action="#{cadastroPedidoController.carregarPedido}"
+		<f:viewAction action="#{cadastroPedidoController.carregarPedido()}"
 			if="#{param.id ne null}" />
 	</f:metadata>
 

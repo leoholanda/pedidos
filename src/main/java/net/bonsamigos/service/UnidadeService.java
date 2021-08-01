@@ -1,12 +1,15 @@
 package net.bonsamigos.service;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
+import net.bonsamigos.util.FacesUtil;
 import org.springframework.stereotype.Service;
 
 import net.bonsamigos.enums.Area;
@@ -30,7 +33,7 @@ public class UnidadeService implements Serializable {
 	/**
 	 * Busca pelo codigo
 	 * 
-	 * @param codigo
+	 * @param id
 	 * @return
 	 */
 	public Unidade findBy(Long id) {
@@ -73,6 +76,18 @@ public class UnidadeService implements Serializable {
 
 		if (unidadeExistente.isPresent() && !unidadeExistente.get().equals(unidade)) {
 			throw new NegocioException("O código da unidade já existe!");
+		}
+
+		//TODO Em caso de edição retorna para pesquisa
+		if(unidadeExistente.isPresent()) {
+			try {
+				String CONTEXT = FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath();
+				FacesContext.getCurrentInstance().getExternalContext().redirect(CONTEXT + "/pages/unidade/pesquisa-unidade.xhtml");
+			} catch (IOException e) {
+				e.printStackTrace();
+				FacesUtil.error("Não foi possível atender sua solicitação. Tente novamente!");
+			}
+			return unidadeRepository.save(unidade);
 		}
 
 		return unidadeRepository.save(unidade);
