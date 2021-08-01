@@ -4,4 +4,4 @@ Sistema para notificação de pedidos
 Para levantar a aplicação local é necessário instalação do postgres
 Em seguida cria o bando com o nome pedidos
 
-Faz o clone da aplicação e sobee no tomcat
+Faz o clone da aplicação e sobe no tomcat
